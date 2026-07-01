@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TakeProfit — Email Templates</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d1117; --muted:#5b6672; --line:#e3e8ef; --card:#f3f6fa;
+    --accent:#7f3aff; --accent2:#916bff; --bg:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'IBM Plex Sans','Arial',sans-serif; font-size:15px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:48px 24px 80px}
+  header.top{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:36px}
+  h1{font-size:30px; font-weight:600; margin:0 0 8px}
+  .sub{color:var(--muted); font-size:16px; max-width:680px}
+  h2{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+     font-weight:600; margin:40px 0 14px}
+  p{margin:0 0 12px} p:last-child{margin-bottom:0}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .links{display:flex; flex-wrap:wrap; gap:12px; margin-top:6px}
+  .btn{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line);
+       border-radius:8px; padding:10px 16px; color:var(--ink); font-weight:500; background:#fff}
+  .btn:hover{border-color:var(--accent); color:var(--accent); text-decoration:none}
+  .btn.primary{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .btn.primary:hover{background:var(--accent); border-color:var(--accent); color:#fff}
+  .info{background:var(--card); border-radius:12px; padding:22px 24px; margin:8px 0}
+  .info h3{margin:0 0 6px; font-size:15px; font-weight:600}
+  .info ol{margin:8px 0 0; padding-left:20px} .info li{margin:4px 0; color:var(--muted)}
+  .info li strong{color:var(--ink); font-weight:600}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px}
+  .fam{border:1px solid var(--line); border-radius:12px; padding:6px 6px 10px}
+  .fam .fam-h{font-weight:600; font-size:14px; padding:10px 12px 6px}
+  .fam .fam-h span{color:var(--muted); font-weight:400}
+  .item{display:block; padding:9px 12px; border-radius:8px}
+  .item:hover{background:var(--card); text-decoration:none}
+  .item .name{color:var(--ink); font-weight:500}
+  .item .subj{color:var(--muted); font-size:12.5px; margin-top:1px}
+  code{background:var(--card); padding:1px 6px; border-radius:5px; font-size:13px}
+  footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
+         color:var(--muted); font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>TakeProfit — Email Templates</h1>
+    <p class="sub">Hand-coded, email-client-safe HTML for TakeProfit's transactional &amp;
+    notification emails. This page is a live index of the built templates, the design
+    system guide, and the master content table.</p>
+    <div class="links">
+      <a class="btn primary" href="https://app.notion.com/p/38e51e45e12880ddb1c6d415e506a14f" target="_blank" rel="noopener">📋 Notion — email table</a>
+      <a class="btn" href="./takeprofit-email-system-guide.md" target="_blank">📐 Design system guide</a>
+      <a class="btn" href="https://github.com/erebrov-takeprofit/emails-tp" target="_blank" rel="noopener">💻 GitHub repo</a>
+    </div>
+  </header>
+
+  <h2>About this project</h2>
+  <div class="info">
+    <p>Each file below is one email template — pure table-based HTML with inline styles,
+    built to render across Apple Mail, iOS, Gmail and Outlook (no flexbox/grid/JS). Images
+    are served from AWS S3 (<code>takeprofit-static.s3.eu-central-1.amazonaws.com</code>),
+    so this repo holds only HTML. Backend fills the <code>{...}</code> placeholders when sending.</p>
+    <p>The <a href="./takeprofit-email-system-guide.md">design system guide</a> is the portable
+    spec: tokens, components, footer variants, per-email subjects &amp; preheaders. It's what
+    keeps every email visually consistent.</p>
+  </div>
+
+  <h2>How it works &amp; how to update</h2>
+  <div class="info">
+    <h3>Editing flow</h3>
+    <ol>
+      <li><strong>Draft &amp; prompt</strong> in the Claude project <em>“Email | Design, texts and coding rules”</em> — the place for wording, subjects and coding rules.</li>
+      <li><strong>Edit the HTML</strong> in the <a href="https://github.com/erebrov-takeprofit/emails-tp" target="_blank" rel="noopener">git repo</a> (one file per email). Filenames are kebab-case and mirror the email name.</li>
+      <li><strong>Push to <code>main</code></strong> → Netlify auto-deploys → the preview URL below updates.</li>
+      <li><strong>Update the <a href="https://app.notion.com/p/38e51e45e12880ddb1c6d415e506a14f" target="_blank" rel="noopener">Notion table</a></strong> — subject, preheader, status, owner, preview URL. Notion is the source of truth for metadata.</li>
+    </ol>
+    <h3 style="margin-top:16px">Single source of truth</h3>
+    <ol>
+      <li><strong>HTML + guide.md</strong> → this git repo (canonical).</li>
+      <li><strong>Email metadata</strong> (subjects, triggers, owners, statuses) → Notion table.</li>
+      <li><strong>Prompting / texts</strong> → Claude project. Point it at the repo rather than pasting a static copy, so it always reads the latest guide.</li>
+    </ol>
+  </div>
+
+  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 26 emails</span></h2>
+  <div class="grid">
+
+    <div class="fam">
+      <div class="fam-h">Auth / account <span>· 5</span></div>
+      <a class="item" href="./activate-email.html"><div class="name">Activate email</div><div class="subj">Activate your TakeProfit account</div></a>
+      <a class="item" href="./reset-password.html"><div class="name">Reset password</div><div class="subj">Reset your TakeProfit password</div></a>
+      <a class="item" href="./set-a-new-password-and-exchange-linking.html"><div class="name">Set password — Exchange linking</div><div class="subj">Set a new password to link your exchange account</div></a>
+      <a class="item" href="./set-a-new-password-and-google-linking.html"><div class="name">Set password — Google linking</div><div class="subj">Set a new password to link your Google account</div></a>
+      <a class="item" href="./set-a-new-password-and-link-your-accounts.html"><div class="name">Set password — link accounts</div><div class="subj">Set a new password and link your accounts</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Indicator lifecycle <span>· 4</span></div>
+      <a class="item" href="./your-indicator-has-been-sent-for-review-new.html"><div class="name">Sent for review</div><div class="subj">Your indicator is under review</div></a>
+      <a class="item" href="./your-indicator-has-been-approved.html"><div class="name">Approved</div><div class="subj">Your indicator has been approved 🎉</div></a>
+      <a class="item" href="./your-indicator-has-been-approved-no-comment.html"><div class="name">Approved — no comment</div><div class="subj">Your indicator has been approved 🎉</div></a>
+      <a class="item" href="./your-indicator-has-been-rejected.html"><div class="name">Rejected</div><div class="subj">Your indicator wasn't approved</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Community moderation <span>· 3</span></div>
+      <a class="item" href="./your-report-has-been-received.html"><div class="name">Report received</div><div class="subj">We've received your report</div></a>
+      <a class="item" href="./your-report-has-been-reviewed.html"><div class="name">Report reviewed</div><div class="subj">Update on your report</div></a>
+      <a class="item" href="./content-violation-notice.html"><div class="name">Content violation notice</div><div class="subj">Your content violates our Community Guidelines</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Social <span>· 3</span></div>
+      <a class="item" href="./someone-commented-on-your-post.html"><div class="name">Comment on your post</div><div class="subj">{username} commented on your post</div></a>
+      <a class="item" href="./someone-replied-to-your-comment.html"><div class="name">Reply to your comment</div><div class="subj">{username} replied to your comment</div></a>
+      <a class="item" href="./user-started-following-you.html"><div class="name">New follower</div><div class="subj">{username} started following you</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Feed content <span>· 4</span></div>
+      <a class="item" href="./new-content-indicator.html"><div class="name">New content — indicator</div><div class="subj">New from {creator}: {Content_title}</div></a>
+      <a class="item" href="./new-content-post-locked.html"><div class="name">New content — locked</div><div class="subj">{creator} shared subscriber-only content</div></a>
+      <a class="item" href="./new-content-post-not-subscribed-follower.html"><div class="name">New post — non-subscriber</div><div class="subj">New from {creator}: {Content_title}</div></a>
+      <a class="item" href="./new-content-post-subscribed-follower.html"><div class="name">New post — subscriber</div><div class="subj">{creator} just posted: {Content_title}</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Transactions <span>· 3</span></div>
+      <a class="item" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription</div><div class="subj">You've got a new subscriber 🎉</div></a>
+      <a class="item" href="./paid-subscriber-renewal.html"><div class="name">Renewal</div><div class="subj">Subscription renewed — {amount} earned</div></a>
+      <a class="item" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral renewal</div><div class="subj">Referral earnings — {amount}</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Alerts <span>· 2</span></div>
+      <a class="item" href="./alert-single-criteria.html"><div class="name">Single criterion</div><div class="subj">Alert: {ticker} {source} {condition} {value}</div></a>
+      <a class="item" href="./alert-multiple-criteria.html"><div class="name">Multiple criteria</div><div class="subj">Alert: {ticker} {source} {condition} {value}</div></a>
+    </div>
+
+    <div class="fam">
+      <div class="fam-h">Onboarding / monetization <span>· 2</span></div>
+      <a class="item" href="./first-user-subscribed-to-you.html"><div class="name">First subscriber</div><div class="subj">Your first subscriber is in! 🎉</div></a>
+      <a class="item" href="./welcome.html"><div class="name">Welcome</div><div class="subj">Welcome to TakeProfit</div></a>
+    </div>
+
+  </div>
+
+  <footer>
+    TakeProfit Inc. — internal email design system. Previews render with literal
+    <code>{...}</code> placeholders. Images load from AWS S3.
+  </footer>
+
+</div>
+</body>
+</html>
