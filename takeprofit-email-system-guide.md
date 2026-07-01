@@ -102,61 +102,62 @@ Curly `{...}` tokens the backend fills: `{username}`, `{amount}`, `{ticker}`, `{
 ---
 
 ## 12. Subjects & preheaders (per email)
-Subject = inbox line; Preheader = hidden preview text right after it (also lives in the HTML, see §8). Keep `{...}` tokens — backend fills them. Subjects marked **(confirmed)** come from the client; the rest are sensible defaults — adjust to taste.
+Subject = inbox line; Preheader = hidden preview text right after it (also lives in the HTML, see §8). Keep `{...}` tokens — backend fills them. These values are synced from the **Notion table "TakeProfit-Emails"** (the source of truth) — if this snapshot disagrees with Notion, Notion wins.
 
 ### Auth / account
 | Email | Subject | Preheader |
 |---|---|---|
-| activate email | **Activate your TakeProfit account** (confirmed) | Verify your email to activate your TakeProfit account. |
-| Reset password | **Reset your TakeProfit password** (confirmed) | We received a request to reset your password for your TakeProfit account. |
-| Set a New Password — Exchange linking | Set a new password to link your exchange account | To authorize your login through a linked exchange account, use the reset link in this email. |
-| Set a New Password — Google linking | Set a new password to link your Google account | To authorize your login through a linked Google account, use the reset link in this email. |
+| activate email | Activate your TakeProfit account | Verify your email address to complete your registration. Click to activate. |
+| Reset password | Reset your TakeProfit password | Use the secure link inside to reset your password. Click to proceed. |
+| Set a New Password — Exchange linking | Set a new password to link your exchange account | Authorize your exchange login to complete account linking. Click to set up. |
+| Set a New Password — Google linking | Set a new password to link your Google account | Authorize your Google login to complete account linking. Click to set up. |
+| Set a New Password — link accounts (legacy) | Set a new password to link your accounts | Authorize your login to complete the account linking process. Click to set up. |
 
 ### Indicator lifecycle
 | Email | Subject | Preheader |
 |---|---|---|
-| Sent for review | Your indicator is under review | We are currently auditing your logic for stability and publication readiness. Expect the verification process to be completed within 2-4 business days. |
-| Approved (+ no-comment) | Your indicator has been approved 🎉 | Great news! Your indicator is now live. |
-| Rejected | Your indicator wasn't approved | Thank you for your submission. After careful review, we couldn't publish your indicator as it doesn't meet our requirements. |
-| Published (legacy) | Your indicator has been published | Your indicator is now published and available in the marketplace. |
+| Sent for review | Your indicator is under review | The verification process takes 2–4 business days. Click to track your submission. |
+| Approved (+ no-comment) | Your indicator has been approved | Click to view it in the platform. |
+| Rejected | Your indicator wasn't approved | We couldn't publish your indicator as it doesn't meet our requirements. Click to review. |
 
 ### Community moderation
 | Email | Subject | Preheader |
 |---|---|---|
 | Report received | We've received your report | Thank you for helping us keep the TakeProfit community safe. |
-| Report reviewed | Update on your report | We have reviewed your report regarding a post or comment in the TakeProfit Community. |
-| Content violation notice | Your content violates our Community Guidelines | We reviewed your recent post or comment and determined that it violates the TakeProfit Community Guidelines. |
+| Report reviewed | Update on your report | We reviewed the content you flagged in the community. Click to see the outcome. |
+| Content violation notice | Content violation notice | Your recent post or comment was flagged for violating community guidelines. Click to review. |
 
 ### Social
 | Email | Subject | Preheader |
 |---|---|---|
-| Someone commented on your post | {username} commented on your post | {username} commented on your post. |
-| Someone replied to your comment | {username} replied to your comment | {username} replied to your comment. |
-| User started following you | {username} started following you | {username} just followed you. |
+| Someone commented on your post | {username} commented on your post | Click to view it now. |
+| Someone replied to your comment | {username} replied to your comment | Click to read the response. |
+| User started following you | You have a new follower | @{username} just started following your profile. |
 
 ### Feed content notifications
 | Email | Subject | Preheader |
 |---|---|---|
-| New content (indicator/post/screener) | New from {creator}: {Content_title} | A new {post/indicator/screener} from a creator you follow is live on your feed. |
-| New content — locked (subscribe) | {creator} shared subscriber-only content | A new {post/indicator/screener} from a creator you follow is live on your feed. |
-| New content — subscribed follower | {creator} just posted: {Content_title} | A new post from a creator you follow is live on your feed. |
+| New content — indicator | {creator} published a new indicator | Load {Content_title} onto your charts to test it out. |
+| New content — locked (subscribe) | New subscriber-only post from {creator}: {Content_title} | New premium content is live on your feed. Read your subscriber-only update. |
+| New content — not-subscribed follower | New post from {creator}: {Content_title} | Access the latest analysis from {creator}. Check it out now. |
+| New content — subscribed follower | New post from {creator}: {Content_title} | Access the latest analysis from {creator}. Check it out now. |
 
 ### Transactions (paid subscriber / referral)
 | Email | Subject | Preheader |
 |---|---|---|
-| New subscription | You've got a new subscriber 🎉 | @{subscriber_username} subscribed to your {indicator} {indicator_name}. |
-| Renewal | Subscription renewed — {amount} earned | @{subscriber_username} renewed their subscription for {content}. |
-| Referral renewal | Referral earnings — {amount} | Your referral @{referral_username} renewed their subscription. |
+| New subscription | New subscription reward received: +{amount} | @{subscriber_username} subscribed to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub. |
+| Renewal | Subscription renewal reward received: +{amount} | @{subscriber_username} just renewed their subscription for {content}. Track your earnings in the Rewards Hub. |
+| Referral renewal | Referral reward received: +{amount} | @{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub. |
 
 ### Alerts
-- **Subject pattern (from backend):** `Alert: {ticker} {source} {condition} {value}` — e.g. `Alert: BTC/USD Price Crossing 83509.45`.
+- **Subject pattern (from backend):** `{ticker} Alert Triggered: {condition} {value}` — e.g. `BTC/USD Alert Triggered: Crossing 83509.45`.
 | Email | Subject | Preheader |
 |---|---|---|
-| Alert — single criterion | Alert: {ticker} {source} {condition} {value} | Your alert triggered your criteria. |
-| Alert — multiple criteria | Alert: {ticker} {source} {condition} {value} | Your alert triggered {N} of your criteria. |
+| Alert — single criterion | {ticker} Alert Triggered: {condition} {value} | {source} alert just matched your criteria. Check the chart now. |
+| Alert — multiple criteria | {ticker} Alert Triggered: {condition} {value} | {source} matched your custom multi-criteria setup. Check the chart now. |
 
 ### Onboarding / monetization
 | Email | Subject | Preheader |
 |---|---|---|
-| First subscriber | Your first subscriber is in! 🎉 | Your first subscriber is in! Your first payout is approaching. |
-| Welcome (legacy) | Welcome to TakeProfit | Welcome to TakeProfit — let's get you started. |
+| First subscriber | Your first paid subscriber is in! | Your trading knowledge is turning into revenue. Track your balance in the Rewards Hub. |
+| Welcome | Your Trade & Earn Journey starts here | Welcome to TakeProfit. Set up your workspace and unlock your cash rewards. |
