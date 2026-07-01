@@ -1,7 +1,23 @@
 # TakeProfit — System & Notification Email Design System (Build Guide)
 
 > Portable reference for building TakeProfit transactional / notification emails (HTML for email clients).
-> Source of truth: Figma file "Email Templates" + the built HTML set. Paste this into a Claude Desktop **Project** (as project knowledge or custom instructions) to reuse the system across adjacent work.
+> Source of truth: this git repo (HTML + this guide) for design & code; the Notion table for email metadata; Figma file "Email Templates" for visual reference. Connect the repo to your Claude Desktop **Project** (as a GitHub source) rather than pasting a static copy, so the system stays in sync — see §0.
+
+---
+
+## 0. Maintenance & source of truth
+Each fact lives in exactly one place — edit it there, never in a copy.
+
+| Artifact | Canonical home | Notes |
+|---|---|---|
+| Email HTML + this guide | **git repo** (`emails-tp`, branch `main`) | Edit here only. Push → Netlify auto-deploys the previews. |
+| Email metadata — subject, preheader, status, owner, trigger, preview URL | **Notion table** "TakeProfit-Emails" | Edit here only. §12 below is a convenience snapshot; if it disagrees with Notion, **Notion wins**. |
+| Wording / prompting workspace | **Claude Desktop project** "Email \| Design, texts and coding rules" | Reads *from* the repo — it is not a store. Connect the repo via the GitHub source instead of uploading a static `guide.md`, so it never goes stale. |
+
+Rules of thumb:
+- Filenames are kebab-case and equal the email's name (same value as the Notion "Email name"). Renaming a file ⇒ update that row's **Preview URL** and **Email name** in Notion to match.
+- Never keep a second hand-edited copy of this guide (e.g. uploaded into Claude files) — that fork is where drift starts.
+- Stable links: index → https://emails-tp.netlify.app/ · this guide → https://emails-tp.netlify.app/takeprofit-email-system-guide.md
 
 ---
 
