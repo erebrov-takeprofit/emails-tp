@@ -1,0 +1,10 @@
+# Canonicalize author identities in `git log` / `git shortlog`.
+#
+# Commits made from the cloud/web Claude Code environment default to the bot
+# identity `Claude <noreply@anthropic.com>`. Map those back to the maintainer.
+#
+# NOTE: .mailmap only rewrites how names appear in git history views. Netlify
+# counts Git contributors from the RAW commit author/committer, so it does NOT
+# fix the "unrecognized Git contributor" deploy error on its own — you must also
+# author commits as e.rebrov@takeprofit.com. See CONTRIBUTING.md.
+erebrov-takeprofit <e.rebrov@takeprofit.com> <noreply@anthropic.com>
