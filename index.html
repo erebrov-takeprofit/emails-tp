@@ -36,6 +36,13 @@
   .info h3{margin:0 0 6px; font-size:15px; font-weight:600}
   .info ol{margin:8px 0 0; padding-left:20px} .info li{margin:4px 0; color:var(--muted)}
   .info li strong{color:var(--ink); font-weight:600}
+  .log{border:1px solid var(--line); border-radius:12px; padding:2px 0}
+  .entry{padding:18px 24px; border-bottom:1px solid var(--line)}
+  .entry:last-child{border-bottom:none}
+  .entry .date{font-size:12px; font-weight:600; color:var(--accent); letter-spacing:.03em; margin-bottom:6px}
+  .entry h3{margin:0 0 10px; font-size:15px; font-weight:600}
+  .entry ul{margin:0; padding-left:18px} .entry li{margin:5px 0; color:var(--muted)}
+  .entry li strong{color:var(--ink); font-weight:600}
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px}
   .fam{border:1px solid var(--line); border-radius:12px; padding:6px 6px 10px}
   .fam .fam-h{font-weight:600; font-size:14px; padding:10px 12px 6px}
@@ -81,8 +88,9 @@
     <ol>
       <li><strong>Draft &amp; prompt</strong> in the Claude project <em>“Email | Design, texts and coding rules”</em> — the place for wording, subjects and coding rules.</li>
       <li><strong>Edit the HTML</strong> in the <a href="https://github.com/erebrov-takeprofit/emails-tp" target="_blank" rel="noopener">git repo</a> (one file per email). Filenames are kebab-case and mirror the email name.</li>
-      <li><strong>Push to <code>main</code></strong> → Netlify auto-deploys → the preview URL below updates.</li>
-      <li><strong>Update the <a href="https://app.notion.com/p/38e51e45e12880ddb1c6d415e506a14f" target="_blank" rel="noopener">Notion table</a></strong> — subject, preheader, status, owner, preview URL. Notion is the source of truth for metadata.</li>
+      <li><strong>Log the change</strong> — add a dated entry to the <strong>Changelog</strong> below.</li>
+      <li><strong>Push to <code>main</code></strong> → Netlify auto-deploys → the preview URLs update.</li>
+      <li><strong>Update the <a href="https://app.notion.com/p/38e51e45e12880ddb1c6d415e506a14f" target="_blank" rel="noopener">Notion table</a></strong> — subject, preheader, status, owner, variant, preview URL. Notion is the source of truth for metadata.</li>
     </ol>
     <h3 style="margin-top:16px">Single source of truth</h3>
     <ol>
@@ -92,7 +100,24 @@
     </ol>
   </div>
 
-  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 26 emails</span></h2>
+  <h2>Changelog</h2>
+  <div class="log">
+    <!-- Newest first. For every update: add a new <div class="entry"> at the TOP of this list. -->
+    <div class="entry">
+      <div class="date">July 4, 2026</div>
+      <h3>Design sync — footer icons, content cards, billing &amp; community</h3>
+      <ul>
+        <li><strong>Footer icons</strong> — new 16×16 social set (Discord → X → Facebook → Instagram → Reddit → LinkedIn), rolled out across <strong>all 29 templates</strong>.</li>
+        <li><strong>Feed content</strong> — renamed to cover post / indicator / screener; the whole grey card is now one clickable link; paid variants show the gold <strong>“For Subscribers”</strong> badge + coin. Added a new <a href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html">with-pic locked variant</a>.</li>
+        <li><strong>Billing</strong> — split <strong>indicator vs content</strong> variants: first-time (<a href="./paid-subscriber-new-subscription.html">indicator</a> · <a href="./paid-subscriber-new-subscription-content.html">content</a>) and renewal (<a href="./paid-subscriber-renewal-indicator.html">indicator</a> · <a href="./paid-subscriber-renewal.html">content</a>); captions updated to match the design.</li>
+        <li><strong>Community</strong> — <a href="./someone-commented-on-your-post.html">comment</a> and <a href="./someone-replied-to-your-comment.html">reply</a> cards are now fully clickable and use the standard <code>#F3F6FA</code> card background.</li>
+        <li><strong>Guide</strong> — documented the <a href="./takeprofit-email-system-guide.md">light-mode color palette</a>, the timestamp rule (<code>Xh ago</code> → date), the default-avatar fallback, and text character-limits.</li>
+        <li><strong>Notion</strong> — added a <strong>Variant</strong> column, filled the <strong>Figma</strong> links, and synced every renamed / new row.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 29 emails</span></h2>
   <div class="grid">
 
     <div class="fam">
@@ -127,18 +152,21 @@
     </div>
 
     <div class="fam">
-      <div class="fam-h">Feed content <span>· 4</span></div>
-      <a class="item" href="./new-content-indicator.html"><div class="name">New content — indicator</div><div class="subj">New from {creator}: {Content_title}</div></a>
-      <a class="item" href="./new-content-post-locked.html"><div class="name">New content — locked</div><div class="subj">{creator} shared subscriber-only content</div></a>
-      <a class="item" href="./new-content-post-not-subscribed-follower.html"><div class="name">New post — non-subscriber</div><div class="subj">New from {creator}: {Content_title}</div></a>
-      <a class="item" href="./new-content-post-subscribed-follower.html"><div class="name">New post — subscriber</div><div class="subj">{creator} just posted: {Content_title}</div></a>
+      <div class="fam-h">Feed content <span>· 5</span></div>
+      <a class="item" href="./new-content-indicator-or-post-or-screener.html"><div class="name">New content — indicator / post / screener</div><div class="subj">{creator} published a new indicator/post/screener</div></a>
+      <a class="item" href="./new-content-post-or-indicator-locked.html"><div class="name">Locked (post / indicator)</div><div class="subj">Subscriber-only — Subscribe to Unlock</div></a>
+      <a class="item" href="./new-content-post-or-indicator-not-subscribed-follower.html"><div class="name">Not-subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a>
+      <a class="item" href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html"><div class="name">Not-subscribed follower — with pic</div><div class="subj">Locked cover — Subscribe to Unlock</div></a>
+      <a class="item" href="./new-content-post-or-indicator-subscribed-follower.html"><div class="name">Subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a>
     </div>
 
     <div class="fam">
-      <div class="fam-h">Transactions <span>· 3</span></div>
-      <a class="item" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription</div><div class="subj">You've got a new subscriber 🎉</div></a>
-      <a class="item" href="./paid-subscriber-renewal.html"><div class="name">Renewal</div><div class="subj">Subscription renewed — {amount} earned</div></a>
-      <a class="item" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral renewal</div><div class="subj">Referral earnings — {amount}</div></a>
+      <div class="fam-h">Transactions <span>· 5</span></div>
+      <a class="item" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription — indicator</div><div class="subj">New subscription reward received: +{amount}</div></a>
+      <a class="item" href="./paid-subscriber-new-subscription-content.html"><div class="name">New subscription — content</div><div class="subj">New subscription reward received: +{amount}</div></a>
+      <a class="item" href="./paid-subscriber-renewal.html"><div class="name">Renewal — content</div><div class="subj">Subscription renewal reward received: +{amount}</div></a>
+      <a class="item" href="./paid-subscriber-renewal-indicator.html"><div class="name">Renewal — indicator</div><div class="subj">Subscription renewal reward received: +{amount}</div></a>
+      <a class="item" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral renewal</div><div class="subj">Referral reward received: +{amount}</div></a>
     </div>
 
     <div class="fam">

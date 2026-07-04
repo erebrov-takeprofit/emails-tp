@@ -142,7 +142,7 @@
                                       <tr>
                                         <td class="body-text" align="left" style="line-height: 14px">
                                           <span  style="font-family: 'IBM Plex Sans','Arial', sans-serif; font-size: 14px; font-weight: 400; line-height: 140%; color:#000000; text-align: left; ">
-                                            A new {post/indicator/screener} from a creator you follow is live on your feed.
+                                            A new post from a creator you follow is live on your feed.
                                           </span>
                                         </td>
                                       </tr>
@@ -159,28 +159,35 @@
                                       </tr>
                                       <!--content card-->
                                       <tr>
-                                        <td bgcolor="#F3F6FA" style="padding: 20px 20px 20px 20px; background-color:#F3F6FA; border-radius: 8px;">
+                                        <td bgcolor="#F3F6FA" style="padding: 0; background-color:#F3F6FA; border-radius: 8px;">
+                                        <a href="{content_url}" target="_blank" style="display:block;text-decoration:none;color:#000000;padding:20px 20px 20px 20px;">
                                           <table border="0" cellspacing="0" cellpadding="0" width="100%" role="presentation"><tbody>
                                             <tr>
                                               <td align="left" valign="top">
                                                 <table border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody><tr>
                                                   <td width="24" valign="top">
-                                                    <a href="https://takeprofit.com/@{username}" target="_blank" style="text-decoration:none;font-size:0;"><img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/Ava.png" width="24" height="24" alt="" style="width:24px;height:24px;display:block;border-radius:50%;" border="0"></a>
+                                                    <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/Ava.png" width="24" height="24" alt="" style="width:24px;height:24px;display:block;border-radius:50%;" border="0">
                                                   </td>
                                                   <td valign="top" style="padding: 0 0 0 8px;">
-                                                    <div style="font-family:'IBM Plex Sans','Arial',sans-serif;font-size:14px;font-weight:600;line-height:140%;color:#000000;"><a href="https://takeprofit.com/@{username}" target="_blank" style="text-decoration:none;color:#000000;">mustermann84</a></div>
+                                                    <div style="font-family:'IBM Plex Sans','Arial',sans-serif;font-size:14px;font-weight:600;line-height:140%;color:#000000;">mustermann84</div>
                                                     <div style="font-family:'IBM Plex Sans','Arial',sans-serif;font-size:12px;font-weight:400;line-height:140%;color:#828C99;">2h ago</div>
                                                   </td>
                                                 </tr></tbody></table>
                                               </td>
                                               <td align="right" valign="top">
-                                                <span style="font-family:'IBM Plex Sans Condensed','Arial Narrow','Arial',sans-serif;font-size:12px;font-weight:400;letter-spacing:0.5px;line-height:16px;color:#FF4F03;text-transform:uppercase;">INDICATOR</span>
+                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation" align="right"><tbody><tr>
+                                                  <td valign="middle" style="font-family:'IBM Plex Sans','Arial',sans-serif;font-size:12px;font-weight:400;line-height:16px;color:#8C6503;white-space:nowrap;">For Subscribers</td>
+                                                  <td valign="middle" width="16" style="width:16px;padding:0 0 0 4px;"><img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/Coin_L.png" width="16" height="16" alt="" style="width:16px;height:16px;display:block;" border="0"></td>
+                                                </tr></tbody></table>
                                               </td>
                                             </tr>
                                           </tbody></table>
                                           <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation"><tbody><tr><td height="12" style="font-size:0;height:12px;line-height:12px"> </td></tr></tbody></table>
                                           <div style="font-family:'IBM Plex Sans','Arial',sans-serif;font-size:14px;font-weight:600;line-height:140%;color:#000000;">{Content_title}</div>
                                           <div style="font-family:'IBM Plex Sans','Arial',sans-serif;font-size:14px;font-weight:400;line-height:140%;color:#000000;">{Content_Subtitle}</div>
+                                          <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation"><tbody><tr><td height="12" style="font-size:0;height:12px;line-height:12px"> </td></tr></tbody></table>
+                                          <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/new-content-post-for-subscribers.png" width="560" alt="" style="width:100%;max-width:560px;display:block;border-radius:8px;" border="0">
+                                        </a>
                                         </td>
                                       </tr>
                                       <!--end content card-->
@@ -194,7 +201,7 @@
                                         <td align="center">
                                           <table border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody><tr>
                                             <td align="center" bgcolor="#000000" style="border-radius:8px;">
-                                              <a href="{subscribe_url}" target="_blank" style="display:inline-block;padding:12px 24px 12px 24px;font-family:'IBM Plex Sans','Arial',sans-serif;font-size:14px;font-weight:400;line-height:20px;color:#FFFFFF;text-decoration:none;white-space:nowrap;">Subscribe to Unlock</a>
+                                              <a href="{content_url}" target="_blank" style="display:inline-block;padding:12px 24px 12px 24px;font-family:'IBM Plex Sans','Arial',sans-serif;font-size:14px;font-weight:400;line-height:20px;color:#FFFFFF;text-decoration:none;white-space:nowrap;">View Post</a>
                                             </td>
                                           </tr></tbody></table>
                                         </td>
@@ -256,37 +263,37 @@
                                                 </td>
                                                 <!--social-->
                                                 <td align="right" valign="middle">
-                                                  <table border="0" cellspacing="0" cellpadding="0" width="163" border-collapse="collapse" role="presentation" style="width: 163px">
+                                                  <table border="0" cellspacing="0" cellpadding="0" border-collapse="collapse" role="presentation" align="right">
                                                     <tbody>
                                                       <tr>
-                                                        <td align="right" style="padding: 0 17px 0 0">
-                                                          <a href="https://x.com/TakeProfitHQ" alt="x" target="_blank" style="text-decoration: none; font-family: 'Arial', sans-serif; font-size: 16px; line-height: 45px; font-weight: 500; color:#000000; text-align: right">
-                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/twitter%404x.png" width="13" height="11" alt="x" style="width: 13px; height: 11px; display: block " border="0">
+                                                        <td align="center" valign="middle" width="16" style="width:16px;">
+                                                          <a href="https://discord.gg/WVk8TjwU7p" alt="d" target="_blank" style="text-decoration:none;font-size:0;">
+                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/Discord-Icon.png" width="16" height="16" alt="d" style="width:16px;height:16px;display:block;" border="0">
                                                           </a>
                                                         </td>
-                                                        <td align="right" style="padding: 0 17px 0 0">
-                                                          <a href="https://discord.gg/WVk8TjwU7p" alt="d" target="_blank" style="text-decoration: none; font-family: 'Arial', sans-serif; font-size: 16px; line-height: 45px; font-weight: 500; color:#000000; text-align: right">
-                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/discord%404x.png" width="14" height="11" alt="d" style="width: 14px; height: 11px; display: block " border="0">
+                                                        <td align="center" valign="middle" width="16" style="width:16px;padding-left:16px;">
+                                                          <a href="https://x.com/TakeProfitHQ" alt="x" target="_blank" style="text-decoration:none;font-size:0;">
+                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/x-icon.png" width="16" height="16" alt="x" style="width:16px;height:16px;display:block;" border="0">
                                                           </a>
                                                         </td>
-                                                        <td align="right" style="padding: 0 17px 0 0">
-                                                          <a href="https://facebook.com/TakeProfit" alt="f" target="_blank" style="text-decoration: none; font-family: 'Arial', sans-serif; font-size: 16px; line-height: 45px; font-weight: 500; color:#000000; text-align: right">
-                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/facebook%404x.png" width="12" height="12" alt="f" style="width: 12px; height: 12px; display: block " border="0">
+                                                        <td align="center" valign="middle" width="16" style="width:16px;padding-left:16px;">
+                                                          <a href="https://facebook.com/TakeProfit" alt="f" target="_blank" style="text-decoration:none;font-size:0;">
+                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/facebook-icon.png" width="16" height="16" alt="f" style="width:16px;height:16px;display:block;" border="0">
                                                           </a>
                                                         </td>
-                                                        <td align="right" style="padding: 0 17px 0 0">
-                                                          <a href="https://www.instagram.com/takeprofit/" alt="ins" target="_blank" style="text-decoration: none; font-family: 'Arial', sans-serif; font-size: 16px; line-height: 45px; font-weight: 500; color:#000000; text-align: right">
-                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/instagram%404x.png" width="11" height="11" alt="ins" style="width: 11px; height: 11px; display: block " border="0">
+                                                        <td align="center" valign="middle" width="16" style="width:16px;padding-left:16px;">
+                                                          <a href="https://www.instagram.com/takeprofit/" alt="ins" target="_blank" style="text-decoration:none;font-size:0;">
+                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/Instagram-icon.png" width="16" height="16" alt="ins" style="width:16px;height:16px;display:block;" border="0">
                                                           </a>
                                                         </td>
-                                                        <td align="right" style="padding: 0 17px 0 0">
-                                                          <a href="https://www.reddit.com/r/TakeProfit/" alt="r" target="_blank" style="text-decoration: none; font-family: 'Arial', sans-serif; font-size: 16px; line-height: 45px; font-weight: 500; color:#000000; text-align: right">
-                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/reddit%404x.png" width="13" height="11" alt="r" style="width: 13px; height: 11px; display: block " border="0">
+                                                        <td align="center" valign="middle" width="16" style="width:16px;padding-left:16px;">
+                                                          <a href="https://www.reddit.com/r/TakeProfit/" alt="r" target="_blank" style="text-decoration:none;font-size:0;">
+                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/Reddit-icon.png" width="16" height="16" alt="r" style="width:16px;height:16px;display:block;" border="0">
                                                           </a>
                                                         </td>
-                                                        <td align="right" style="padding: 0 0 0 0">
-                                                          <a href="https://www.linkedin.com/company/takeprofit/" alt="in" target="_blank" style="text-decoration: none; font-family: 'Arial', sans-serif; font-size: 16px; line-height: 45px; font-weight: 500; color:#000000; text-align: right">
-                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/linkedin%404x.png" width="11" height="11" alt="in" style="width: 11px; height: 11px; display: block " border="0">
+                                                        <td align="center" valign="middle" width="16" style="width:16px;padding-left:16px;">
+                                                          <a href="https://www.linkedin.com/company/takeprofit/" alt="in" target="_blank" style="text-decoration:none;font-size:0;">
+                                                            <img src="https://takeprofit-static.s3.eu-central-1.amazonaws.com/LinkedIn-icon.png" width="16" height="16" alt="in" style="width:16px;height:16px;display:block;" border="0">
                                                           </a>
                                                         </td>
                                                       </tr>

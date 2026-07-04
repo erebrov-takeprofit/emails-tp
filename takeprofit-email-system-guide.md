@@ -15,6 +15,7 @@ Each fact lives in exactly one place — edit it there, never in a copy.
 | Wording / prompting workspace | **Claude Desktop project** "Email \| Design, texts and coding rules" | Reads *from* the repo — it is not a store. Connect the repo via the GitHub source instead of uploading a static `guide.md`, so it never goes stale. |
 
 Rules of thumb:
+- **Changelog every update:** for each change, prepend a dated entry to the **Changelog** in `index.html` (newest first, listing what was added/fixed/updated, with links to the affected emails), then commit & push to `main` so Netlify redeploys. Omit any `Co-Authored-By` trailer (Netlify one-contributor rule).
 - Filenames are kebab-case and equal the email's name (same value as the Notion "Email name"). Renaming a file ⇒ update that row's **Preview URL** and **Email name** in Notion to match.
 - Never keep a second hand-edited copy of this guide (e.g. uploaded into Claude files) — that fork is where drift starts.
 - Stable links: index → https://emails-tp.netlify.app/ · this guide → https://emails-tp.netlify.app/takeprofit-email-system-guide.md
@@ -35,9 +36,9 @@ Hand-coded, email-client-safe HTML (tables + inline styles + Outlook `mso` hacks
 - **Font:** `'IBM Plex Sans','Arial', sans-serif`. Body 14px / line-height 140%. Small/footer 12px. Headline 24px SemiBold. Giant price 96px SemiBold.
   - Condensed labels (ticker, type badge): `'IBM Plex Sans Condensed','Arial Narrow','Arial'`. Load IBM Plex Sans **and** IBM Plex Sans Condensed via Google Fonts in `<head>` (helps Apple Mail/iOS; Gmail/Outlook fall back).
 - **Colors:**
-  - Text `#000000`; secondary/muted `#828C99`; divider `#BAC1CC`; light card bg `#F3F6FA` (also `#F0F3F7` in older blocks).
-  - Accent links: `#916BFF` and `#7F3AFF` (two purples — match the design per spot); blue "…more" `#2E7FFF`.
-  - Type badge orange `#FF4F03`; ticker logo swatch `#E7973D`; ticker chip border `#D5DAE0`.
+  - **Core palette — Light Mode (Figma "Colors / Palette", node `91-4018`):** main text `#000000` (`total/black`) · links `#2E7FFF` (`blueberry/400`) · footer divider `#BAC1CC` (`neutral/200`) · footer text & icons `#828C99` (`neutral/400`).
+  - **Block / card / callout bg = `#F3F6FA`** (our standard). The Figma palette shows `#F0F3F7` (`neutral/50`) here, but we keep **`#F3F6FA`** across all emails for consistency — revisit only if the designer asks. Don't mix the two within one email.
+  - **Beyond the core palette** (spot accents / component-specific, not in the light-mode palette above): paid "For Subscribers" gold `#8C6503` (`lemon/900`); purples `#916BFF` / `#7F3AFF` (match the design per spot); type badge orange `#FF4F03`; ticker logo swatch `#E7973D`; ticker chip border `#D5DAE0`.
 - **Buttons (CTA):** black `#000000`, white text, radius **8px**, padding **12×24**, 14px.
 - **Cards/callouts:** bg `#F3F6FA`, radius **8px**, padding 8 (small) or 20 (content card).
 - **Spacing vocabulary:** stacked spacer rows of **12 / 24** px. Typical: `pt-24` after header, `pt-12` between body blocks, `pt-24` before CTA & outro, `12/12` divider before footer.
@@ -57,13 +58,30 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Headline** — 24px SemiBold black.
 - **Greeting** — `Hi {username}` / `Hey {username}` (14px), optional second line.
 - **Body paragraph** — 14px regular, `<br>` for line breaks.
-- **Big Price** — `{amount}` at 96px SemiBold, centered (subscription/payout amount). Caption under it: 14px centered (e.g. "@{subscriber_username} subscribed to your {indicator} {indicator_name}. Earnings recur monthly on active subscriptions.").
+- **Big Price** — `{amount}` at 96px SemiBold, centered (subscription/payout amount) + 14px centered 2-line caption (`<br>`) + CTA **View Dashboard** → `{dashboard_url}` (monetization dashboard). Paid-subscriber emails split **indicator vs content** (`{content}` = post/screener/etc.; for indicators show `{indicator} {indicator_name}`):
+  - *First-time:* `@{subscriber_username} subscribed to your {indicator} {indicator_name}.` **/** `… subscribed to your {content}.` — line 2: `Recurring while the subscription is active.`
+  - *Renewal:* `@{subscriber_username} renewed their subscription to your {indicator} {indicator_name}.` **/** `… to your {content}.` — line 2: `Recurring while the subscription is active.`
+  - *Referral (single, no split):* `Your referral @{referral_username} renewed their subscription.` — line 2: `Earnings recur monthly while the subscription is active.`
 - **CTA button** — black, radius 8, 12×24. Common labels: Open Now, Subscribe to Unlock, View Post, Open Chart, View Dashboard, Back to Community, Reset Password, Check it Out. Optional fallback line: "If you don't see the button, click here: {link}".
 - **Bulleted list** — `•` (20px column) + 14px text rows.
 - **Info card (two-column, clickable)** — `#F3F6FA` blocks **296px** wide, gap 8, two per row (wrap). Bold title + `➞` (`&#10142;`) + 12px description. **Whole block is a link** (anchor wraps content). Used in "Next steps" / "How it works".
-- **Avatar + username row (community)** — 24px round avatar + SemiBold username + `2h ago` (12px `#828C99`); avatar & username clickable to profile (style unchanged, just `text-decoration:none`).
-- **Comment card** — `#F3F6FA` radius 8 pad 20: avatar + "{username} left a comment." + meta "{date} • Community {Posts}" + comment text + blue `...more`.
-- **Feed content card** — `#F3F6FA` radius 8 pad 20: avatar+user+time + optional orange type badge (INDICATOR) + `{Content_title}` (SemiBold) + `{Content_Subtitle}` + cover image (560 wide, radius 8). Whole card clickable. Locked state = pre-blurred cover + "Subscribe to Unlock"; no-cover state omits image.
+- **Avatar + username row (community)** — 24px round avatar + SemiBold username + timestamp (12px `#828C99`); avatar & username clickable to profile (style unchanged, just `text-decoration:none`). **Default fallback (design logic):** if the author has no avatar, use the platform **default profile avatar** — the same default the app shows on a profile with no picture (not a broken/empty image).
+  - **Timestamp format (design logic):** show **hours since publication** (`{N}h ago`, e.g. `2h ago`) **only for the same calendar day**. Once the post is no longer from today (i.e. after that day's 23:59 rolls over), show a **plain date** instead of an ever-growing hour count. Backend supplies the resolved string.
+- **Comment / reply card** — `#F3F6FA` radius 12 pad 20: avatar + "{username} left a comment." + meta "{date} • Community {Posts}" + comment text + blue `...more`. **Whole card is one clickable anchor → the post** (`takeprofit.com/posts/{post-slug}`): single block `<a>` (padding on the anchor, `<td>` padding `0`), **no nested links** — avatar and `...more` are plain (not their own `<a>`).
+- **Feed content card** — `#F3F6FA` radius 8 pad 20: avatar+user+time + optional top-right **type/status badge** + `{Content_title}` (SemiBold) + `{Content_Subtitle}` + cover image (560 wide, radius 8). One shared template serves **indicator / post / screener** (`new-content-indicator-or-post-or-screener.html`); paid variants share `new-content-post-or-indicator-*` (locked / not-subscribed-follower / with-pic-not-subscribed-follower / subscribed-follower).
+  - **Top-right badge** (right side of the avatar row): **"For Subscribers"** (paid content) — IBM Plex Sans Regular **12px**, gold **`#8C6503`** (`lemon/900`), followed by a **coin icon 16×16** (`Coin_L.png`, 48×48 source, ~4px gap, right-aligned). The older orange `INDICATOR` badge (`#FF4F03`, Condensed uppercase) is deprecated for these paid emails.
+  - **Character limits:** all texts **above the cover image** (title, subtitle) are clamped to the same character limits as production **desktop/mobile** — single line, truncated with `…` (the backend truncates before sending; don't let long copy wrap or push the image down).
+  - **Whole grey card is one click target → the content** (`{content_url}`): a single block-level `<a style="display:block;padding:20px;…">` wraps the entire card (padding on the anchor, `<td>` padding `0`) — **not** per-element links on avatar/title/subtitle/image.
+  - **Cover image** — fixed width (560 / `width:100%`), **height follows the content type's cover aspect ratio** (indicator / post / screener / stories each differ) — never hard-code a single height; let the correctly-sized cover asset drive it.
+  - **CTA has 3 variants** by context: **Open** / **Subscribe** / **Comment**.
+  - **Cover presence by content type:** **indicators** always have a cover (indicator screenshot from the backend); **screeners** always have a cover (backend supplies the user's cover *or* its default — no AWS fallback on our side); **posts** may have **no** cover → ship the **no-cover variant** (omit the cover image entirely; card = avatar + title + subtitle). We do **not** substitute a default cover from AWS — every cover (defaults included) arrives from the backend.
+  - **Default fallback we DO handle:** no author avatar → default profile avatar `UserPic.png` (see avatar row above).
+  - **Paid states** (all use the "For Subscribers" badge; whole card + CTA share one URL):
+    - *Locked (post/indicator)* — pre-blurred cover `post-locked.png`, CTA **Subscribe to Unlock** → `{subscribe_url}`.
+    - *Not-subscribed follower, no cover* — text-only card, CTA **Subscribe to Unlock** → `{subscribe_url}`.
+    - *Not-subscribed follower, with pic* — blurred/locked cover `post-with-pic-locked.png`, CTA **Subscribe to Unlock** → `{subscribe_url}`.
+    - *Subscribed follower* — full cover `new-content-post-for-subscribers.png`, CTA **View Post** → `{content_url}`.
+    - Backend swaps the placeholder cover PNG for the real (pre-blurred) one; email can't blur.
 - **Big image / GIF** — 600 wide, radius 8 (e.g. born-to-earn banner). Wrap in a link when it's a banner.
 - **Ticker chip (alerts)** — small pill: bg `#F3F6FA`, border 0.5px `#D5DAE0`, radius 4. Inside: orange logo block (`#E7973D`, **fixed 41×20**, radius 3, "floats" with ~2px light margin) holding a square coin PNG (~18px centered) + ticker text `{ticker}` (Condensed 14, UPPERCASE, letter-spacing 1px). Ticker text width varies by symbol. Whole chip can be a link (e.g. → takeprofit.com/platform).
 - **Criteria block (alerts)** — `#F3F6FA` radius 8 pad 8, 14px: "{Source} {Criteria} {Target}" (one or several joined with `&`).
@@ -75,9 +93,9 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Community moderation:** YourReportHasBeenReceived, YourReportHasBeenReviewed, ContentViolationNotice.
 - **Social:** SomeoneCommentedOnYourPost, SomeoneRepliedToYourComment, UserStartedFollowingYou (60px avatar + "{Username} just followed you").
 - **Feed content notifications:** NewContentIndicator, NewContentPostLocked, NewContentPost-notSubscribedFollower, NewContentPost-SubscribedFollower (card + type badge + CTA Open/Subscribe/View).
-- **Transactions:** PaidSubscriber (new / renewal / referral) — big price + caption + View Dashboard.
+- **Transactions:** PaidSubscriber — big price + caption + View Dashboard. **Five variants:** first-time (`-new-subscription` = indicator, `-new-subscription-content`), renewal (`-renewal` = content, `-renewal-indicator`), referral (`-referral-renewal`, single).
 - **Alerts:** Alert-SingleCriteria, Alert-MultipleCriteria — ticker chip + criteria + Open Chart.
-- **Onboarding/monetization:** First User Subscribed (Discord pill, banner, 4 "how it works" cards, View Dashboard).
+- **Onboarding/monetization:** First User Subscribed (Discord pill, banner, 4 "how it works" cards, View Dashboard). Copy is **repo-canonical** — the Figma community board (node `91-8663`) shows newer alternate copy (e.g. "Payout after $100", "Set Up Your Cash Machine") that we intentionally did **not** adopt; revisit only if the designer asks.
 
 ## 8. Mandatory conventions (checklist before "done")
 1. **Preheader** — hidden `<div>` with meaningful inbox-preview text (specific to the email).
@@ -91,7 +109,11 @@ Curly `{...}` tokens the backend fills: `{username}`, `{amount}`, `{ticker}`, `{
 
 ## 10. Assets
 - S3 base: `https://takeprofit-static.s3.eu-central-1.amazonaws.com/`
-- Known: `logo-top.png` (header 32×40), `takeprofit.com-footer.png` (footer 150×19), social `*%404x.png` icons, `Ava.png` (24px avatar), `crypto_bitcoin.png` (ticker coin), `born-to-earn.png` (monetization banner).
+- Known: `logo-top.png` (header 32×40), `takeprofit.com-footer.png` (footer 150×19), `Ava.png` (24px sample avatar), `crypto_bitcoin.png` (ticker coin), `born-to-earn.png` (monetization banner).
+- **Footer social icons — 16×16 square set** (order Discord→X→Facebook→Instagram→Reddit→LinkedIn, 16px gap): `Discord-Icon.png`, `x-icon.png`, `facebook-icon.png`, `Instagram-icon.png`, `Reddit-icon.png`, `LinkedIn-icon.png` (48×48 source, displayed 16×16). Old non-square `*%404x.png` icons are **deprecated** — don't reuse.
+- **Default fallback asset:** **default profile avatar** = `UserPic.png` (675×675 square, shown at 24px round) when the author has no picture. **No default-cover asset** — covers always come from the backend (indicators: screenshot; screeners: user or backend default; posts: may have none → use the no-cover email variant).
+- **"For Subscribers" coin** = `Coin_L.png` (48×48 source, shown 16×16 gold coin next to the badge) — **must be a hosted PNG** (email can't render a Figma vector; emoji is off-brand/inconsistent).
+- **Locked-cover placeholders** (backend replaces with the real pre-blurred cover): `post-locked.png` (locked post/indicator), `post-with-pic-locked.png` (locked post that has a picture).
 - Locked/blurred covers must be **pre-rendered** server-side (email can't blur or overlay reliably).
 
 ## 11. Working from Figma (design → email)
@@ -145,8 +167,10 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 ### Transactions (paid subscriber / referral)
 | Email | Subject | Preheader |
 |---|---|---|
-| New subscription | New subscription reward received: +{amount} | @{subscriber_username} subscribed to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub. |
-| Renewal | Subscription renewal reward received: +{amount} | @{subscriber_username} just renewed their subscription for {content}. Track your earnings in the Rewards Hub. |
+| New subscription — indicator | New subscription reward received: +{amount} | @{subscriber_username} subscribed to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub. |
+| New subscription — content | New subscription reward received: +{amount} | @{subscriber_username} subscribed to your {content}. Track your earnings in the Rewards Hub. |
+| Renewal — content | Subscription renewal reward received: +{amount} | @{subscriber_username} just renewed their subscription to your {content}. Track your earnings in the Rewards Hub. |
+| Renewal — indicator | Subscription renewal reward received: +{amount} | @{subscriber_username} just renewed their subscription to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub. |
 | Referral renewal | Referral reward received: +{amount} | @{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub. |
 
 ### Alerts
