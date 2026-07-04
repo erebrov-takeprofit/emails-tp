@@ -1,0 +1,10 @@
+{
+  "name": "emails-tp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TakeProfit email templates + Netlify test-send function",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.670.0"
+  }
+}

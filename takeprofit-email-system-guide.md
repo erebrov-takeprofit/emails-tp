@@ -185,3 +185,12 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 |---|---|---|
 | First subscriber | Your first paid subscriber is in! | Your trading knowledge is turning into revenue. Track your balance in the Rewards Hub. |
 | Welcome | Your Trade & Earn Journey starts here | Welcome to TakeProfit. Set up your workspace and unlock your cash rewards. |
+
+---
+
+## 13. Test sends (index page → Netlify → AWS SES)
+Each email on the [index page](https://emails-tp.netlify.app/) has a **Test** button: enter an address → it sends that exact template to your inbox, with the **subject & preheader from the Notion snapshot** (`emails.json`) and `{placeholders}` replaced by **sample values** (`sample-data.json`). The subject is prefixed `[TEST]`.
+- **How:** static button → `POST /.netlify/functions/send-test { file, recipient }` → the function ([`netlify/functions/send-test.mjs`](netlify/functions/send-test.mjs)) fetches the template from the same deploy, renders it, and sends via **AWS SES**.
+- **Recipients are restricted** to `@takeprofit.com` (env `TEST_ALLOWED_DOMAINS`) — it's an internal tool, not an open relay.
+- **Netlify env vars** (Site settings → Environment variables): `SES_REGION` (e.g. `eu-central-1`), `SES_FROM` (verified sender, e.g. `TakeProfit <no-reply@takeprofit.com>`), `SES_AWS_ACCESS_KEY_ID`, `SES_AWS_SECRET_ACCESS_KEY` (IAM key with `ses:SendEmail`; custom names avoid Netlify's reserved `AWS_*`). In SES **sandbox**, recipients must also be verified until production access is granted.
+- **`emails.json` is a build-time snapshot of Notion** — refresh it whenever subjects/preheaders change (part of the sync flow). The same endpoint can later be wired to a **Notion button** (automation → webhook) to trigger tests from the table and stamp the "Live test" column.

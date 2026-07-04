@@ -54,6 +54,26 @@
   code{background:var(--card); padding:1px 6px; border-radius:5px; font-size:13px}
   footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
          color:var(--muted); font-size:13px}
+  .item{display:flex; align-items:center; gap:8px; padding:4px 6px}
+  .item:hover{background:transparent}
+  .ilink{flex:1 1 auto; min-width:0; display:block; padding:6px 8px; border-radius:8px}
+  .ilink:hover{background:var(--card); text-decoration:none}
+  .itest{flex:0 0 auto; border:1px solid var(--line); background:#fff; color:var(--muted);
+         font:inherit; font-size:12px; font-weight:600; padding:5px 12px; border-radius:8px; cursor:pointer}
+  .itest:hover{border-color:var(--accent); color:var(--accent)}
+  #test-modal{display:none; position:fixed; inset:0; background:rgba(13,17,23,.45); z-index:50;
+              align-items:center; justify-content:center; padding:20px}
+  #test-modal.open{display:flex}
+  .tm-box{background:#fff; border-radius:14px; padding:22px 22px 18px; width:100%; max-width:420px;
+          box-shadow:0 20px 60px rgba(13,17,23,.25)}
+  .tm-title{font-size:16px; font-weight:600; margin-bottom:4px}
+  .tm-name{color:var(--muted); font-size:13px; margin-bottom:14px; word-break:break-all}
+  #tm-email{width:100%; border:1px solid var(--line); border-radius:8px; padding:11px 12px; font:inherit; font-size:14px}
+  #tm-email:focus{outline:none; border-color:var(--accent)}
+  .tm-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:14px}
+  .tm-actions .btn{cursor:pointer; font:inherit}
+  .tm-status{margin-top:12px; font-size:13px; min-height:18px}
+  .tm-status.ok{color:#1a7f37} .tm-status.err{color:#cf222e}
 </style>
 </head>
 <body>
@@ -105,6 +125,14 @@
     <!-- Newest first. For every update: add a new <div class="entry"> at the TOP of this list. -->
     <div class="entry">
       <div class="date">July 4, 2026</div>
+      <h3>Live &ldquo;Test send&rdquo; from this page</h3>
+      <ul>
+        <li>Every template now has a <strong>Test</strong> button вЂ” enter an address and receive that exact email, with the <strong>subject &amp; preheader from Notion</strong> and <code>{placeholders}</code> filled with sample data.</li>
+        <li>Runs through a Netlify function on <strong>AWS SES</strong>; recipients limited to <code>@takeprofit.com</code>. Requires the SES env vars set in Netlify.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="date">July 4, 2026</div>
       <h3>Design sync — footer icons, content cards, billing &amp; community</h3>
       <ul>
         <li><strong>Footer icons</strong> — new 16×16 social set (Discord → X → Facebook → Instagram → Reddit → LinkedIn), rolled out across <strong>all 29 templates</strong>.</li>
@@ -122,63 +150,63 @@
 
     <div class="fam">
       <div class="fam-h">Auth / account <span>· 5</span></div>
-      <a class="item" href="./activate-email.html"><div class="name">Activate email</div><div class="subj">Activate your TakeProfit account</div></a>
-      <a class="item" href="./reset-password.html"><div class="name">Reset password</div><div class="subj">Reset your TakeProfit password</div></a>
-      <a class="item" href="./set-a-new-password-and-exchange-linking.html"><div class="name">Set password — Exchange linking</div><div class="subj">Set a new password to link your exchange account</div></a>
-      <a class="item" href="./set-a-new-password-and-google-linking.html"><div class="name">Set password — Google linking</div><div class="subj">Set a new password to link your Google account</div></a>
-      <a class="item" href="./set-a-new-password-and-link-your-accounts.html"><div class="name">Set password — link accounts</div><div class="subj">Set a new password and link your accounts</div></a>
+      <div class="item"><a class="ilink" href="./activate-email.html"><div class="name">Activate email</div><div class="subj">Activate your TakeProfit account</div></a><button type="button" class="itest" data-file="activate-email.html" data-name="Activate email">Test</button></div>
+      <div class="item"><a class="ilink" href="./reset-password.html"><div class="name">Reset password</div><div class="subj">Reset your TakeProfit password</div></a><button type="button" class="itest" data-file="reset-password.html" data-name="Reset password">Test</button></div>
+      <div class="item"><a class="ilink" href="./set-a-new-password-and-exchange-linking.html"><div class="name">Set password — Exchange linking</div><div class="subj">Set a new password to link your exchange account</div></a><button type="button" class="itest" data-file="set-a-new-password-and-exchange-linking.html" data-name="Set password — Exchange linking">Test</button></div>
+      <div class="item"><a class="ilink" href="./set-a-new-password-and-google-linking.html"><div class="name">Set password — Google linking</div><div class="subj">Set a new password to link your Google account</div></a><button type="button" class="itest" data-file="set-a-new-password-and-google-linking.html" data-name="Set password — Google linking">Test</button></div>
+      <div class="item"><a class="ilink" href="./set-a-new-password-and-link-your-accounts.html"><div class="name">Set password — link accounts</div><div class="subj">Set a new password and link your accounts</div></a><button type="button" class="itest" data-file="set-a-new-password-and-link-your-accounts.html" data-name="Set password — link accounts">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Indicator lifecycle <span>· 4</span></div>
-      <a class="item" href="./your-indicator-has-been-sent-for-review-new.html"><div class="name">Sent for review</div><div class="subj">Your indicator is under review</div></a>
-      <a class="item" href="./your-indicator-has-been-approved.html"><div class="name">Approved</div><div class="subj">Your indicator has been approved 🎉</div></a>
-      <a class="item" href="./your-indicator-has-been-approved-no-comment.html"><div class="name">Approved — no comment</div><div class="subj">Your indicator has been approved 🎉</div></a>
-      <a class="item" href="./your-indicator-has-been-rejected.html"><div class="name">Rejected</div><div class="subj">Your indicator wasn't approved</div></a>
+      <div class="item"><a class="ilink" href="./your-indicator-has-been-sent-for-review-new.html"><div class="name">Sent for review</div><div class="subj">Your indicator is under review</div></a><button type="button" class="itest" data-file="your-indicator-has-been-sent-for-review-new.html" data-name="Sent for review">Test</button></div>
+      <div class="item"><a class="ilink" href="./your-indicator-has-been-approved.html"><div class="name">Approved</div><div class="subj">Your indicator has been approved 🎉</div></a><button type="button" class="itest" data-file="your-indicator-has-been-approved.html" data-name="Approved">Test</button></div>
+      <div class="item"><a class="ilink" href="./your-indicator-has-been-approved-no-comment.html"><div class="name">Approved — no comment</div><div class="subj">Your indicator has been approved 🎉</div></a><button type="button" class="itest" data-file="your-indicator-has-been-approved-no-comment.html" data-name="Approved — no comment">Test</button></div>
+      <div class="item"><a class="ilink" href="./your-indicator-has-been-rejected.html"><div class="name">Rejected</div><div class="subj">Your indicator wasn't approved</div></a><button type="button" class="itest" data-file="your-indicator-has-been-rejected.html" data-name="Rejected">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Community moderation <span>· 3</span></div>
-      <a class="item" href="./your-report-has-been-received.html"><div class="name">Report received</div><div class="subj">We've received your report</div></a>
-      <a class="item" href="./your-report-has-been-reviewed.html"><div class="name">Report reviewed</div><div class="subj">Update on your report</div></a>
-      <a class="item" href="./content-violation-notice.html"><div class="name">Content violation notice</div><div class="subj">Your content violates our Community Guidelines</div></a>
+      <div class="item"><a class="ilink" href="./your-report-has-been-received.html"><div class="name">Report received</div><div class="subj">We've received your report</div></a><button type="button" class="itest" data-file="your-report-has-been-received.html" data-name="Report received">Test</button></div>
+      <div class="item"><a class="ilink" href="./your-report-has-been-reviewed.html"><div class="name">Report reviewed</div><div class="subj">Update on your report</div></a><button type="button" class="itest" data-file="your-report-has-been-reviewed.html" data-name="Report reviewed">Test</button></div>
+      <div class="item"><a class="ilink" href="./content-violation-notice.html"><div class="name">Content violation notice</div><div class="subj">Your content violates our Community Guidelines</div></a><button type="button" class="itest" data-file="content-violation-notice.html" data-name="Content violation notice">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Social <span>· 3</span></div>
-      <a class="item" href="./someone-commented-on-your-post.html"><div class="name">Comment on your post</div><div class="subj">{username} commented on your post</div></a>
-      <a class="item" href="./someone-replied-to-your-comment.html"><div class="name">Reply to your comment</div><div class="subj">{username} replied to your comment</div></a>
-      <a class="item" href="./user-started-following-you.html"><div class="name">New follower</div><div class="subj">{username} started following you</div></a>
+      <div class="item"><a class="ilink" href="./someone-commented-on-your-post.html"><div class="name">Comment on your post</div><div class="subj">{username} commented on your post</div></a><button type="button" class="itest" data-file="someone-commented-on-your-post.html" data-name="Comment on your post">Test</button></div>
+      <div class="item"><a class="ilink" href="./someone-replied-to-your-comment.html"><div class="name">Reply to your comment</div><div class="subj">{username} replied to your comment</div></a><button type="button" class="itest" data-file="someone-replied-to-your-comment.html" data-name="Reply to your comment">Test</button></div>
+      <div class="item"><a class="ilink" href="./user-started-following-you.html"><div class="name">New follower</div><div class="subj">{username} started following you</div></a><button type="button" class="itest" data-file="user-started-following-you.html" data-name="New follower">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Feed content <span>· 5</span></div>
-      <a class="item" href="./new-content-indicator-or-post-or-screener.html"><div class="name">New content — indicator / post / screener</div><div class="subj">{creator} published a new indicator/post/screener</div></a>
-      <a class="item" href="./new-content-post-or-indicator-locked.html"><div class="name">Locked (post / indicator)</div><div class="subj">Subscriber-only — Subscribe to Unlock</div></a>
-      <a class="item" href="./new-content-post-or-indicator-not-subscribed-follower.html"><div class="name">Not-subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a>
-      <a class="item" href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html"><div class="name">Not-subscribed follower — with pic</div><div class="subj">Locked cover — Subscribe to Unlock</div></a>
-      <a class="item" href="./new-content-post-or-indicator-subscribed-follower.html"><div class="name">Subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a>
+      <div class="item"><a class="ilink" href="./new-content-indicator-or-post-or-screener.html"><div class="name">New content — indicator / post / screener</div><div class="subj">{creator} published a new indicator/post/screener</div></a><button type="button" class="itest" data-file="new-content-indicator-or-post-or-screener.html" data-name="New content — indicator / post / screener">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-locked.html"><div class="name">Locked (post / indicator)</div><div class="subj">Subscriber-only — Subscribe to Unlock</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-locked.html" data-name="Locked (post / indicator)">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-not-subscribed-follower.html"><div class="name">Not-subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-not-subscribed-follower.html" data-name="Not-subscribed follower">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html"><div class="name">Not-subscribed follower — with pic</div><div class="subj">Locked cover — Subscribe to Unlock</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-with-pic-not-subscribed-follower.html" data-name="Not-subscribed follower — with pic">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-subscribed-follower.html"><div class="name">Subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-subscribed-follower.html" data-name="Subscribed follower">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Transactions <span>· 5</span></div>
-      <a class="item" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription — indicator</div><div class="subj">New subscription reward received: +{amount}</div></a>
-      <a class="item" href="./paid-subscriber-new-subscription-content.html"><div class="name">New subscription — content</div><div class="subj">New subscription reward received: +{amount}</div></a>
-      <a class="item" href="./paid-subscriber-renewal.html"><div class="name">Renewal — content</div><div class="subj">Subscription renewal reward received: +{amount}</div></a>
-      <a class="item" href="./paid-subscriber-renewal-indicator.html"><div class="name">Renewal — indicator</div><div class="subj">Subscription renewal reward received: +{amount}</div></a>
-      <a class="item" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral renewal</div><div class="subj">Referral reward received: +{amount}</div></a>
+      <div class="item"><a class="ilink" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription — indicator</div><div class="subj">New subscription reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-new-subscription.html" data-name="New subscription — indicator">Test</button></div>
+      <div class="item"><a class="ilink" href="./paid-subscriber-new-subscription-content.html"><div class="name">New subscription — content</div><div class="subj">New subscription reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-new-subscription-content.html" data-name="New subscription — content">Test</button></div>
+      <div class="item"><a class="ilink" href="./paid-subscriber-renewal.html"><div class="name">Renewal — content</div><div class="subj">Subscription renewal reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-renewal.html" data-name="Renewal — content">Test</button></div>
+      <div class="item"><a class="ilink" href="./paid-subscriber-renewal-indicator.html"><div class="name">Renewal — indicator</div><div class="subj">Subscription renewal reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-renewal-indicator.html" data-name="Renewal — indicator">Test</button></div>
+      <div class="item"><a class="ilink" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral renewal</div><div class="subj">Referral reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-referral-renewal.html" data-name="Referral renewal">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Alerts <span>· 2</span></div>
-      <a class="item" href="./alert-single-criteria.html"><div class="name">Single criterion</div><div class="subj">Alert: {ticker} {source} {condition} {value}</div></a>
-      <a class="item" href="./alert-multiple-criteria.html"><div class="name">Multiple criteria</div><div class="subj">Alert: {ticker} {source} {condition} {value}</div></a>
+      <div class="item"><a class="ilink" href="./alert-single-criteria.html"><div class="name">Single criterion</div><div class="subj">Alert: {ticker} {source} {condition} {value}</div></a><button type="button" class="itest" data-file="alert-single-criteria.html" data-name="Single criterion">Test</button></div>
+      <div class="item"><a class="ilink" href="./alert-multiple-criteria.html"><div class="name">Multiple criteria</div><div class="subj">Alert: {ticker} {source} {condition} {value}</div></a><button type="button" class="itest" data-file="alert-multiple-criteria.html" data-name="Multiple criteria">Test</button></div>
     </div>
 
     <div class="fam">
       <div class="fam-h">Onboarding / monetization <span>· 2</span></div>
-      <a class="item" href="./first-user-subscribed-to-you.html"><div class="name">First subscriber</div><div class="subj">Your first subscriber is in! 🎉</div></a>
-      <a class="item" href="./welcome.html"><div class="name">Welcome</div><div class="subj">Welcome to TakeProfit</div></a>
+      <div class="item"><a class="ilink" href="./first-user-subscribed-to-you.html"><div class="name">First subscriber</div><div class="subj">Your first subscriber is in! 🎉</div></a><button type="button" class="itest" data-file="first-user-subscribed-to-you.html" data-name="First subscriber">Test</button></div>
+      <div class="item"><a class="ilink" href="./welcome.html"><div class="name">Welcome</div><div class="subj">Welcome to TakeProfit</div></a><button type="button" class="itest" data-file="welcome.html" data-name="Welcome">Test</button></div>
     </div>
 
   </div>
@@ -189,5 +217,44 @@
   </footer>
 
 </div>
+<div id="test-modal" role="dialog" aria-modal="true">
+  <div class="tm-box">
+    <div class="tm-title">Send test email</div>
+    <div class="tm-name" id="tm-name"></div>
+    <input id="tm-email" type="email" placeholder="you@takeprofit.com" autocomplete="email">
+    <div class="tm-actions">
+      <button type="button" class="btn" id="tm-cancel">Cancel</button>
+      <button type="button" class="btn primary" id="tm-send">Send test</button>
+    </div>
+    <div class="tm-status" id="tm-status"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var modal=document.getElementById('test-modal'), nameEl=document.getElementById('tm-name'),
+      emailEl=document.getElementById('tm-email'), statusEl=document.getElementById('tm-status'),
+      sendBtn=document.getElementById('tm-send'), current=null;
+  function open(file,name){ current=file; nameEl.textContent=name; statusEl.textContent=''; statusEl.className='tm-status'; modal.classList.add('open'); setTimeout(function(){emailEl.focus();},30); }
+  function close(){ modal.classList.remove('open'); }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.itest');
+    if(b){ e.preventDefault(); open(b.getAttribute('data-file'), b.getAttribute('data-name')); return; }
+    if(e.target===modal || e.target.id==='tm-cancel'){ close(); }
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  function send(){
+    var email=(emailEl.value||'').trim();
+    if(!email){ statusEl.textContent='Enter an email address.'; statusEl.className='tm-status err'; return; }
+    sendBtn.disabled=true; statusEl.textContent='Sending...'; statusEl.className='tm-status';
+    fetch('/.netlify/functions/send-test',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({file:current,recipient:email})})
+      .then(function(r){ return r.json().then(function(d){ return {r:r,d:d}; }); })
+      .then(function(x){ if(x.r.ok && x.d.ok){ statusEl.textContent='Sent to '+x.d.to+' вЂ” check your inbox.'; statusEl.className='tm-status ok'; } else { statusEl.textContent=(x.d.error||('HTTP '+x.r.status)); statusEl.className='tm-status err'; } })
+      .catch(function(err){ statusEl.textContent=err.message; statusEl.className='tm-status err'; })
+      .then(function(){ sendBtn.disabled=false; });
+  }
+  sendBtn.addEventListener('click',send);
+  emailEl.addEventListener('keydown',function(e){ if(e.key==='Enter') send(); });
+})();
+</script>
 </body>
 </html>

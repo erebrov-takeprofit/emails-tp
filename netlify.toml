@@ -1,0 +1,19 @@
+# Netlify config for the email-templates site + the "Test send" serverless function.
+# The site is plain static HTML at the repo root; the only build concern is the function.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  # bundle the JSON snapshots with the function
+  included_files = ["emails.json", "sample-data.json"]
+
+# Required environment variables (set in Netlify → Site settings → Environment variables):
+#   SES_REGION                 e.g. eu-central-1  (same region where your domain is verified)
+#   SES_FROM                   verified sender, e.g. "TakeProfit <no-reply@takeprofit.com>"
+#   SES_AWS_ACCESS_KEY_ID      IAM key with ses:SendEmail  (custom name — avoids Netlify's reserved AWS_* vars)
+#   SES_AWS_SECRET_ACCESS_KEY  IAM secret
+# Optional:
+#   TEST_ALLOWED_DOMAINS       comma-separated allow-list for recipients (default: takeprofit.com)
