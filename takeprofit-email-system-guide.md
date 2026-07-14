@@ -159,10 +159,11 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 ### Feed content notifications
 | Email | Subject | Preheader |
 |---|---|---|
-| New content — indicator | {creator} published a new indicator | Load {Content_title} onto your charts to test it out. |
-| New content — locked (subscribe) | New subscriber-only post from {creator}: {Content_title} | New premium content is live on your feed. Read your subscriber-only update. |
-| New content — not-subscribed follower | New post from {creator}: {Content_title} | Access the latest analysis from {creator}. Check it out now. |
-| New content — subscribed follower | New post from {creator}: {Content_title} | Access the latest analysis from {creator}. Check it out now. |
+| New content — indicator | {creator} published a new {post/indicator/screener} | Check out {Content_title} on TakeProfit to stay ahead of the market. |
+| New content — locked (subscribe) | New subscriber-only post from {creator}: {post/indicator/screener} | New premium content is live on your feed. Read your subscriber-only update. |
+| New content — not-subscribed follower | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
+| New content — with-pic not-subscribed follower | New post from {creator}: {Content_title} | Access the latest analysis from {creator}. Check it out now. |
+| New content — subscribed follower | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
 
 ### Transactions (paid subscriber / referral)
 | Email | Subject | Preheader |

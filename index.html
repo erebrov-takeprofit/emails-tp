@@ -124,6 +124,15 @@
   <div class="log">
     <!-- Newest first. For every update: add a new <div class="entry"> at the TOP of this list. -->
     <div class="entry">
+      <div class="date">July 14, 2026</div>
+      <h3>Subject &amp; preheader sync with Notion &mdash; Feed content</h3>
+      <ul>
+        <li><strong>Subjects</strong> &mdash; the <a href="./new-content-indicator-or-post-or-screener.html">indicator/post/screener</a>, <a href="./new-content-post-or-indicator-locked.html">locked</a>, <a href="./new-content-post-or-indicator-not-subscribed-follower.html">not-subscribed</a> and <a href="./new-content-post-or-indicator-subscribed-follower.html">subscribed</a> follower emails now use the <code>{post/indicator/screener}</code> placeholder to match Notion (was <code>{Content_title}</code> / <code>indicator/post/screener</code>).</li>
+        <li><strong>Preheaders</strong> &mdash; fixed two bodies that had drifted from Notion: <a href="./new-content-indicator-or-post-or-screener.html">indicator/post/screener</a> (&ldquo;Check out {Content_title}&hellip; stay ahead of the market&rdquo;) and <a href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html">with-pic not-subscribed</a> (&ldquo;Access the latest analysis from {creator}&hellip;&rdquo;).</li>
+        <li>Refreshed the <code>emails.json</code> snapshot, the index grid, and the <a href="./takeprofit-email-system-guide.md">guide</a> table to match.</li>
+      </ul>
+    </div>
+    <div class="entry">
       <div class="date">July 4, 2026</div>
       <h3>Live &ldquo;Test send&rdquo; from this page</h3>
       <ul>
@@ -181,11 +190,11 @@
 
     <div class="fam">
       <div class="fam-h">Feed content <span>· 5</span></div>
-      <div class="item"><a class="ilink" href="./new-content-indicator-or-post-or-screener.html"><div class="name">New content — indicator / post / screener</div><div class="subj">{creator} published a new indicator/post/screener</div></a><button type="button" class="itest" data-file="new-content-indicator-or-post-or-screener.html" data-name="New content — indicator / post / screener">Test</button></div>
-      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-locked.html"><div class="name">Locked (post / indicator)</div><div class="subj">Subscriber-only — Subscribe to Unlock</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-locked.html" data-name="Locked (post / indicator)">Test</button></div>
-      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-not-subscribed-follower.html"><div class="name">Not-subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-not-subscribed-follower.html" data-name="Not-subscribed follower">Test</button></div>
-      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html"><div class="name">Not-subscribed follower — with pic</div><div class="subj">Locked cover — Subscribe to Unlock</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-with-pic-not-subscribed-follower.html" data-name="Not-subscribed follower — with pic">Test</button></div>
-      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-subscribed-follower.html"><div class="name">Subscribed follower</div><div class="subj">New post from {creator}: {Content_title}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-subscribed-follower.html" data-name="Subscribed follower">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-indicator-or-post-or-screener.html"><div class="name">New content — indicator / post / screener</div><div class="subj">{creator} published a new {post/indicator/screener}</div></a><button type="button" class="itest" data-file="new-content-indicator-or-post-or-screener.html" data-name="New content — indicator / post / screener">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-locked.html"><div class="name">Locked (post / indicator)</div><div class="subj">New subscriber-only post from {creator}: {post/indicator/screener}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-locked.html" data-name="Locked (post / indicator)">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-not-subscribed-follower.html"><div class="name">Not-subscribed follower</div><div class="subj">New post from {creator}: {post/indicator/screener}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-not-subscribed-follower.html" data-name="Not-subscribed follower">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-with-pic-not-subscribed-follower.html"><div class="name">Not-subscribed follower — with pic</div><div class="subj">New post from {creator}: {Content_title}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-with-pic-not-subscribed-follower.html" data-name="Not-subscribed follower — with pic">Test</button></div>
+      <div class="item"><a class="ilink" href="./new-content-post-or-indicator-subscribed-follower.html"><div class="name">Subscribed follower</div><div class="subj">New post from {creator}: {post/indicator/screener}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-subscribed-follower.html" data-name="Subscribed follower">Test</button></div>
     </div>
 
     <div class="fam">
