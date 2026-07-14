@@ -52,7 +52,11 @@
                       font-weight:600; font-size:14px}
   details.fam>summary:hover{background:var(--card)}
   details.fam>summary .cnt{color:var(--muted); font-weight:400}
+  details.fam>summary .from{margin-left:auto; color:var(--muted); font-weight:400; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  details.fam>summary .chev{margin-left:12px}
   .fam-body{padding:4px 8px 10px; border-top:1px solid var(--line)}
+  .senders-note{color:var(--muted); font-size:13px; margin:-4px 0 14px}
+  .senders-note code{font-size:12px}
   .item{display:flex; align-items:center; gap:8px; padding:4px 6px}
   .ilink{flex:1 1 auto; min-width:0; display:block; padding:6px 8px; border-radius:8px}
   .ilink:hover{background:var(--card); text-decoration:none}
@@ -138,10 +142,11 @@
   </div>
 
   <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 29 emails</span></h2>
+  <p class="senders-note">The <strong>From</strong> address on the right of each group is the sender for that whole family. <strong>Reply-To</strong> is <code>support@takeprofit.com</code> on every email (where the send stack allows it). From / Reply-To are send-side settings — see the <a href="./takeprofit-email-system-guide.md">guide §12</a>.</p>
   <div class="grid">
 
     <details class="fam">
-      <summary class="fam-h">Alerts <span class="cnt">· 2</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Alerts <span class="cnt">· 2</span><span class="from">alerts@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./alert-single-criteria.html"><div class="name">Single criterion</div><div class="subj">{ticker} Alert Triggered: {condition} {value}</div></a><button type="button" class="itest" data-file="alert-single-criteria.html" data-name="Single criterion">Test</button></div>
         <div class="item"><a class="ilink" href="./alert-multiple-criteria.html"><div class="name">Multiple criteria</div><div class="subj">{ticker} Alert Triggered: {condition} {value}</div></a><button type="button" class="itest" data-file="alert-multiple-criteria.html" data-name="Multiple criteria">Test</button></div>
@@ -149,7 +154,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Auth / account <span class="cnt">· 5</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Auth / account <span class="cnt">· 5</span><span class="from">hi@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./activate-email.html"><div class="name">Activate email</div><div class="subj">Activate your TakeProfit account</div></a><button type="button" class="itest" data-file="activate-email.html" data-name="Activate email">Test</button></div>
         <div class="item"><a class="ilink" href="./reset-password.html"><div class="name">Reset password</div><div class="subj">Reset your TakeProfit password</div></a><button type="button" class="itest" data-file="reset-password.html" data-name="Reset password">Test</button></div>
@@ -160,7 +165,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Community moderation <span class="cnt">· 3</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Community moderation <span class="cnt">· 3</span><span class="from">support@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./your-report-has-been-received.html"><div class="name">Report received</div><div class="subj">We've received your report</div></a><button type="button" class="itest" data-file="your-report-has-been-received.html" data-name="Report received">Test</button></div>
         <div class="item"><a class="ilink" href="./your-report-has-been-reviewed.html"><div class="name">Report reviewed</div><div class="subj">Update on your report</div></a><button type="button" class="itest" data-file="your-report-has-been-reviewed.html" data-name="Report reviewed">Test</button></div>
@@ -169,7 +174,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Feed content <span class="cnt">· 5</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Feed content <span class="cnt">· 5</span><span class="from">community@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./new-content-indicator-or-post-or-screener.html"><div class="name">New content — indicator / post / screener</div><div class="subj">{creator} published a new {post/indicator/screener}</div></a><button type="button" class="itest" data-file="new-content-indicator-or-post-or-screener.html" data-name="New content — indicator / post / screener">Test</button></div>
         <div class="item"><a class="ilink" href="./new-content-post-or-indicator-locked.html"><div class="name">Locked (post / indicator)</div><div class="subj">New subscriber-only post from {creator}: {post/indicator/screener}</div></a><button type="button" class="itest" data-file="new-content-post-or-indicator-locked.html" data-name="Locked (post / indicator)">Test</button></div>
@@ -180,7 +185,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Indicator lifecycle <span class="cnt">· 4</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Indicator lifecycle <span class="cnt">· 4</span><span class="from">marketplace@takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./your-indicator-has-been-sent-for-review-new.html"><div class="name">Sent for review</div><div class="subj">Your indicator is under review</div></a><button type="button" class="itest" data-file="your-indicator-has-been-sent-for-review-new.html" data-name="Sent for review">Test</button></div>
         <div class="item"><a class="ilink" href="./your-indicator-has-been-approved.html"><div class="name">Approved</div><div class="subj">Your indicator has been approved</div></a><button type="button" class="itest" data-file="your-indicator-has-been-approved.html" data-name="Approved">Test</button></div>
@@ -190,7 +195,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Onboarding / monetization <span class="cnt">· 2</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Onboarding / monetization <span class="cnt">· 2</span><span class="from">hi@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./first-user-subscribed-to-you.html"><div class="name">First subscriber</div><div class="subj">Your first paid subscriber is in!</div></a><button type="button" class="itest" data-file="first-user-subscribed-to-you.html" data-name="First subscriber">Test</button></div>
         <div class="item"><a class="ilink" href="./welcome.html"><div class="name">Welcome</div><div class="subj">Your Trade &amp; Earn Journey starts here</div></a><button type="button" class="itest" data-file="welcome.html" data-name="Welcome">Test</button></div>
@@ -198,7 +203,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Social <span class="cnt">· 3</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Social <span class="cnt">· 3</span><span class="from">community@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./someone-commented-on-your-post.html"><div class="name">Comment on your post</div><div class="subj">{username} commented on your post</div></a><button type="button" class="itest" data-file="someone-commented-on-your-post.html" data-name="Comment on your post">Test</button></div>
         <div class="item"><a class="ilink" href="./someone-replied-to-your-comment.html"><div class="name">Reply to your comment</div><div class="subj">{username} replied to your comment</div></a><button type="button" class="itest" data-file="someone-replied-to-your-comment.html" data-name="Reply to your comment">Test</button></div>
@@ -207,7 +212,7 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Transactions <span class="cnt">· 5</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Transactions <span class="cnt">· 5</span><span class="from">hi@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription — indicator</div><div class="subj">New subscription reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-new-subscription.html" data-name="New subscription — indicator">Test</button></div>
         <div class="item"><a class="ilink" href="./paid-subscriber-new-subscription-content.html"><div class="name">New subscription — content</div><div class="subj">New subscription reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-new-subscription-content.html" data-name="New subscription — content">Test</button></div>
@@ -222,6 +227,16 @@
   <h2>Changelog</h2>
   <div class="log">
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
+    <details class="entry">
+      <summary><span class="date">July 14, 2026</span><span class="etitle">Sender (From) &amp; Reply-To per email</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>Documented the <strong>From</strong> sender (name + address) for every email — one sender per family: <code>hi@acc</code> (auth / onboarding / transactions), <code>alerts@acc</code>, <code>marketplace@</code> (indicator lifecycle), <code>community@acc</code> (social / feed), <code>support@acc</code> (moderation). Shown per group above.</li>
+          <li><strong>Reply-To = <code>support@takeprofit.com</code></strong> on every email where the send stack allows it (send-side setting, not HTML).</li>
+          <li>Added <strong>From</strong> &amp; <strong>Reply-To</strong> columns to the <a href="https://app.notion.com/p/38e51e45e12880ddb1c6d415e506a14f" target="_blank" rel="noopener">Notion table</a> (all 29 rows) and a sender table to the <a href="./takeprofit-email-system-guide.md">guide §12</a>.</li>
+        </ul>
+      </div>
+    </details>
     <details class="entry">
       <summary><span class="date">July 14, 2026</span><span class="etitle">Index page — collapsible layout</span><span class="chev">▸</span></summary>
       <div class="entry-body">

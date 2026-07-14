@@ -101,7 +101,7 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 1. **Preheader** — hidden `<div>` with meaningful inbox-preview text (specific to the email).
 2. **Preview-text suppressor** — the hidden `&zwnj;&nbsp;` spacer block right after the preheader (stops random body text leaking into the preview). Both are required on every email.
 3. **Clean direct links only** — never ship tracking wrappers (`awstrack.me`, customer.io `email.m.takeprofit.com`, `dev.test.tpinf.in`). Decode to the real `takeprofit.com/...` URL.
-4. **Reply-To** for "reply to this email" copy is a sending-side (ESP) setting, not HTML.
+4. **Reply-To** is a sending-side (ESP) setting, not HTML. Set it to **`support@takeprofit.com`** on every email where the stack allows it (see the sender table in §12). **From** (sender name + address) is also send-side and is set **per family** — see §12.
 5. **Outlook/Gmail caveats** — web fonts & full-padding click areas degrade gracefully; never rely on them being pixel-perfect everywhere.
 
 ## 9. Placeholder convention
@@ -123,10 +123,21 @@ Curly `{...}` tokens the backend fills: `{username}`, `{amount}`, `{ticker}`, `{
 
 ---
 
-## 12. Subjects & preheaders (per email)
+## 12. Subjects, preheaders & senders (per email)
 Subject = inbox line; Preheader = hidden preview text right after it (also lives in the HTML, see §8). Keep `{...}` tokens — backend fills them. These values are synced from the **Notion table "TakeProfit-Emails"** (the source of truth) — if this snapshot disagrees with Notion, Notion wins.
 
+**From (sender name + address)** is set per **family** — one sender per family, listed under each heading below. **Reply-To = `support@takeprofit.com`** on every email where the sending stack technically allows it (it's an ESP/send-side setting, not HTML — see §8.4). Sender summary:
+
+| Family | From |
+|---|---|
+| Auth / account · Onboarding / monetization · Transactions | `TakeProfit <hi@acc.takeprofit.com>` |
+| Alerts | `TakeProfit Alerts <alerts@acc.takeprofit.com>` |
+| Indicator lifecycle | `TakeProfit Marketplace <marketplace@takeprofit.com>` (note: `takeprofit.com`, not `acc.`) |
+| Social · Feed content | `TakeProfit Community <community@acc.takeprofit.com>` |
+| Community moderation | `TakeProfit Support Squad <support@acc.takeprofit.com>` |
+
 ### Auth / account
+**From:** `TakeProfit <hi@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | activate email | Activate your TakeProfit account | Verify your email address to complete your registration. Click to activate. |
@@ -136,6 +147,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | Set a New Password — link accounts (legacy) | Set a new password to link your accounts | Authorize your login to complete the account linking process. Click to set up. |
 
 ### Indicator lifecycle
+**From:** `TakeProfit Marketplace <marketplace@takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | Sent for review | Your indicator is under review | The verification process takes 2–4 business days. Click to track your submission. |
@@ -143,6 +155,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | Rejected | Your indicator needs a few refinements | A few adjustments are needed before we can publish your indicator. Click to review. |
 
 ### Community moderation
+**From:** `TakeProfit Support Squad <support@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | Report received | We've received your report | Thank you for helping us keep the TakeProfit community safe. |
@@ -150,6 +163,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | Content violation notice | Content violation notice | Your recent post or comment was flagged for violating community guidelines. Click to review. |
 
 ### Social
+**From:** `TakeProfit Community <community@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | Someone commented on your post | {username} commented on your post | Click to view it now. |
@@ -157,6 +171,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | User started following you | You have a new follower | @{username} just started following your profile. |
 
 ### Feed content notifications
+**From:** `TakeProfit Community <community@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | New content — indicator | {creator} published a new {post/indicator/screener} | Check out {Content_title} on TakeProfit to stay ahead of the market. |
@@ -166,6 +181,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | New content — subscribed follower | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
 
 ### Transactions (paid subscriber / referral)
+**From:** `TakeProfit <hi@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | New subscription — indicator | New subscription reward received: +{amount} | @{subscriber_username} subscribed to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub. |
@@ -175,6 +191,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | Referral renewal | Referral reward received: +{amount} | @{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub. |
 
 ### Alerts
+**From:** `TakeProfit Alerts <alerts@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 - **Subject pattern (from backend):** `{ticker} Alert Triggered: {condition} {value}` — e.g. `BTC/USD Alert Triggered: Crossing 83509.45`.
 | Email | Subject | Preheader |
 |---|---|---|
@@ -182,6 +199,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | Alert — multiple criteria | {ticker} Alert Triggered: {condition} {value} | {source} matched your custom multi-criteria setup. Check the chart now. |
 
 ### Onboarding / monetization
+**From:** `TakeProfit <hi@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
 | Email | Subject | Preheader |
 |---|---|---|
 | First subscriber | Your first paid subscriber is in! | Your trading knowledge is turning into revenue. Track your balance in the Rewards Hub. |
