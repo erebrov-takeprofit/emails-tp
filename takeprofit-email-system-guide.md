@@ -140,7 +140,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 |---|---|---|
 | Sent for review | Your indicator is under review | The verification process takes 2–4 business days. Click to track your submission. |
 | Approved (+ no-comment) | Your indicator has been approved | Click to view it in the platform. |
-| Rejected | Your indicator wasn't approved | We couldn't publish your indicator as it doesn't meet our requirements. Click to review. |
+| Rejected | Your indicator needs a few refinements | A few adjustments are needed before we can publish your indicator. Click to review. |
 
 ### Community moderation
 | Email | Subject | Preheader |
