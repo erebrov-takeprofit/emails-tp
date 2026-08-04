@@ -228,6 +228,17 @@
   <div class="log">
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
     <details class="entry">
+      <summary><span class="date">August 4, 2026</span><span class="etitle">Figma → S3 → Customer.io asset pipeline</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>Images can now be exported from Figma and published to the <code>takeprofit-static</code> S3 bucket straight from Claude Code — no more manual download-and-upload round trip.</li>
+          <li>Added <a href="https://github.com/erebrov-takeprofit/emails-tp/blob/main/tools/upload-assets.py" target="_blank" rel="noopener"><code>tools/upload-assets.py</code></a>: it sets the <code>public-read</code> ACL, the <code>Content-Type</code> and a one-year <code>Cache-Control</code>, then verifies each URL with a real HTTPS request before printing it.</li>
+          <li>Documented the trap this exists for — the bucket has <strong>no bucket policy</strong>, so public read comes from a <strong>per-object ACL</strong>. A plain <code>aws s3 cp</code> uploads a file that answers <strong>403</strong> and silently breaks the image in the email.</li>
+          <li>Wrote down the <strong>retina rule</strong> (assets uploaded at 3×, HTML always states the logical size) and the new key layout <code>emails/&lt;email-name&gt;/…</code>; the bucket root stays legacy. See <a href="./takeprofit-email-system-guide.md">guide §10.1–10.2 and §11.1</a>.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">July 14, 2026</span><span class="etitle">Sender (From) &amp; Reply-To per email</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>

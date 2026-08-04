@@ -60,3 +60,20 @@ the extra author is remembered for the billing period until you remove it.
   of truth). Update Notion first, then sync the HTML preheaders and §12 of the
   guide to match.
 - Push to `main` → Netlify auto-deploys the previews.
+
+## Images
+
+Assets live in the S3 bucket `takeprofit-static`. Upload them with:
+
+```bash
+python tools/upload-assets.py emails/<email-name> ./path/to/*.png
+```
+
+The bucket has **no bucket policy** — public read is a per-object `public-read`
+ACL, so a plain `aws s3 cp` uploads a file that answers **403** and breaks the
+image in the email. The script sets the ACL and cache headers and verifies every
+URL before printing it. Details, retina rule and the full Figma → S3 →
+Customer.io flow: §10–11 of `takeprofit-email-system-guide.md`.
+
+Credentials are the `tp-static` profile in `~/.aws/credentials` — never commit
+keys to this repo.

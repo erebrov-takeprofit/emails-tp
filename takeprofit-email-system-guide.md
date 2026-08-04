@@ -13,6 +13,7 @@ Each fact lives in exactly one place — edit it there, never in a copy.
 | Email HTML + this guide | **git repo** (`emails-tp`, branch `main`) | Edit here only. Push → Netlify auto-deploys the previews. |
 | Email metadata — subject, preheader, status, owner, trigger, preview URL | **Notion table** "TakeProfit-Emails" | Edit here only. §12 below is a convenience snapshot; if it disagrees with Notion, **Notion wins**. |
 | Wording / prompting workspace | **Claude Desktop project** "Email \| Design, texts and coding rules" | Reads *from* the repo — it is not a store. Connect the repo via the GitHub source instead of uploading a static `guide.md`, so it never goes stale. |
+| Images & other assets | **S3 bucket** `takeprofit-static` (`eu-central-1`) | Upload via `tools/upload-assets.py` — public read comes from a per-object ACL, so a plain `aws s3 cp` yields a 403 image. See §10.2. |
 
 Rules of thumb:
 - **Changelog every update:** for each change, prepend a dated entry to the **Changelog** in `index.html` (newest first, listing what was added/fixed/updated, with links to the affected emails), then commit & push to `main` so Netlify redeploys. Omit any `Co-Authored-By` trailer (Netlify one-contributor rule).
@@ -116,10 +117,39 @@ Curly `{...}` tokens the backend fills: `{username}`, `{amount}`, `{ticker}`, `{
 - **Locked-cover placeholders** (backend replaces with the real pre-blurred cover): `post-locked.png` (locked post/indicator), `post-with-pic-locked.png` (locked post that has a picture).
 - Locked/blurred covers must be **pre-rendered** server-side (email can't blur or overlay reliably).
 
+### 10.1 Retina rule
+Every raster asset is uploaded at **3× its rendered size** (that's what the bucket already holds: `Ava.png` 96px shown at 24, icons 48px shown at 16, covers 1680px shown at 560). In the HTML always state the **logical** size — `width="16" height="16"` plus `style="width:16px;height:16px;display:block"` — never the source size. 2× is the floor; don't go below it.
+
+### 10.2 Uploading to S3 (the one gotcha)
+The bucket **has no bucket policy** — public read is granted **per object** via the `public-read` ACL. An upload without that ACL succeeds, but the URL then answers **403** and the image silently breaks in the email. Verified behaviour, not a guess.
+
+- Credentials: IAM user `takeprofit-static-uploader`, profile **`tp-static`** in `~/.aws/credentials` (region `eu-central-1`). Never commit keys to this repo.
+- Granted: `ListBucket`, `GetObject`, `PutObject`, `PutObjectAcl`, `DeleteObject`. Not granted: anything that changes the bucket itself.
+- **Preferred path — `python tools/upload-assets.py <prefix> <files…>`**: sets the ACL, the `Content-Type` and `Cache-Control: public, max-age=31536000, immutable`, then verifies every URL with a real HTTPS GET and prints the ready-to-paste links.
+- By hand the ACL flag is mandatory:
+  ```
+  aws s3 cp file.png s3://takeprofit-static/emails/<email-name>/ \
+      --acl public-read --profile tp-static
+  ```
+- **Key layout:** new assets go under `emails/<email-name>/…` (kebab-case, matching the HTML filename). The bucket root is legacy — shared assets already there (logo, footer icons, `UserPic.png`) stay where they are and keep their current URLs.
+- Assets are cached for a year, so **filenames are immutable**: a changed image ships under a new name (e.g. `cover-v2.png`), never as an overwrite.
+
 ## 11. Working from Figma (design → email)
 - Email HTML can't be auto-generated from Figma (Figma exports flex/div). Use Figma only to read exact **values** (text, colors, sizes, spacing) and a screenshot, then adapt into the table-based components above.
 - Per content type pick: which header (with/without Discord pill), which footer (transactional vs unsubscribe), which blocks, which CTA label.
 - When tokens aren't given, reuse the values in this guide; ask for real asset URLs and link targets.
+
+### 11.1 Figma → S3 → Customer.io pipeline
+Standing flow for a new marketing/notification email, run end to end from Claude Code (the Figma MCP connector reads the file directly):
+
+1. **Input:** a link to the specific Figma **frame** (not the whole file).
+2. **Export** the frame's images as PNG at **3×** (§10.1).
+3. **Upload** with `tools/upload-assets.py` under `emails/<email-name>/` — ACL, headers and the HTTPS 200 check happen there (§10.2).
+4. **Build the HTML** in this repo from the blocks in §6 — reading Figma for values only, never for markup — with the real S3 URLs substituted in.
+5. **Changelog + push** (§0) → Netlify redeploys the preview.
+6. **Paste the HTML into Customer.io**, then update the Notion row (subject, preheader, preview URL).
+
+Rule of thumb: nothing goes into a template until its URL has actually answered 200 — a `403` here looks identical to a working template in the source.
 
 ---
 
