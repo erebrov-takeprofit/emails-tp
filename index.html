@@ -228,6 +228,18 @@
   <div class="log">
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
     <details class="entry">
+      <summary><span class="date">August 7, 2026</span><span class="etitle">Monthly digest flow documented (built in Customer.io, not here)</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>Wrote down the flow for the monthly <strong>&ldquo;What&rsquo;s New&rdquo; digest</strong> in <a href="./takeprofit-email-system-guide.md">guide §14</a>. It is deliberately <strong>not</strong> part of this repo: each issue is a <strong>copy of the previous month&rsquo;s one-time send</strong> in Customer.io, so no digest HTML or Notion row belongs here.</li>
+          <li>Documented the three things the Customer.io <code>copy</code> endpoint <strong>silently drops</strong> and must be restored by hand — <strong>audience</strong> (<code>filters</code> comes back <code>null</code>), <strong>conversion goal</strong>, and the <code>updates</code> <strong>tag</strong> — plus the exact body shapes the API accepts.</li>
+          <li>Noted where digest assets deviate from §10 on purpose: <strong>4× exports</strong> (cover 2400×680, body 2400×1360) at the <strong>bucket root</strong>, not 3× under <code>emails/&lt;name&gt;/</code>. Export from the email frame&rsquo;s own image nodes — the separate &ldquo;assets&rdquo; frames are often stale or empty.</li>
+          <li>Link targets come from neither the copy doc nor Figma, so they are resolved via the TakeProfit docs MCP and <strong>verified with a real request</strong>. Newest features are usually still undocumented — those stay plain text with a <code>TODO</code> comment rather than a guessed URL.</li>
+          <li>Added a <a href="https://github.com/erebrov-takeprofit/emails-tp/blob/main/CLAUDE.md" target="_blank" rel="noopener"><code>CLAUDE.md</code></a> that routes to the right section per task, and a pointer in <a href="https://github.com/erebrov-takeprofit/emails-tp/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener"><code>CONTRIBUTING.md</code></a>.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">August 4, 2026</span><span class="etitle">Figma → S3 → Customer.io asset pipeline</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>

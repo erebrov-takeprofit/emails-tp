@@ -14,6 +14,7 @@ Each fact lives in exactly one place — edit it there, never in a copy.
 | Email metadata — subject, preheader, status, owner, trigger, preview URL | **Notion table** "TakeProfit-Emails" | Edit here only. §12 below is a convenience snapshot; if it disagrees with Notion, **Notion wins**. |
 | Wording / prompting workspace | **Claude Desktop project** "Email \| Design, texts and coding rules" | Reads *from* the repo — it is not a store. Connect the repo via the GitHub source instead of uploading a static `guide.md`, so it never goes stale. |
 | Images & other assets | **S3 bucket** `takeprofit-static` (`eu-central-1`) | Upload via `tools/upload-assets.py` — public read comes from a per-object ACL, so a plain `aws s3 cp` yields a 403 image. See §10.2. |
+| Monthly "What's New" digest | **Customer.io** (workspace 129567), one-time sends named `TakeProfit Update <Month> <Year>` | Not in this repo and not in Notion. Each issue is a copy of the previous one — flow in §14. |
 
 Rules of thumb:
 - **Changelog every update:** for each change, prepend a dated entry to the **Changelog** in `index.html` (newest first, listing what was added/fixed/updated, with links to the affected emails), then commit & push to `main` so Netlify redeploys. Omit any `Co-Authored-By` trailer (Netlify one-contributor rule).
@@ -243,3 +244,85 @@ Each email on the [index page](https://emails-tp.netlify.app/) has a **Test** bu
 - **Recipients are restricted** to `@takeprofit.com` (env `TEST_ALLOWED_DOMAINS`) — it's an internal tool, not an open relay.
 - **Netlify env vars** (Site settings → Environment variables): `SES_REGION` (e.g. `eu-central-1`), `SES_FROM` (verified sender, e.g. `TakeProfit <no-reply@takeprofit.com>`), `SES_AWS_ACCESS_KEY_ID`, `SES_AWS_SECRET_ACCESS_KEY` (IAM key with `ses:SendEmail`; custom names avoid Netlify's reserved `AWS_*`). In SES **sandbox**, recipients must also be verified until production access is granted.
 - **`emails.json` is a build-time snapshot of Notion** — refresh it whenever subjects/preheaders change (part of the sync flow). The same endpoint can later be wired to a **Notion button** (automation → webhook) to trigger tests from the table and stamp the "Live test" column.
+
+---
+
+## 14. Monthly digest "What's New" (lives in Customer.io, **not** in this repo)
+
+The monthly recap is a different animal from everything above: it is a **one-time send** (Customer.io calls the resource `newsletters`), its HTML is **not** kept in this repo, and each issue is built by **copying last month's issue** rather than authoring from scratch. Sections 1–12 still describe the markup; this section describes the flow.
+
+Why not in the repo: each issue is disposable content, not a reusable template — the reusable part is the previous issue already sitting in Customer.io. Don't add digest HTML files here; don't add digest rows to Notion/`emails.json` (those cover transactional emails).
+
+### 14.1 Where things live
+
+| Thing | Where |
+|---|---|
+| Issue HTML | Customer.io template attached to the one-time send. Nowhere else. |
+| Header / footer / unsubscribe | Customer.io **layout `9`** — "header footer for broadcasts". The template body is only the middle; it starts with a bare `<tr>` and is injected into the layout's table. |
+| Copy (subject, preheader, body text) | A Google Doc per month, section **"Email"** (the same doc also holds "Platform" and "Mintlify" sections — those are not for the email). |
+| Design | A Figma frame per month, e.g. "July 26". |
+| Images | S3 `takeprofit-static`, **bucket root** — see 14.4. |
+
+Workspace / environment id: **129567** (the only one the token can reach). Sender identities: `1` = `TakeProfit <hi@m.takeprofit.com>` (From), `5` = `TakeProfit Support Squad <support@takeprofit.com>` (Reply-To).
+
+### 14.2 Build flow
+
+Run from Claude Code with the Customer.io, Figma and Google Drive MCP connectors.
+
+1. **Find last month's issue** — `GET /v1/environments/129567/newsletters`, look for `TakeProfit Update <Month> <Year>`. Note its id and `template_id`. (The recap ships in the *following* month: the June issue was created and sent in early July.)
+2. **Check the template's `editor` before planning any body write.** The digest templates are `editor: "html"`, which is the only value that permits writing `body` through the API — `bee` is rejected with a 422 and `parcel` (Design Studio) silently clobbers the compiled output. Verify, don't assume.
+3. **Copy it:** `POST /v1/environments/129567/newsletters/{id}/copy` with `{"copy_to_env": 129567}`. You get a new newsletter in `draft` plus its own template.
+4. **Read the copy in Figma and the Doc** — block order and which words are links come from the frame; the wording comes from the Doc's "Email" section. Figma marks links as purple underlined spans but **does not expose the href**, so every target has to be resolved separately (14.5).
+5. **Export and upload the images** (14.4).
+6. **Write the content** with `PUT /v1/environments/129567/templates/{template_id}`:
+   `name`, `subject`, `preheader_text`, `from_identity_id`, `reply_to_identity_id`, `body`. Keep `layout_id` as copied.
+7. **Repair what `copy` drops** (14.3).
+8. **Leave it as a draft.** Do not call `POST .../forward` and do not `PUT` with `update_type: "send"` — the latter sends *immediately* and overwrites any pending schedule, with no confirmation step.
+
+### 14.3 `copy` silently drops three things
+
+The API copy is not the UI duplicate. After copying, restore each of these from last month's issue and verify by reading them back:
+
+- **Audience** — `filters` comes back `null`. `PUT` with `update_type: "recipients"` and **all four** of `send_percentage`, `send_to_unsubscribed`, `deduped`, `use_message_limits` (omitting any returns `"<field> cannot be nil"`), plus the base64 `filters` string copied verbatim from the previous issue. The standing digest audience is *"Email verified" (segment 14) AND NOT ("competitotrs" (20) OR "tradingview employees" (27))*.
+- **Conversion goal** — `PUT` with `update_type: "tracking"`: event `user_trial_started`, `conversion_action: "receiving"`, `conversion_window: 604800`, `conversion_type: "perform_event"`.
+- **Tag** — `POST .../newsletters/{id}/tags` with `{"tags": [{"id": 11, "name": "updates"}]}`. Note the body shape: a `tags` array of objects; `{"tag_ids": [...]}` is rejected with a 400.
+
+Also rename it: `PUT` with `update_type: "main"` and the new `name` — the copy arrives as `[Copy] <old name>`.
+
+`update_type` is a discriminator: fields sent under the wrong one are ignored without an error, so one `PUT` per concern.
+
+### 14.4 Digest images deviate from §10 — on purpose
+
+Two deliberate differences from the transactional-email rules:
+
+- **4×, not 3×** (§10.1). Cover is 600×170 logical → `2400×680`; body images 600×340 → `2400×1360`. That is what the existing June assets are; match them.
+- **Bucket root, not `emails/<name>/`** (§10.2). June's live under `CoverJune.png`, `DateRange.png`, `Pane.png`; keep new ones there so the set stays together. Cover carries the month (`CoverJuly.png`); body images are named for the feature (`TPOCharts.png`, `AIAssistant.png`). Filenames are immutable (year-long cache) — **check for a name collision with `curl -o /dev/null -w '%{http_code}'` before uploading**, because an overwrite would break a past issue.
+
+Export from the **email frame's own image nodes**, not from a separate "assets" section — those prepared frames are often stale or still empty placeholders, while the frame nodes are the exact crop the designer laid out. An export that comes back fully transparent means the slot is an unfilled placeholder: say so, don't ship an empty image.
+
+Upload with `python tools/upload-assets.py "" <dir>` — the empty prefix puts files at the root, and the script still sets the ACL and verifies each URL.
+
+### 14.5 Links are the part that actually takes time
+
+The Doc has no URLs and Figma carries none, so every link target must be resolved and **verified with a real request** before it goes in. The stable ones:
+
+| Target | URL |
+|---|---|
+| Changelog | `https://takeprofit.com/docs/guide/changelog` |
+| Discord | `https://discord.com/invite/WVk8TjwU7p` |
+| CTA "Go to Platform" | `https://takeprofit.com/platform` |
+| Cover image | that month's recap post, `https://takeprofit.com/posts/<slug>` |
+
+Feature links point into the docs. Resolve them with the **TakeProfit docs MCP** (`TakeProfit_SearchPlatformDocs` / `TakeProfit_SearchIndieDocs` / the two TOC tools) — the doc `file` maps to a URL: `guide/…​.mdx` → `https://takeprofit.com/docs/guide/…`, Indie pages → `https://takeprofit.com/docs/indie/…`.
+
+**Expect the newest features to be undocumented.** The docs pages usually land after the digest is drafted. When there is no page, **leave the phrase as plain text with an HTML comment above it** —
+
+```html
+<!-- TODO: link "CSV file" — no docs page published yet -->
+```
+
+— and list every TODO when handing the draft over. A link into a page that doesn't mention the feature is worse than no link; guessing a URL that 404s is worse still.
+
+### 14.6 Handover
+
+The draft is finished when: `sent_at`, `scheduled_at`, `draft_scheduled_at` are all null and `sending` is false; every image URL answers 200; every `href` answers 200; From/Reply-To are `1`/`5`; audience, goal and tag are restored; and the remaining TODOs are listed explicitly. Scheduling and sending are the user's call — and both also require *Settings → AI & MCP → "Allow agent to edit live data"* in the workspace.

@@ -60,6 +60,9 @@ the extra author is remembered for the billing period until you remove it.
   of truth). Update Notion first, then sync the HTML preheaders and §12 of the
   guide to match.
 - Push to `main` → Netlify auto-deploys the previews.
+- **The monthly "What's New" digest is not part of this repo.** It is built in
+  Customer.io by copying the previous month's one-time send — don't add its HTML
+  here or a row for it in Notion. Flow: §14 of the guide.
 
 ## Images
 
