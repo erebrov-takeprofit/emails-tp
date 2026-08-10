@@ -300,6 +300,15 @@ Two deliberate differences from the transactional-email rules:
 
 Export from the **email frame's own image nodes**, not from a separate "assets" section — those prepared frames are often stale or still empty placeholders, while the frame nodes are the exact crop the designer laid out. An export that comes back fully transparent means the slot is an unfilled placeholder: say so, don't ship an empty image.
 
+**Check the alpha channel before uploading — Figma flattens the rounded corners onto white.** The image nodes carry an 8px corner radius, so the corners must be *transparent*; the MCP export composites them against the white canvas instead, and the resulting opaque white wedges are invisible in light mode but show up as bright notches in **Gmail's dark mode**, which inverts the email background but never the images. (Re-exporting a different node doesn't help — the bytes come back identical.) June's assets are the good reference: exactly **984 non-opaque pixels** on a 2400×1360 body image, **1068** on the 2400×680 cover, all of it inside the four corners.
+
+```bash
+py -c "from PIL import Image; a=Image.open('X.png').convert('RGBA').getchannel('A'); print(a.load()[0,0], sum(a.histogram()[:255]))"
+# want: 0 <non-zero>   —  a corner alpha of 255 with 0 non-opaque pixels is the bug
+```
+
+The repair is to copy the alpha mask off the matching June asset and un-composite the antialiased edge (`S = (C - (255-a)) * 255 / a`, since the blend was against pure white) — restoring transparency alone leaves a light fringe. Then re-verify, and remember the fixed files need **new names** (`…-v2.png`) because the originals are already cached for a year.
+
 Upload with `python tools/upload-assets.py "" <dir>` — the empty prefix puts files at the root, and the script still sets the ACL and verifies each URL.
 
 ### 14.5 Links are the part that actually takes time

@@ -228,6 +228,16 @@
   <div class="log">
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
     <details class="entry">
+      <summary><span class="date">August 10, 2026</span><span class="etitle">Figma exports lose corner transparency → white notches in Gmail dark mode</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>Image nodes carry an <strong>8px corner radius</strong>, so their corners must be transparent. The Figma MCP export <strong>composites them against the white canvas</strong> instead, producing opaque white wedges. Invisible on a white background — but <strong>Gmail&rsquo;s dark mode inverts the email background and not the images</strong>, so the corners show up as bright notches. Re-exporting a different node returns byte-identical output, so this has to be fixed after export.</li>
+          <li>Added the check and the repair to <a href="./takeprofit-email-system-guide.md">guide §14.4</a>: verify the alpha channel before uploading (a body image should have <strong>984 non-opaque pixels</strong>, the cover <strong>1068</strong>, all in the corners), then copy the mask from the matching June asset and <strong>un-composite the antialiased edge</strong> — restoring alpha alone leaves a light fringe.</li>
+          <li>Applied to the July digest: five assets re-uploaded as <code>*-v2.png</code> (new names, since the originals are already cached for a year) and the Customer.io template repointed.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">August 7, 2026</span><span class="etitle">Monthly digest flow documented (built in Customer.io, not here)</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
