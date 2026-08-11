@@ -228,6 +228,17 @@
   <div class="log">
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
     <details class="entry">
+      <summary><span class="date">August 11, 2026</span><span class="etitle">July digest: AI &amp; Anchored VWAP links repointed; template PUT body shape documented</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>July digest draft (Customer.io newsletter <code>73</code>, template <code>105</code>): <strong>&ldquo;TakeProfit&rsquo;s AI&rdquo;</strong> now points at the product page <code>https://takeprofit.com/ai</code> instead of the docs overview — the AI image above it was repointed to match, so the whole block leads to the same place.</li>
+          <li><strong>&ldquo;Anchored VWAP&rdquo;</strong> now deep-links to the <code>#anchored-vwap</code> anchor on the Measurement tools page instead of the page top. Anchor verified to exist in the rendered page.</li>
+          <li>All 10 <code>href</code>s and 5 image URLs in the draft re-checked — every one answers <strong>200</strong>. The send stays a <strong>draft</strong>: audience, conversion goal, <code>updates</code> tag and From/Reply-To (1 / 5) untouched.</li>
+          <li>Corrected <a href=".\takeprofit-email-system-guide.md">guide §14.2</a>: the template <code>PUT</code> body must be wrapped in a <code>template</code> object. A flat payload is rejected with <code>400 json: unknown field &quot;body&quot;</code> — nothing is partially applied.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">August 10, 2026</span><span class="etitle">Figma exports lose corner transparency → white notches in Gmail dark mode</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>

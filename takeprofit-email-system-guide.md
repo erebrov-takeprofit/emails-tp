@@ -276,6 +276,7 @@ Run from Claude Code with the Customer.io, Figma and Google Drive MCP connectors
 5. **Export and upload the images** (14.4).
 6. **Write the content** with `PUT /v1/environments/129567/templates/{template_id}`:
    `name`, `subject`, `preheader_text`, `from_identity_id`, `reply_to_identity_id`, `body`. Keep `layout_id` as copied.
+   Everything goes **inside a `template` object** — `{"template": {"body": …}}`. A flat body is rejected with `400 json: unknown field "body"`, and the fields are dropped whole, not partially applied.
 7. **Repair what `copy` drops** (14.3).
 8. **Leave it as a draft.** Do not call `POST .../forward` and do not `PUT` with `update_type: "send"` — the latter sends *immediately* and overwrites any pending schedule, with no confirmation step.
 
