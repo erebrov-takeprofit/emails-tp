@@ -9,7 +9,6 @@
   "new-content-post-or-indicator-locked.html": { "subject": "New subscriber-only post from {creator}: {post/indicator/screener}", "preheader": "New premium content is live on your feed. Read your subscriber-only update." },
   "new-content-post-or-indicator-not-subscribed-follower.html": { "subject": "New post from {creator}: {post/indicator/screener}", "preheader": "Access the latest analysis from {creator}. Check it out now." },
   "new-content-post-or-indicator-subscribed-follower.html": { "subject": "New post from {creator}: {post/indicator/screener}", "preheader": "Access the latest analysis from {creator}. Check it out now." },
-  "new-content-post-or-indicator-with-pic-not-subscribed-follower.html": { "subject": "New post from {creator}: {Content_title}", "preheader": "Access the latest analysis from {creator}. Check it out now." },
   "paid-subscriber-new-subscription.html": { "subject": "New subscription reward received: +{amount}", "preheader": "@{subscriber_username} subscribed to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub." },
   "paid-subscriber-new-subscription-content.html": { "subject": "New subscription reward received: +{amount}", "preheader": "@{subscriber_username} subscribed to your {content}. Track your earnings in the Rewards Hub." },
   "paid-subscriber-referral-renewal.html": { "subject": "Referral reward received: +{amount}", "preheader": "@{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub." },

@@ -70,20 +70,26 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Avatar + username row (community)** — 24px round avatar + SemiBold username + timestamp (12px `#828C99`); avatar & username clickable to profile (style unchanged, just `text-decoration:none`). **Default fallback (design logic):** if the author has no avatar, use the platform **default profile avatar** — the same default the app shows on a profile with no picture (not a broken/empty image).
   - **Timestamp format (design logic):** show **hours since publication** (`{N}h ago`, e.g. `2h ago`) **only for the same calendar day**. Once the post is no longer from today (i.e. after that day's 23:59 rolls over), show a **plain date** instead of an ever-growing hour count. Backend supplies the resolved string.
 - **Comment / reply card** — `#F3F6FA` radius 12 pad 20: avatar + "{username} left a comment." + meta "{date} • Community {Posts}" + comment text + blue `...more`. **Whole card is one clickable anchor → the post** (`takeprofit.com/posts/{post-slug}`): single block `<a>` (padding on the anchor, `<td>` padding `0`), **no nested links** — avatar and `...more` are plain (not their own `<a>`).
-- **Feed content card** — `#F3F6FA` radius 8 pad 20: avatar+user+time + optional top-right **type/status badge** + `{Content_title}` (SemiBold) + `{Content_Subtitle}` + cover image (560 wide, radius 8). One shared template serves **indicator / post / screener** (`new-content-indicator-or-post-or-screener.html`); paid variants share `new-content-post-or-indicator-*` (locked / not-subscribed-follower / with-pic-not-subscribed-follower / subscribed-follower).
+- **Feed content card** — `#F3F6FA` radius 8 pad 20: avatar+user+time + optional top-right **type/status badge** + `{Content_title}` (SemiBold) + `{Content_Subtitle}` + optional cover image (560 wide, radius 8). **Four templates cover the whole family** — see the selection matrix below; the card body is identical in all four, only badge / cover / URL / CTA label change.
   - **Top-right badge** (right side of the avatar row): **"For Subscribers"** (paid content) — IBM Plex Sans Regular **12px**, gold **`#8C6503`** (`lemon/900`), followed by a **coin icon 16×16** (`Coin_L.png`, 48×48 source, ~4px gap, right-aligned). The older orange `INDICATOR` badge (`#FF4F03`, Condensed uppercase) is deprecated for these paid emails.
   - **Character limits:** all texts **above the cover image** (title, subtitle) are clamped to the same character limits as production **desktop/mobile** — single line, truncated with `…` (the backend truncates before sending; don't let long copy wrap or push the image down).
-  - **Whole grey card is one click target → the content** (`{content_url}`): a single block-level `<a style="display:block;padding:20px;…">` wraps the entire card (padding on the anchor, `<td>` padding `0`) — **not** per-element links on avatar/title/subtitle/image.
+  - **Whole grey card is one click target** — `{content_url}`, or `{subscribe_url}` on the two no-access variants (card and CTA always share the same URL): a single block-level `<a style="display:block;padding:20px;…">` wraps the entire card (padding on the anchor, `<td>` padding `0`) — **not** per-element links on avatar/title/subtitle/image.
   - **Cover image** — fixed width (560 / `width:100%`), **height follows the content type's cover aspect ratio** (indicator / post / screener / stories each differ) — never hard-code a single height; let the correctly-sized cover asset drive it.
-  - **CTA has 3 variants** by context: **Open** / **Subscribe** / **Comment**.
-  - **Cover presence by content type:** **indicators** always have a cover (indicator screenshot from the backend); **screeners** always have a cover (backend supplies the user's cover *or* its default — no AWS fallback on our side); **posts** may have **no** cover → ship the **no-cover variant** (omit the cover image entirely; card = avatar + title + subtitle). We do **not** substitute a default cover from AWS — every cover (defaults included) arrives from the backend.
+  - **CTA labels** by case: **Open Now** (free) / **View Post** (paid, access granted) / **Subscribe to Unlock** (both no-access variants).
+  - **Cover presence by content type:** **indicators** always have a cover (indicator screenshot from the backend); **screeners** always have a cover (backend supplies the user's cover *or* its default — no AWS fallback on our side); **posts** may have **no** cover. A missing cover is **not** a separate template: the cover block is wrapped in `{{#if cover_url}} … {{/if}}` markers and the renderer drops it. We do **not** substitute a default cover from AWS — every cover (defaults included) arrives from the backend.
+  - **Sample PNG vs `{cover_url}`:** the `src` in these files keeps a real S3 sample so the Netlify previews render; the backend substitutes `{cover_url}`. Same convention as every other placeholder image in the repo.
   - **Default fallback we DO handle:** no author avatar → default profile avatar `UserPic.png` (see avatar row above).
-  - **Paid states** (all use the "For Subscribers" badge; whole card + CTA share one URL):
-    - *Locked (post/indicator)* — pre-blurred cover `post-locked.png`, CTA **Subscribe to Unlock** → `{subscribe_url}`.
-    - *Not-subscribed follower, no cover* — text-only card, CTA **Subscribe to Unlock** → `{subscribe_url}`.
-    - *Not-subscribed follower, with pic* — blurred/locked cover `post-with-pic-locked.png`, CTA **Subscribe to Unlock** → `{subscribe_url}`.
-    - *Subscribed follower* — full cover `new-content-post-for-subscribers.png`, CTA **View Post** → `{content_url}`.
-    - Backend swaps the placeholder cover PNG for the real (pre-blurred) one; email can't blur.
+  - **Template selection matrix** — three backend inputs (`content_type`, `is_paid`, `has_access`) pick exactly one file:
+
+    | Case | File | Badge | Cover | Card + CTA URL | CTA |
+    |---|---|---|---|---|---|
+    | Free content, any type | `new-content-indicator-or-post-or-screener.html` | — | real, if any | `{content_url}` | Open Now |
+    | Paid, access granted (bought) | `new-content-post-or-indicator-subscribed-follower.html` | For Subscribers | real, if any | `{content_url}` | View Post |
+    | Paid **indicator / screener**, no access | `new-content-post-or-indicator-not-subscribed-follower.html` | For Subscribers | **real, unblurred** | `{subscribe_url}` | Subscribe to Unlock |
+    | Paid **post**, no access | `new-content-post-or-indicator-locked.html` | For Subscribers | pre-blurred `post-locked.png`, if any | `{subscribe_url}` | Subscribe to Unlock |
+
+  - **Blur rule** — blur applies **only** to `is_paid && content_type == post && !has_access`. Indicator screenshots and screener covers are public on the platform even without a purchase, so the email must not hide them; hiding them would make the email stricter than the product. Email can't blur — the locked cover arrives pre-rendered from the backend.
+  - **`{subscribe_url}` fallback** — if the backend has no subscribe URL for the creator, fall back to `{content_url}` (the platform then shows its own paywall).
 - **Big image / GIF** — 600 wide, radius 8 (e.g. born-to-earn banner). Wrap in a link when it's a banner.
 - **Ticker chip (alerts)** — small pill: bg `#F3F6FA`, border 0.5px `#D5DAE0`, radius 4. Inside: orange logo block (`#E7973D`, **fixed 41×20**, radius 3, "floats" with ~2px light margin) holding a square coin PNG (~18px centered) + ticker text `{ticker}` (Condensed 14, UPPERCASE, letter-spacing 1px). Ticker text width varies by symbol. Whole chip can be a link (e.g. → takeprofit.com/platform).
 - **Criteria block (alerts)** — `#F3F6FA` radius 8 pad 8, 14px: "{Source} {Criteria} {Target}" (one or several joined with `&`).
@@ -94,7 +100,9 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Indicator lifecycle:** SentForReview, Approved (+ no-comment), Rejected (with "Submission Guidelines / Support" clickable blocks; Support = `mailto:support@takeprofit.com` with prefilled subject/body).
 - **Community moderation:** YourReportHasBeenReceived, YourReportHasBeenReviewed, ContentViolationNotice.
 - **Social:** SomeoneCommentedOnYourPost, SomeoneRepliedToYourComment, UserStartedFollowingYou (60px avatar + "{Username} just followed you").
-- **Feed content notifications:** NewContentIndicator, NewContentPostLocked, NewContentPost-notSubscribedFollower, NewContentPost-SubscribedFollower (card + type badge + CTA Open/Subscribe/View).
+- **Feed content notifications:** four templates driven by one matrix (`content_type` × `is_paid` × `has_access`) — free / paid-with-access / paid indicator-or-screener without access / paid post without access. Same card everywhere; badge, cover, URL and CTA label are the only variables. See §6 for the matrix.
+  - **Recipients:** followers of the creator. A paid subscriber is expected to be a follower too (subscribing auto-follows) — **backend to confirm**; if that ever stops holding, subscribers must be added to the audience explicitly or they'd miss the content they paid for.
+  - **Notification settings group:** `FeedUpdates` — "content appeared in the feed of someone you follow". Not `Followers` (that group is "someone followed *you*" → `user-started-following-you`) and not `Subscribers` (that's the money family, `paid-subscriber-*`). No new group is needed; the existing frontend toggle covers all four.
 - **Transactions:** PaidSubscriber — big price + caption + View Dashboard. **Five variants:** first-time (`-new-subscription` = indicator, `-new-subscription-content`), renewal (`-renewal` = content, `-renewal-indicator`), referral (`-referral-renewal`, single).
 - **Alerts:** Alert-SingleCriteria, Alert-MultipleCriteria — ticker chip + criteria + Open Chart.
 - **Onboarding/monetization:** First User Subscribed (Discord pill, banner, 4 "how it works" cards, View Dashboard). Copy is **repo-canonical** — the Figma community board (node `91-8663`) shows newer alternate copy (e.g. "Payout after $100", "Set Up Your Cash Machine") that we intentionally did **not** adopt; revisit only if the designer asks.
@@ -115,7 +123,7 @@ Curly `{...}` tokens the backend fills: `{username}`, `{amount}`, `{ticker}`, `{
 - **Footer social icons — 16×16 square set** (order Discord→X→Facebook→Instagram→Reddit→LinkedIn, 16px gap): `Discord-Icon.png`, `x-icon.png`, `facebook-icon.png`, `Instagram-icon.png`, `Reddit-icon.png`, `LinkedIn-icon.png` (48×48 source, displayed 16×16). Old non-square `*%404x.png` icons are **deprecated** — don't reuse.
 - **Default fallback asset:** **default profile avatar** = `UserPic.png` (675×675 square, shown at 24px round) when the author has no picture. **No default-cover asset** — covers always come from the backend (indicators: screenshot; screeners: user or backend default; posts: may have none → use the no-cover email variant).
 - **"For Subscribers" coin** = `Coin_L.png` (48×48 source, shown 16×16 gold coin next to the badge) — **must be a hosted PNG** (email can't render a Figma vector; emoji is off-brand/inconsistent).
-- **Locked-cover placeholders** (backend replaces with the real pre-blurred cover): `post-locked.png` (locked post/indicator), `post-with-pic-locked.png` (locked post that has a picture).
+- **Locked-cover placeholder** (backend replaces with the real pre-blurred cover): `post-locked.png` — used only by the locked **post** variant. `post-with-pic-locked.png` is retired (it was a second sample of the same state).
 - Locked/blurred covers must be **pre-rendered** server-side (email can't blur or overlay reliably).
 
 ### 10.1 Retina rule
@@ -203,13 +211,14 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 
 ### Feed content notifications
 **From:** `TakeProfit Community <community@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
-| Email | Subject | Preheader |
+| Email (case) | Subject | Preheader |
 |---|---|---|
-| New content — indicator | {creator} published a new {post/indicator/screener} | Check out {Content_title} on TakeProfit to stay ahead of the market. |
-| New content — locked (subscribe) | New subscriber-only post from {creator}: {post/indicator/screener} | New premium content is live on your feed. Read your subscriber-only update. |
-| New content — not-subscribed follower | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
-| New content — with-pic not-subscribed follower | New post from {creator}: {Content_title} | Access the latest analysis from {creator}. Check it out now. |
-| New content — subscribed follower | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
+| Free content, any type | {creator} published a new {post/indicator/screener} | Check out {Content_title} on TakeProfit to stay ahead of the market. |
+| Paid, access granted | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
+| Paid indicator / screener, no access | New post from {creator}: {post/indicator/screener} | Access the latest analysis from {creator}. Check it out now. |
+| Paid post, no access (blurred) | New subscriber-only post from {creator}: {post/indicator/screener} | New premium content is live on your feed. Read your subscriber-only update. |
+
+> **Notion follow-up (MB-3587):** the *with-pic not-subscribed follower* row is retired — delete it from the Notion table. The remaining four rows keep their current subjects; if the wording should follow the new case names, change it in Notion first, then re-sync here and in `emails.json`.
 
 ### Transactions (paid subscriber / referral)
 **From:** `TakeProfit <hi@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
