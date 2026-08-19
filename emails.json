@@ -11,6 +11,7 @@
   "new-content-post-or-indicator-subscribed-follower.html": { "subject": "New post from {creator}: {post/indicator/screener}", "preheader": "Access the latest analysis from {creator}. Check it out now." },
   "paid-subscriber-new-subscription.html": { "subject": "New subscription reward received: +{amount}", "preheader": "@{subscriber_username} subscribed to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub." },
   "paid-subscriber-new-subscription-content.html": { "subject": "New subscription reward received: +{amount}", "preheader": "@{subscriber_username} subscribed to your {content}. Track your earnings in the Rewards Hub." },
+  "paid-subscriber-referral-new-subscription.html": { "subject": "Referral reward received: +{amount}", "preheader": "@{referral_username} just subscribed. Track your earnings in the Rewards Hub." },
   "paid-subscriber-referral-renewal.html": { "subject": "Referral reward received: +{amount}", "preheader": "@{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub." },
   "paid-subscriber-renewal.html": { "subject": "Subscription renewal reward received: +{amount}", "preheader": "@{subscriber_username} just renewed their subscription to your {content}. Track your earnings in the Rewards Hub." },
   "paid-subscriber-renewal-indicator.html": { "subject": "Subscription renewal reward received: +{amount}", "preheader": "@{subscriber_username} just renewed their subscription to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub." },

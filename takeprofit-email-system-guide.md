@@ -61,9 +61,12 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Greeting** — `Hi {username}` / `Hey {username}` (14px), optional second line.
 - **Body paragraph** — 14px regular, `<br>` for line breaks.
 - **Big Price** — `{amount}` at 96px SemiBold, centered (subscription/payout amount) + 14px centered 2-line caption (`<br>`) + CTA **View Dashboard** → `{dashboard_url}` (monetization dashboard). Paid-subscriber emails split **indicator vs content** (`{content}` = post/screener/etc.; for indicators show `{indicator} {indicator_name}`):
-  - *First-time:* `@{subscriber_username} subscribed to your {indicator} {indicator_name}.` **/** `… subscribed to your {content}.` — line 2: `Recurring while the subscription is active.`
+  - *New subscription:* `@{subscriber_username} subscribed to your {indicator} {indicator_name}.` **/** `… subscribed to your {content}.` — line 2: `Recurring while the subscription is active.`
   - *Renewal:* `@{subscriber_username} renewed their subscription to your {indicator} {indicator_name}.` **/** `… to your {content}.` — line 2: `Recurring while the subscription is active.`
-  - *Referral (single, no split):* `Your referral @{referral_username} renewed their subscription.` — line 2: `Earnings recur monthly while the subscription is active.`
+  - *Referral (no indicator/content split — one pair):* first payment `Your referral @{referral_username} subscribed.` **/** renewal `Your referral @{referral_username} renewed their subscription.` — line 2 on both: `Earnings recur monthly while the subscription is active.`
+  - **New subscription vs renewal (MB-3588):** *renewal* = the recurring charge on a **still-active** subscription. Anything that creates a **new** subscription — including a lapsed subscriber coming back months later — uses the *new subscription* copy; `subscribed to your …` is accurate there, it never claims to be their first ever. The boundary is whether the subscription actually lapsed: cancel-then-return **before** the paid period ends leaves the subscription alive, so its next charge is still a renewal.
+  - **Referral rewards accrue from the first payment too**, not only from renewals — hence the pair. `-referral-renewal` alone would tell the seller "your referral renewed" at the moment that person subscribed for the first time.
+  - **Filename trap:** in the *new subscription* pair the unsuffixed file is the **indicator** one (`-new-subscription` vs `-new-subscription-content`); in the *renewal* pair the unsuffixed file is the **content** one (`-renewal` vs `-renewal-indicator`). Exactly opposite — check the table in §12 before wiring.
 - **CTA button** — black, radius 8, 12×24. Common labels: Open Now, Subscribe to Unlock, View Post, Open Chart, View Dashboard, Back to Community, Reset Password, Check it Out. Optional fallback line: "If you don't see the button, click here: {link}".
 - **Bulleted list** — `•` (20px column) + 14px text rows.
 - **Info card (two-column, clickable)** — `#F3F6FA` blocks **296px** wide, gap 8, two per row (wrap). Bold title + `➞` (`&#10142;`) + 12px description. **Whole block is a link** (anchor wraps content). Used in "Next steps" / "How it works".
@@ -103,7 +106,7 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Feed content notifications:** four templates driven by one matrix (`content_type` × `is_paid` × `has_access`) — free / paid-with-access / paid indicator-or-screener without access / paid post without access. Same card everywhere; badge, cover, URL and CTA label are the only variables. See §6 for the matrix.
   - **Recipients:** followers of the creator. A paid subscriber is expected to be a follower too (subscribing auto-follows) — **backend to confirm**; if that ever stops holding, subscribers must be added to the audience explicitly or they'd miss the content they paid for.
   - **Notification settings group:** `FeedUpdates` — "content appeared in the feed of someone you follow". Not `Followers` (that group is "someone followed *you*" → `user-started-following-you`) and not `Subscribers` (that's the money family, `paid-subscriber-*`). No new group is needed; the existing frontend toggle covers all four.
-- **Transactions:** PaidSubscriber — big price + caption + View Dashboard. **Five variants:** first-time (`-new-subscription` = indicator, `-new-subscription-content`), renewal (`-renewal` = content, `-renewal-indicator`), referral (`-referral-renewal`, single).
+- **Transactions:** PaidSubscriber — big price + caption + View Dashboard. **Six variants:** new subscription (`-new-subscription` = indicator, `-new-subscription-content`), renewal (`-renewal` = content, `-renewal-indicator`), referral (`-referral-new-subscription`, `-referral-renewal`). "New subscription" means *a new subscription starts* — not *the subscriber's first ever*; see §6 for the renewal boundary and the filename trap.
 - **Alerts:** Alert-SingleCriteria, Alert-MultipleCriteria — ticker chip + criteria + Open Chart.
 - **Onboarding/monetization:** First User Subscribed (Discord pill, banner, 4 "how it works" cards, View Dashboard). Copy is **repo-canonical** — the Figma community board (node `91-8663`) shows newer alternate copy (e.g. "Payout after $100", "Set Up Your Cash Machine") that we intentionally did **not** adopt; revisit only if the designer asks.
 
@@ -228,7 +231,10 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | New subscription — content | New subscription reward received: +{amount} | @{subscriber_username} subscribed to your {content}. Track your earnings in the Rewards Hub. |
 | Renewal — content | Subscription renewal reward received: +{amount} | @{subscriber_username} just renewed their subscription to your {content}. Track your earnings in the Rewards Hub. |
 | Renewal — indicator | Subscription renewal reward received: +{amount} | @{subscriber_username} just renewed their subscription to your {indicator} {indicator_name}. Track your earnings in the Rewards Hub. |
-| Referral renewal | Referral reward received: +{amount} | @{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub. |
+| Referral — first payment | Referral reward received: +{amount} | @{referral_username} just subscribed. Track your earnings in the Rewards Hub. |
+| Referral — renewal | Referral reward received: +{amount} | @{referral_username} just renewed their subscription. Track your earnings in the Rewards Hub. |
+
+> **Copy sign-off pending (MB-3588):** the *Referral — first payment* subject reuses the neutral referral subject; its body (`Your referral @{referral_username} subscribed.`) and preheader were written to mirror the renewal variant. Confirm the wording, then make Notion the source of truth for it.
 
 ### Alerts
 **From:** `TakeProfit Alerts <alerts@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`

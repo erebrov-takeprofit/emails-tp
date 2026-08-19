@@ -141,7 +141,7 @@
     </ol>
   </div>
 
-  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 28 emails</span></h2>
+  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 29 emails</span></h2>
   <p class="senders-note">The <strong>From</strong> address on the right of each group is the sender for that whole family. <strong>Reply-To</strong> is <code>support@takeprofit.com</code> on every email (where the send stack allows it). From / Reply-To are send-side settings — see the <a href="./takeprofit-email-system-guide.md">guide §12</a>.</p>
   <div class="grid">
 
@@ -211,13 +211,14 @@
     </details>
 
     <details class="fam">
-      <summary class="fam-h">Transactions <span class="cnt">· 5</span><span class="from">hi@acc.takeprofit.com</span><span class="chev">▸</span></summary>
+      <summary class="fam-h">Transactions <span class="cnt">· 6</span><span class="from">hi@acc.takeprofit.com</span><span class="chev">▸</span></summary>
       <div class="fam-body">
         <div class="item"><a class="ilink" href="./paid-subscriber-new-subscription.html"><div class="name">New subscription — indicator</div><div class="subj">New subscription reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-new-subscription.html" data-name="New subscription — indicator">Test</button></div>
         <div class="item"><a class="ilink" href="./paid-subscriber-new-subscription-content.html"><div class="name">New subscription — content</div><div class="subj">New subscription reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-new-subscription-content.html" data-name="New subscription — content">Test</button></div>
         <div class="item"><a class="ilink" href="./paid-subscriber-renewal.html"><div class="name">Renewal — content</div><div class="subj">Subscription renewal reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-renewal.html" data-name="Renewal — content">Test</button></div>
         <div class="item"><a class="ilink" href="./paid-subscriber-renewal-indicator.html"><div class="name">Renewal — indicator</div><div class="subj">Subscription renewal reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-renewal-indicator.html" data-name="Renewal — indicator">Test</button></div>
-        <div class="item"><a class="ilink" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral renewal</div><div class="subj">Referral reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-referral-renewal.html" data-name="Referral renewal">Test</button></div>
+        <div class="item"><a class="ilink" href="./paid-subscriber-referral-new-subscription.html"><div class="name">Referral — first payment</div><div class="subj">Referral reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-referral-new-subscription.html" data-name="Referral — first payment">Test</button></div>
+        <div class="item"><a class="ilink" href="./paid-subscriber-referral-renewal.html"><div class="name">Referral — renewal</div><div class="subj">Referral reward received: +{amount}</div></a><button type="button" class="itest" data-file="paid-subscriber-referral-renewal.html" data-name="Referral — renewal">Test</button></div>
       </div>
     </details>
 
@@ -226,6 +227,19 @@
   <h2>Changelog</h2>
   <div class="log">
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
+    <details class="entry">
+      <summary><span class="date">August 18, 2026</span><span class="etitle">Transactions &mdash; referral first-payment variant, renewal semantics pinned down</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>Why</strong> &mdash; backend review on <a href="https://linear.app/takeprofit/issue/MB-3588">MB-3588</a>: two devs had read <em>renewal</em> two different ways, and the referral family had only a renewal variant even though referral rewards accrue from the first payment too.</li>
+          <li><strong>New template</strong> &mdash; <a href="./paid-subscriber-referral-new-subscription.html">Referral &mdash; first payment</a>, cloned from the renewal variant with the body changed to &ldquo;Your referral @{referral_username} subscribed.&rdquo;. Without it the seller was told &ldquo;your referral renewed&rdquo; at the moment that person subscribed for the very first time. Subject reuses the neutral <code>Referral reward received: +{amount}</code>; <strong>copy still needs sign-off</strong> &mdash; see the note in &sect;12.</li>
+          <li><strong>Renewal semantics</strong> &mdash; documented in &sect;6: <em>renewal</em> is the recurring charge on a <strong>still-active</strong> subscription; anything that starts a <strong>new</strong> subscription (including a lapsed subscriber returning months later) uses the new-subscription copy. The boundary is whether the subscription actually lapsed &mdash; cancel-then-return before the paid period ends keeps it alive, so its next charge is still a renewal.</li>
+          <li><strong>Filename trap documented</strong> &mdash; in the new-subscription pair the unsuffixed file is the <strong>indicator</strong> one, in the renewal pair it is the <strong>content</strong> one. Exactly opposite; easy to mis-wire.</li>
+          <li><strong>Wording</strong> &mdash; &sect;7 no longer calls these emails &ldquo;first-time&rdquo;, which read as &ldquo;the subscriber&rsquo;s first ever&rdquo; and caused the ambiguity in the first place.</li>
+          <li>Index grid, family count (5 &rarr; 6), total (28 &rarr; 29) and <code>emails.json</code> re-synced.</li>
+        </ul>
+      </div>
+    </details>
     <details class="entry">
       <summary><span class="date">August 18, 2026</span><span class="etitle">Feed content — one matrix, four templates, conditional cover</span><span class="chev">▸</span></summary>
       <div class="entry-body">
