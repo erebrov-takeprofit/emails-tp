@@ -18,6 +18,7 @@ Each fact lives in exactly one place — edit it there, never in a copy.
 
 Rules of thumb:
 - **Changelog every update:** for each change, prepend a dated entry to the **Changelog** in `index.html` (newest first, listing what was added/fixed/updated, with links to the affected emails), then commit & push to `main` so Netlify redeploys. Omit any `Co-Authored-By` trailer (Netlify one-contributor rule).
+- **Rollout badge on every changelog entry:** merging here only redeploys the *previews* — what users receive changes when the backend picks the template up. So each entry carries `<span class="rollout live|wip|hold">`: **Live on prod** (someone has actually seen the email arrive), **Rolling out** (backend ticket open, or the change spans families and only some shipped), **Repo only / Customer.io** (docs, previews, digest work — nothing for the backend to ship). Rollout state per family lives in Linear [MB-3583](https://linear.app/takeprofit/issue/MB-3583) and its children; flip `wip → live` only on a confirmed prod send, never on a merge.
 - Filenames are kebab-case and equal the email's name (same value as the Notion "Email name"). Renaming a file ⇒ update that row's **Preview URL** and **Email name** in Notion to match.
 - Never keep a second hand-edited copy of this guide (e.g. uploaded into Claude files) — that fork is where drift starts.
 - Stable links: index → https://emails-tp.netlify.app/ · this guide → https://emails-tp.netlify.app/takeprofit-email-system-guide.md
@@ -101,6 +102,7 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 ## 7. Email families (built)
 - **Auth/account:** activate email, Reset password, Set a New Password (Exchange / Google linking).
 - **Indicator lifecycle:** SentForReview, Approved (+ no-comment), Rejected (with "Submission Guidelines / Support" clickable blocks; Support = `mailto:support@takeprofit.com` with prefilled subject/body).
+  - **The approval comment is real and live** (verified on prod 21.08.2026). The moderator's *resolution comment* from the Retool review flow lands in the grey `#F3F6FA` box as `{text}`; when there is none the backend sends the `-no-comment` variant instead. Keep both files — the pair is what makes an empty comment render cleanly rather than as an empty grey box. (Linear [MB-1068](https://linear.app/takeprofit/issue/MB-1068) still describes this as unbuilt; it is stale.)
 - **Community moderation:** YourReportHasBeenReceived, YourReportHasBeenReviewed, ContentViolationNotice.
 - **Social:** SomeoneCommentedOnYourPost, SomeoneRepliedToYourComment, UserStartedFollowingYou (60px avatar + "{Username} just followed you").
 - **Feed content notifications:** four templates driven by one matrix (`content_type` × `is_paid` × `has_access`) — free / paid-with-access / paid indicator-or-screener without access / paid post without access. Same card everywhere; badge, cover, URL and CTA label are the only variables. See §6 for the matrix.

@@ -74,11 +74,28 @@
   details.entry>summary:hover{background:var(--card)}
   details.entry>summary .date{flex:0 0 auto; font-size:12px; font-weight:600; color:var(--accent);
                               letter-spacing:.03em; white-space:nowrap}
-  details.entry>summary .etitle{font-size:15px; font-weight:600; color:var(--ink)}
-  details.entry>summary .chev{align-self:center}
+  details.entry>summary .etitle{font-size:15px; font-weight:600; color:var(--ink); flex:1 1 auto}
+  details.entry>summary .chev{align-self:center; margin-left:0}
   .entry-body{padding:0 20px 18px}
   .entry-body ul{margin:0; padding-left:18px} .entry-body li{margin:5px 0; color:var(--muted)}
   .entry-body li strong{color:var(--ink); font-weight:600}
+
+  /* Rollout badge — whether the change is actually sending on prod, not just merged here.
+     Source of truth: Linear MB-3583 and its per-family children. Update when a child closes. */
+  .rollout{flex:0 0 auto; align-self:center; font-size:11px; font-weight:600; line-height:1;
+           letter-spacing:.04em; text-transform:uppercase; padding:4px 9px; border-radius:20px;
+           border:1px solid transparent; white-space:nowrap}
+  .rollout.live{background:#e7f7ed; color:#136c33; border-color:#bfe6cd}
+  .rollout.wip{background:#fff4e0; color:#8a5300; border-color:#f0d9a8}
+  .rollout.hold{background:var(--card); color:var(--muted); border-color:var(--line)}
+  .rollout-legend{color:var(--muted); font-size:13px; margin:-4px 0 14px}
+  .rollout-legend .rollout{display:inline-block; vertical-align:middle}
+  .status-table{width:100%; border-collapse:collapse; margin:10px 0 4px; font-size:13.5px}
+  .status-table th{text-align:left; font-weight:600; color:var(--muted); font-size:12px;
+                   letter-spacing:.05em; text-transform:uppercase; padding:0 10px 6px 0}
+  .status-table td{padding:5px 10px 5px 0; border-top:1px solid var(--line); color:var(--muted);
+                   vertical-align:top}
+  .status-table td:first-child{color:var(--ink); font-weight:500; white-space:nowrap}
 
   footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
          color:var(--muted); font-size:13px}
@@ -129,8 +146,11 @@
     <ol>
       <li><strong>Draft &amp; prompt</strong> in the Claude project <em>“Email | Design, texts and coding rules”</em> — the place for wording, subjects and coding rules.</li>
       <li><strong>Edit the HTML</strong> in the <a href="https://github.com/erebrov-takeprofit/emails-tp" target="_blank" rel="noopener">git repo</a> (one file per email). Filenames are kebab-case and mirror the email name.</li>
-      <li><strong>Log the change</strong> — add a dated entry to the <strong>Changelog</strong> below.</li>
-      <li><strong>Push to <code>main</code></strong> → Netlify auto-deploys → the preview URLs update.</li>
+      <li><strong>Log the change</strong> — add a dated entry to the <strong>Changelog</strong> below, with a
+      <strong>rollout badge</strong> saying whether it is live on prod, rolling out, or repo-only.</li>
+      <li><strong>Push to <code>main</code></strong> → Netlify auto-deploys → the preview URLs update.
+      This updates the <em>previews only</em> — the emails users receive change when the backend picks the
+      template up, so a merged change stays <em>Rolling out</em> until someone confirms it arrives from prod.</li>
       <li><strong>Update the <a href="https://app.notion.com/p/38e51e45e12880ddb1c6d415e506a14f" target="_blank" rel="noopener">Notion table</a></strong> — subject, preheader, status, owner, variant, preview URL. Notion is the source of truth for metadata.</li>
     </ol>
     <h3 style="margin-top:16px">Single source of truth</h3>
@@ -225,10 +245,63 @@
   </div>
 
   <h2>Changelog</h2>
+  <p class="rollout-legend">Each entry carries a <strong>rollout badge</strong> &mdash; whether that change is
+  actually <em>sending on prod</em>, not just merged here. Merging a template only updates the previews;
+  the backend has to pick it up separately (tracked in
+  <a href="https://linear.app/takeprofit/issue/MB-3583" target="_blank" rel="noopener">MB-3583</a> and its
+  per-family children). <span class="rollout live">Live on prod</span> = confirmed sending ·
+  <span class="rollout wip">Rolling out</span> = backend ticket open, or the change spans families and only
+  some of them shipped · <span class="rollout hold">Repo only</span> /
+  <span class="rollout hold">Customer.io</span> = docs, previews or digest work, nothing for the backend to pick up.</p>
   <div class="log">
-    <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list. -->
+    <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list.
+         Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
+         Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
-      <summary><span class="date">August 18, 2026</span><span class="etitle">Transactions &mdash; referral first-payment variant, renewal semantics pinned down</span><span class="chev">▸</span></summary>
+      <summary><span class="date">August 21, 2026</span><span class="etitle">Indicator approval comment confirmed live; changelog gains rollout badges</span><span class="rollout live">Live on prod</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>Moderator comment on approval works end to end</strong> &mdash; verified by hand on prod
+          (E. Rebrov, 21.08.2026). The comment left at approval reaches the email: the grey
+          <code>#F3F6FA</code> box in <a href="./your-indicator-has-been-approved.html">Approved</a> is filled
+          with the real text via <code>{text}</code>, and
+          <a href="./your-indicator-has-been-approved-no-comment.html">Approved &mdash; no comment</a> is used when
+          there is none. Both templates were shipped to AWS under
+          <a href="https://linear.app/takeprofit/issue/MB-3590" target="_blank" rel="noopener">MB-3590</a>
+          (closed 12.08.2026); this entry records that the <em>content</em> side is confirmed too, which was the
+          open question &mdash; the two variants only pay off if the comment is genuinely passed through.</li>
+          <li><strong>Stale ticket</strong> &mdash;
+          <a href="https://linear.app/takeprofit/issue/MB-1068" target="_blank" rel="noopener">MB-1068</a>
+          (&ldquo;Marketplace Admin: add notes on APPROVE&rdquo;, Backlog since May 2024) describes the capability
+          that now exists in the Retool flow as <em>resolution comment</em>. It reads as if approval comments were
+          still unbuilt &mdash; worth closing so it stops contradicting reality. Related open bug:
+          <a href="https://linear.app/takeprofit/issue/MB-2815" target="_blank" rel="noopener">MB-2815</a>
+          (approve with an <em>empty</em> comment never reaches Slack; the email side is unaffected).</li>
+          <li><strong>Rollout badges added</strong> &mdash; every changelog entry now says whether it is live on prod,
+          rolling out, or repo-only. Until now the page could not distinguish &ldquo;template rewritten and
+          deployed to Netlify&rdquo; from &ldquo;users actually receive it&rdquo;, which is exactly where Feed content
+          and Transactions sit right now.</li>
+          <li><strong>Per-family rollout snapshot</strong> (source of truth is Linear, not this table &mdash; re-check
+          before quoting it):
+            <table class="status-table">
+              <thead><tr><th>Family</th><th>Ticket</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Auth / account</td><td><a href="https://linear.app/takeprofit/issue/MB-3584" target="_blank" rel="noopener">MB-3584</a></td><td>Done &mdash; live</td></tr>
+                <tr><td>Social</td><td><a href="https://linear.app/takeprofit/issue/MB-3585" target="_blank" rel="noopener">MB-3585</a></td><td>Done &mdash; live</td></tr>
+                <tr><td>Community moderation</td><td><a href="https://linear.app/takeprofit/issue/MB-3586" target="_blank" rel="noopener">MB-3586</a></td><td>Done &mdash; live</td></tr>
+                <tr><td>Onboarding &mdash; first subscriber</td><td><a href="https://linear.app/takeprofit/issue/MB-3589" target="_blank" rel="noopener">MB-3589</a></td><td>Done &mdash; live</td></tr>
+                <tr><td>Indicator lifecycle</td><td><a href="https://linear.app/takeprofit/issue/MB-3590" target="_blank" rel="noopener">MB-3590</a></td><td>Done &mdash; live, comment path verified 21.08.2026</td></tr>
+                <tr><td>Feed content</td><td><a href="https://linear.app/takeprofit/issue/MB-3587" target="_blank" rel="noopener">MB-3587</a></td><td>In progress &mdash; notifications send on the <em>old</em> template</td></tr>
+                <tr><td>Transactions</td><td><a href="https://linear.app/takeprofit/issue/MB-3588" target="_blank" rel="noopener">MB-3588</a></td><td>In progress</td></tr>
+                <tr><td>Alerts</td><td><a href="https://linear.app/takeprofit/issue/MB-3591" target="_blank" rel="noopener">MB-3591</a></td><td>Backlog &mdash; not started</td></tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
+      <summary><span class="date">August 18, 2026</span><span class="etitle">Transactions &mdash; referral first-payment variant, renewal semantics pinned down</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li><strong>Why</strong> &mdash; backend review on <a href="https://linear.app/takeprofit/issue/MB-3588">MB-3588</a>: two devs had read <em>renewal</em> two different ways, and the referral family had only a renewal variant even though referral rewards accrue from the first payment too.</li>
@@ -241,7 +314,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">August 18, 2026</span><span class="etitle">Feed content — one matrix, four templates, conditional cover</span><span class="chev">▸</span></summary>
+      <summary><span class="date">August 18, 2026</span><span class="etitle">Feed content — one matrix, four templates, conditional cover</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li><strong>Why</strong> &mdash; backend review on <a href="https://linear.app/takeprofit/issue/MB-3587/aws-feed-content-5-pisem">MB-3587</a>: the five templates could not be told apart by name, two of them were byte-identical, and the lock rule contradicted the product (paid <strong>indicator</strong> screenshots and <strong>screener</strong> covers are public on the platform &mdash; only paid <strong>posts</strong> hide behind a lock).</li>
@@ -256,7 +329,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">August 11, 2026</span><span class="etitle">July digest: AI &amp; Anchored VWAP links repointed; template PUT body shape documented</span><span class="chev">▸</span></summary>
+      <summary><span class="date">August 11, 2026</span><span class="etitle">July digest: AI &amp; Anchored VWAP links repointed; template PUT body shape documented</span><span class="rollout hold">Customer.io</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>July digest draft (Customer.io newsletter <code>73</code>, template <code>105</code>): <strong>&ldquo;TakeProfit&rsquo;s AI&rdquo;</strong> now points at the product page <code>https://takeprofit.com/ai</code> instead of the docs overview — the AI image above it was repointed to match, so the whole block leads to the same place.</li>
@@ -267,7 +340,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">August 10, 2026</span><span class="etitle">Figma exports lose corner transparency → white notches in Gmail dark mode</span><span class="chev">▸</span></summary>
+      <summary><span class="date">August 10, 2026</span><span class="etitle">Figma exports lose corner transparency → white notches in Gmail dark mode</span><span class="rollout hold">Customer.io</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>Image nodes carry an <strong>8px corner radius</strong>, so their corners must be transparent. The Figma MCP export <strong>composites them against the white canvas</strong> instead, producing opaque white wedges. Invisible on a white background — but <strong>Gmail&rsquo;s dark mode inverts the email background and not the images</strong>, so the corners show up as bright notches. Re-exporting a different node returns byte-identical output, so this has to be fixed after export.</li>
@@ -277,7 +350,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">August 7, 2026</span><span class="etitle">Monthly digest flow documented (built in Customer.io, not here)</span><span class="chev">▸</span></summary>
+      <summary><span class="date">August 7, 2026</span><span class="etitle">Monthly digest flow documented (built in Customer.io, not here)</span><span class="rollout hold">Customer.io</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>Wrote down the flow for the monthly <strong>&ldquo;What&rsquo;s New&rdquo; digest</strong> in <a href="./takeprofit-email-system-guide.md">guide §14</a>. It is deliberately <strong>not</strong> part of this repo: each issue is a <strong>copy of the previous month&rsquo;s one-time send</strong> in Customer.io, so no digest HTML or Notion row belongs here.</li>
@@ -289,7 +362,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">August 4, 2026</span><span class="etitle">Figma → S3 → Customer.io asset pipeline</span><span class="chev">▸</span></summary>
+      <summary><span class="date">August 4, 2026</span><span class="etitle">Figma → S3 → Customer.io asset pipeline</span><span class="rollout hold">Repo only</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>Images can now be exported from Figma and published to the <code>takeprofit-static</code> S3 bucket straight from Claude Code — no more manual download-and-upload round trip.</li>
@@ -300,7 +373,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">July 14, 2026</span><span class="etitle">Sender (From) &amp; Reply-To per email</span><span class="chev">▸</span></summary>
+      <summary><span class="date">July 14, 2026</span><span class="etitle">Sender (From) &amp; Reply-To per email</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>Documented the <strong>From</strong> sender (name + address) for every email — one sender per family: <code>hi@acc</code> (auth / onboarding / transactions), <code>alerts@acc</code>, <code>marketplace@</code> (indicator lifecycle), <code>community@acc</code> (social / feed), <code>support@acc</code> (moderation). Shown per group above.</li>
@@ -310,7 +383,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">July 14, 2026</span><span class="etitle">Index page — collapsible layout</span><span class="chev">▸</span></summary>
+      <summary><span class="date">July 14, 2026</span><span class="etitle">Index page — collapsible layout</span><span class="rollout hold">Repo only</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>Moved <strong>Templates</strong> above the <strong>Changelog</strong> (right after &ldquo;How it works&rdquo;).</li>
@@ -321,7 +394,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">July 14, 2026</span><span class="etitle">New follower — drop country line</span><span class="chev">▸</span></summary>
+      <summary><span class="date">July 14, 2026</span><span class="etitle">New follower — drop country line</span><span class="rollout live">Live on prod</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li><a href="./user-started-following-you.html">User started following you</a> &mdash; removed the <code>{Country}</code> field and the <code>&bull;</code> separator under the avatar; the <code>{Name}</code> now stands alone, centered.</li>
@@ -329,7 +402,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">July 14, 2026</span><span class="etitle">Subject &amp; preheader sync with Notion — Feed content</span><span class="chev">▸</span></summary>
+      <summary><span class="date">July 14, 2026</span><span class="etitle">Subject &amp; preheader sync with Notion — Feed content</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li><strong>Subjects</strong> &mdash; the <a href="./new-content-indicator-or-post-or-screener.html">indicator/post/screener</a>, <a href="./new-content-post-or-indicator-locked.html">locked</a>, <a href="./new-content-post-or-indicator-not-subscribed-follower.html">not-subscribed</a> and <a href="./new-content-post-or-indicator-subscribed-follower.html">subscribed</a> follower emails now use the <code>{post/indicator/screener}</code> placeholder to match Notion (was <code>{Content_title}</code> / <code>indicator/post/screener</code>).</li>
@@ -341,7 +414,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">July 4, 2026</span><span class="etitle">Live &ldquo;Test send&rdquo; from this page</span><span class="chev">▸</span></summary>
+      <summary><span class="date">July 4, 2026</span><span class="etitle">Live &ldquo;Test send&rdquo; from this page</span><span class="rollout hold">Repo only</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li>Every template now has a <strong>Test</strong> button &mdash; enter an address and receive that exact email, with the <strong>subject &amp; preheader from Notion</strong> and <code>{placeholders}</code> filled with sample data.</li>
@@ -350,7 +423,7 @@
       </div>
     </details>
     <details class="entry">
-      <summary><span class="date">July 4, 2026</span><span class="etitle">Design sync — footer icons, content cards, billing &amp; community</span><span class="chev">▸</span></summary>
+      <summary><span class="date">July 4, 2026</span><span class="etitle">Design sync — footer icons, content cards, billing &amp; community</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
           <li><strong>Footer icons</strong> — new 16×16 social set (Discord → X → Facebook → Instagram → Reddit → LinkedIn), rolled out across <strong>all 29 templates</strong>.</li>
