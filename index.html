@@ -258,6 +258,18 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 2, 2026</span><span class="etitle">Monetization emails &mdash; the mentioned username is now a link to their profile</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>What</strong> &mdash; in all six paid-subscriber emails the mentioned user in the caption under the amount is now a link to <code>https://takeprofit.com/@{username}</code>: <a href="./paid-subscriber-new-subscription.html">new subscription &mdash; indicator</a>, <a href="./paid-subscriber-new-subscription-content.html">new subscription &mdash; content</a>, <a href="./paid-subscriber-renewal.html">renewal &mdash; content</a>, <a href="./paid-subscriber-renewal-indicator.html">renewal &mdash; indicator</a>, <a href="./paid-subscriber-referral-new-subscription.html">referral &mdash; first payment</a>, <a href="./paid-subscriber-referral-renewal.html">referral &mdash; renewal</a>. Until now the name was plain 14px text with no emphasis at all.</li>
+          <li><strong>Style</strong> &mdash; the existing house convention, previously written down only for the community avatar row: the link does <em>not</em> change the look. SemiBold <code>font-weight:600</code>, black <code>#000000</code>, <code>text-decoration:none</code>, <strong>no link colour</strong>. The caption sits directly above the black <em>View Dashboard</em> button, and a purple or blue name there would compete with the CTA for the click.</li>
+          <li><strong>Not touched</strong> &mdash; the greeting <code>Hey {username}</code> (that is the recipient; we don't link someone to their own profile) and the usernames inside the comment / reply and feed content cards, which are already wrapped in a single card-wide anchor and must not gain a nested link.</li>
+          <li><strong>Guide</strong> &mdash; &sect;6 gains a <em>Username mention</em> block stating the style, the profile URL and both never-link cases, so the rule is no longer buried in the community avatar row.</li>
+          <li><strong>Needs confirming</strong> &mdash; that the backend fills <code>{subscriber_username}</code> / <code>{referral_username}</code> with the same handle used in the profile slug; the preheaders on line 57 keep the plain unlinked <code>@{username}</code>.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">August 21, 2026</span><span class="etitle">Indicator approval comment confirmed live; changelog gains rollout badges</span><span class="rollout live">Live on prod</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>

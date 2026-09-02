@@ -61,6 +61,9 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
 - **Headline** — 24px SemiBold black.
 - **Greeting** — `Hi {username}` / `Hey {username}` (14px), optional second line.
 - **Body paragraph** — 14px regular, `<br>` for line breaks.
+- **Username mention (link to profile)** — whenever a mail names **another** user, that name links to `https://takeprofit.com/@{username}`. **The link must not change how the name looks:** SemiBold (`font-weight:600`), black `#000000`, `text-decoration:none` — never a link colour. Rationale: these mentions usually sit directly above the black CTA, and a coloured name competes with the button for the click.
+  - **Never linked — the recipient:** `Hi/Hey {username}` in the greeting (we don't link someone to their own profile). The purple `#7F3AFF` on that greeting in `welcome` / `set-a-new-password-and-link-your-accounts` is decoration, not a link.
+  - **Never linked — inside an already-clickable card:** comment / reply card and feed content card are each a single anchor, so the name there stays plain SemiBold (no nested links). See those blocks below.
 - **Big Price** — `{amount}` at 96px SemiBold, centered (subscription/payout amount) + 14px centered 2-line caption (`<br>`) + CTA **View Dashboard** → `{dashboard_url}` (monetization dashboard). Paid-subscriber emails split **indicator vs content** (`{content}` = post/screener/etc.; for indicators show `{indicator} {indicator_name}`):
   - *New subscription:* `@{subscriber_username} subscribed to your {indicator} {indicator_name}.` **/** `… subscribed to your {content}.` — line 2: `Recurring while the subscription is active.`
   - *Renewal:* `@{subscriber_username} renewed their subscription to your {indicator} {indicator_name}.` **/** `… to your {content}.` — line 2: `Recurring while the subscription is active.`
