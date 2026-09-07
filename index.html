@@ -258,6 +258,17 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: TPO copy reworded to match what the docs actually expose</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>The TPO block in one-time send <code>74</code> now reads &ldquo;&hellip;access Point of Control, <strong>Initial Balance levels, and full price-row data</strong>&rdquo;, replacing &ldquo;Initial Balance, and value areas&rdquo;. Closes the copy-vs-docs gap flagged in the previous two entries: the Indie&reg; TPO page never mentions value areas, while &ldquo;price rows&rdquo; is the page&rsquo;s own wording.</li>
+          <li>Applied to both variants; bodies re-compared server-side and still byte-identical (24 706 chars, 11 distinct <code>href</code>s, zero TODOs), so the A/B keeps testing only subject and preheader.</li>
+          <li>Checked the send was still unsent first (<code>sent_at</code> null, <code>total_sent</code> 0) &mdash; body edits to a broadcast that has gone out are not retroactive.</li>
+          <li><strong>One caveat, not a blocker</strong> &mdash; the docs page uses the phrase &ldquo;price rows and block metadata&rdquo; but documents no API for iterating them; only <code>point_of_control</code>, <code>initial_balance_high</code> and <code>initial_balance_low</code> appear as named attributes. The wording is the approved copy and is closer to the docs than what it replaced, but a row-level example on that page would make it airtight.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest is link-complete &mdash; cover wired to the recap post, no TODOs left</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
