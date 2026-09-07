@@ -300,13 +300,14 @@ Run from Claude Code with the Customer.io, Figma and Google Drive MCP connectors
 7. **Repair what `copy` drops** (14.3).
 8. **Leave it as a draft.** Do not call `POST .../forward` and do not `PUT` with `update_type: "send"` — the latter sends *immediately* and overwrites any pending schedule, with no confirmation step.
 
-### 14.3 `copy` silently drops three things
+### 14.3 `copy` silently drops four things
 
 The API copy is not the UI duplicate. After copying, restore each of these from last month's issue and verify by reading them back:
 
 - **Audience** — `filters` comes back `null`. `PUT` with `update_type: "recipients"` and **all four** of `send_percentage`, `send_to_unsubscribed`, `deduped`, `use_message_limits` (omitting any returns `"<field> cannot be nil"`), plus the base64 `filters` string copied verbatim from the previous issue. The standing digest audience is *"Email verified" (segment 14) AND NOT ("competitotrs" (20) OR "tradingview employees" (27))*.
 - **Conversion goal** — `PUT` with `update_type: "tracking"`: event `user_trial_started`, `conversion_action: "receiving"`, `conversion_window: 604800`, `conversion_type: "perform_event"`.
 - **Tag** — `POST .../newsletters/{id}/tags` with `{"tags": [{"id": 11, "name": "updates"}]}`. Note the body shape: a `tags` array of objects; `{"tag_ids": [...]}` is rejected with a 400.
+- **Sending rate limits** — `rate_limit_email_rate`, `rate_limit_spread` and `rate_limit_time_period` all come back `null`. Restore with `update_type: "rate_limits"`; the standing digest setting is **5000 per 3600s, spread on**. (Found on the August 2026 issue — the section previously listed only three drops.)
 
 Also rename it: `PUT` with `update_type: "main"` and the new `name` — the copy arrives as `[Copy] <old name>`.
 
@@ -353,6 +354,28 @@ Feature links point into the docs. Resolve them with the **TakeProfit docs MCP**
 
 — and list every TODO when handing the draft over. A link into a page that doesn't mention the feature is worse than no link; guessing a URL that 404s is worse still.
 
-### 14.6 Handover
+### 14.6 A/B test on subject + preheader
+
+An issue can ship as an A/B test; the variations are **separate templates on the same one-time send**, so
+everything in 14.2–14.4 stays exactly the same and only the last step differs. First done on the August 2026
+issue.
+
+1. Build the control template as usual (14.2). It is the copy's own template — `test_group_id: 0`.
+2. `POST /v1/environments/129567/newsletters/{id}/tests` — **no request body**. One call per extra variation
+   (up to 7). The response returns the send's full templates list; the new one has `test_group_id: 1` and
+   arrives with the control's `body`, `subject` and `preheader_text` already cloned.
+3. `PUT /v1/environments/129567/templates/{variation_template_id}` with only the fields that differ. For a
+   subject-line test that is `subject` + `preheader_text` — leave `body` out of the payload entirely so the two
+   variations cannot drift apart.
+4. `send_percentage` is what share of the audience the *test* reaches, not the split between variations. At
+   `100` the whole audience is split across the variations and there is no remainder — that is the standing
+   digest value, so leave it unless someone asks for a sample-then-winner run.
+5. Leave `automatic_winner`, `test_metric` and `test_duration` null unless a winner should be picked
+   automatically. Ending the test manually is `update_type: "end_test"` with a string `winner_template_id`;
+   it sends the winner to whatever audience remains, so it is only meaningful when `send_percentage < 100`.
+
+Deleting variations: `DELETE .../newsletters/{id}/tests` (all), `.../tests/{test_group_id}` (one group).
+
+### 14.7 Handover
 
 The draft is finished when: `sent_at`, `scheduled_at`, `draft_scheduled_at` are all null and `sending` is false; every image URL answers 200; every `href` answers 200; From/Reply-To are `1`/`5`; audience, goal and tag are restored; and the remaining TODOs are listed explicitly. Scheduling and sending are the user's call — and both also require *Settings → AI & MCP → "Allow agent to edit live data"* in the workspace.

@@ -258,6 +258,19 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 7, 2026</span><span class="etitle">August digest drafted in Customer.io &mdash; first issue shipped as an A/B test</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>Draft</strong> &mdash; Customer.io one-time send <code>74</code> &ldquo;TakeProfit Update August 2026&rdquo;, copied from July&rsquo;s <code>73</code> per <a href="./takeprofit-email-system-guide.md">guide &sect;14</a>. Seven feature blocks from the Figma frame: Footprint Charts, Heatmap Charts, Combine Symbols into Charts, Bulk Alert Management, Connect External Data Sources, TPO Market Profiles in Indie&reg;, AI &amp; MCP Updates.</li>
+          <li><strong>A/B test</strong> &mdash; first digest to ship with two variations. Template <code>106</code> (<code>test_group_id 0</code>) carries variant A, <em>&ldquo;Heatmap &amp; Footprint Charts + TPO in Indie&reg;&rdquo;</em>; template <code>107</code> (<code>test_group_id 1</code>) carries variant B, <em>&ldquo;See resting liquidity before it gets hit&rdquo;</em>. Bodies are byte-identical &mdash; only subject and preheader differ. New <a href="./takeprofit-email-system-guide.md">&sect;14.6</a> writes the flow down; Handover moved to &sect;14.7.</li>
+          <li><strong>Assets</strong> &mdash; eight new images at the bucket root (<code>CoverAugust.png</code> plus one per feature), 4&times; per &sect;14.4. All eight came out of Figma with the corner-transparency bug from the August 10 entry (<code>corner_a=255</code>, <code>non_opaque=0</code>); repaired against the July <code>-v2</code> masks and now match the reference exactly &mdash; <strong>984</strong> non-opaque pixels on each 2400&times;1360 body image, <strong>1068</strong> on the 2400&times;680 cover.</li>
+          <li><strong>&sect;14.3 was incomplete</strong> &mdash; <code>copy</code> drops a <em>fourth</em> thing nobody had written down: the sending rate limits come back <code>null</code>. Restored to July&rsquo;s 5000/3600s with spread on, via <code>update_type: &quot;rate_limits&quot;</code>. Audience, conversion goal and the <code>updates</code> tag restored as documented.</li>
+          <li><strong>Open TODOs</strong> &mdash; nine links are still plain text with an HTML comment above each: one per feature block, the matching image links, and the cover link to the August recap post. Docs and post are not published yet; they get wired in once the URLs land, per &sect;14.5.</li>
+          <li>Verified: all 8 image URLs and all 3 live <code>href</code>s (changelog, Discord, Go to Platform) answer <strong>200</strong>; <code>sent_at</code> / <code>scheduled_at</code> null, <code>sending</code> false; From/Reply-To <code>1</code>&thinsp;/&thinsp;<code>5</code>. Scheduling and sending are left to a human.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 2, 2026</span><span class="etitle">Monetization emails &mdash; the mentioned username is now a link to their profile</span><span class="rollout wip">Rolling out</span><span class="chev">▸</span></summary>
       <div class="entry-body">
         <ul>
