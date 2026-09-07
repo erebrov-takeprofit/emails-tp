@@ -258,6 +258,19 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: feature links wired in from the new changelog &mdash; only the cover link left</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>All seven feature blocks in the August draft (one-time send <code>74</code>) now link out, taken from the <a href="https://takeprofit.com/docs/guide/changelog">August changelog</a> published on September 7. Each phrase and the image below it point at the same URL, per the July pattern: <em>traded buy and sell volume</em> &rarr; <code>chart-types/Volume-Footprint</code>, <em>historical and resting order book liquidity</em> &rarr; <code>chart-types/Heatmap</code>, <em>custom multi-asset formulas</em> &rarr; <code>Platform-Search#calculator-build-a-synthetic-instrument</code>, <em>Create alerts</em> &rarr; <code>Alerts-overview#how-to-set-up-alerts</code>, <em>third-party data feeds</em> &rarr; <code>indie/External-data/Live-data-from-a-feed</code>, <em>custom Market Profile</em> &rarr; <code>indie/Profile-data/TPO-profiles</code>, <em>MCP server tools</em> &rarr; <code>ai-assistant/Mcp-server-guide#watchlists</code>.</li>
+          <li><strong>Verified, not assumed</strong> &mdash; all 10 distinct <code>href</code>s answer <strong>200</strong>; the three anchored ones (<code>#calculator-build-a-synthetic-instrument</code>, <code>#how-to-set-up-alerts</code>, <code>#watchlists</code>) were checked to exist as real <code>id</code>s in the rendered page, and the Footprint, Indie feed and Indie TPO pages were read to confirm they actually document what the block claims.</li>
+          <li><strong>Both variants stay in lockstep</strong> &mdash; the body was written to template <code>106</code> and <code>107</code> separately and then compared server-side: bodies are byte-identical (24 604 chars, 17 links each), so the A/B still tests only subject and preheader.</li>
+          <li><strong>Still open</strong> &mdash; the cover image has no link yet; its <code>&lt;!-- TODO --&gt;</code> stays until the August recap post URL arrives. That is the last one.</li>
+          <li><strong>Copy vs. docs</strong> &mdash; the TPO block says the data gives you &ldquo;Point of Control, Initial Balance, and value areas&rdquo;, but the Indie TPO page documents the first two and never mentions value areas. Wording left as approved; worth a check with whoever owns the copy.</li>
+          <li>Draft untouched otherwise: <code>sent_at</code> / <code>scheduled_at</code> null, <code>sending</code> false, audience, goal, tag and From/Reply-To as set on September 7.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 7, 2026</span><span class="etitle">August digest drafted in Customer.io &mdash; first issue shipped as an A/B test</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
