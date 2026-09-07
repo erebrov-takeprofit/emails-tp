@@ -258,6 +258,18 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest is link-complete &mdash; cover wired to the recap post, no TODOs left</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>The cover in one-time send <code>74</code> now links to <a href="https://takeprofit.com/posts/what-s-new-in-august-26-5">the August recap post</a>, wrapped in the same bordered anchor July used. That was the last <code>&lt;!-- TODO --&gt;</code>: both variants are now at <strong>zero</strong>.</li>
+          <li><strong>Caught a wrong link before it shipped</strong> &mdash; the first URL handed over was <code>what-s-new-in-<strong>july</strong>-26-65</code>, the same one sitting on July&rsquo;s template <code>105</code>. Fetching it showed a post about TPO Charts, the AI Assistant page, Pitchfork/Anchored VWAP and Indie&reg; tables &mdash; July&rsquo;s features, none of August&rsquo;s &mdash; so it was refused rather than pasted. Worth keeping as the reason &sect;14.5 says to verify a link with a real request instead of trusting the slug: this one answered <strong>200</strong> and still would have been wrong.</li>
+          <li>Final state: 11 distinct <code>href</code>s, all <strong>200</strong>; 8 image URLs, all <strong>200</strong>; bodies of templates <code>106</code> and <code>107</code> compared server-side and byte-identical (24 691 chars, 18 links each), so the A/B still isolates subject and preheader.</li>
+          <li>The send stays a <strong>draft</strong> &mdash; <code>sent_at</code>, <code>scheduled_at</code> and <code>original_scheduled_at</code> null, <code>sending</code> false, audience / goal / <code>updates</code> tag / rate limits / From&thinsp;/&thinsp;Reply-To all as set. Scheduling and sending are the user&rsquo;s call.</li>
+          <li><strong>Still worth a look</strong> &mdash; the TPO block promises &ldquo;Point of Control, Initial Balance, and value areas&rdquo;; the Indie&reg; TPO docs page covers the first two and never mentions value areas. Copy left as approved.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: feature links wired in from the new changelog &mdash; only the cover link left</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
