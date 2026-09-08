@@ -258,6 +258,16 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: bulk-alerts image repointed to the management page</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>The image under <em>Bulk Alert Management</em> now links to <code>Alert-limitations-delivery-history#managing-alerts-in-bulk</code> instead of following the block&rsquo;s first text link. The screenshot shows the My&nbsp;Alerts panel with the bulk selection, so it belongs with the management page, not the creation flow.</li>
+          <li><strong>This breaks the house rule for one block on purpose.</strong> Everywhere else the image repeats its block&rsquo;s primary link. Here the block carries two links to two pages, so &ldquo;the primary one&rdquo; stops being well defined and the image follows what it actually depicts. Worth remembering next time a block ends up with more than one target.</li>
+          <li>Verified: four bodies byte-identical at 25&thinsp;003 chars (+2 as predicted), 12 distinct <code>href</code>s, 2 subjects, 2 preheaders, no TODOs. Send still a draft &mdash; <code>sent_at</code> / <code>scheduled_at</code> null, <code>total_sent</code> 0, audience, goal, tag and rate limits untouched.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: bulk-alerts block split across two links, one per claim</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
