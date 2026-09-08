@@ -258,6 +258,19 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: new intro copy and a rewritten preheader for arm A</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>Intro rewritten</strong> in all four variations of one-time send <code>74</code>. Was: &ldquo;This month we&rsquo;ve launched Heatmap &amp; Footprint charting, expanded Indie&reg; with TPO profiles and live streams, added a formula calculator in search, and much more. / Read on to check all the updates.&rdquo; Now: &ldquo;This month, we launched Footprint and Heatmap charts, expanding our order flow toolkit, added a Spread Builder, and opened indicators to your own data. We also shipped bulk alert management, new AI &amp; MCP tools, TPO data, and more. / Here&rsquo;s everything that&rsquo;s new:&rdquo;</li>
+          <li><strong>Arm A&rsquo;s preheader replaced</strong> with &ldquo;Try Footprint and Heatmap charts and plug your own data into indicators.&rdquo; (72 chars), across templates <code>106</code>, <code>109</code> and <code>110</code>. This closes the duplication flagged in the previous entry &mdash; the old preheader named the same two features its own subject already named. Arm B&rsquo;s preheader is part of the variant under test and was left alone.</li>
+          <li><strong>&ldquo;Subheader&rdquo; is not a thing in this design system</strong> &mdash; the term appears nowhere in the guide; the preview line is called the <strong>preheader</strong> (&sect;8, &sect;12). Recorded here because the request used the other word: if a future one means a body element rather than preview text, that would be a new block, not an existing one.</li>
+          <li><strong>Verified after the four writes:</strong> all four bodies byte-identical at 24&thinsp;774 chars (the swap was predicted to add 68 and did), exactly 2 distinct subjects and 2 distinct preheaders, 11 <code>href</code>s, zero TODOs. The 75/25 split therefore still isolates subject and preheader.</li>
+          <li>Send untouched otherwise: <code>sent_at</code> / <code>scheduled_at</code> null, <code>sending</code> false, <code>send_percentage</code> 100, audience, goal, <code>updates</code> tag, rate limits and From&thinsp;/&thinsp;Reply-To as set.</li>
+          <li><strong>Worth noting for next month:</strong> a body edit is now four writes, not one. Duplicating the control to weight a test trades a single edit point for N &mdash; cheap while the copy is settled, expensive while it is not. Do the copy rounds first, add the duplicate variations last.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: 75/25 split via four variations &mdash; Customer.io cannot weight an A/B test</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
