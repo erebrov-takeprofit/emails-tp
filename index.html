@@ -258,6 +258,18 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: bulk-alerts block split across two links, one per claim</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>The block makes two claims that live on two different pages.</strong> &ldquo;Create alerts for multiple tickers at once&rdquo; is <code>Alerts-overview</code> &sect; <em>Setting one condition on several symbols</em> (&ldquo;Pick as many instruments as you need in one go&hellip; Saving creates one alert per symbol&rdquo;). &ldquo;Use the My Alerts panel to search, pause, restart, or delete them in bulk&rdquo; is <code>Alert-limitations-delivery-history</code> &sect; <em>Managing Alerts in Bulk</em> (checkbox selects the visible list, then Pause / Restart inactive / Delete). Neither page covers the other half.</li>
+          <li><strong>So the block now carries two links</strong> rather than one: <em>Create alerts</em> &rarr; <code>Alerts-overview#setting-one-condition-on-several-symbols</code>, <em>My Alerts panel</em> &rarr; <code>Alert-limitations-delivery-history#managing-alerts-in-bulk</code>. The image below follows the block&rsquo;s primary link, as elsewhere. This is a deliberate deviation from the Figma frame, which marks one link in this block &mdash; taken with the copy owner&rsquo;s sign-off.</li>
+          <li><strong>What was wrong before:</strong> the whole block pointed at <code>Alerts-overview#how-to-set-up-alerts</code>, which is the generic &ldquo;there are two ways to set up alerts&rdquo; intro &mdash; right page, wrong depth, and nothing about several symbols at once. That URL came from the <a href="https://takeprofit.com/docs/guide/changelog">August changelog</a> row for Bulk Alert Management; worth correcting there too.</li>
+          <li><strong>Also rejected:</strong> pointing <em>Create alerts</em> at the bulk-management page. It answers &ldquo;manage&rdquo;, not &ldquo;create&rdquo; &mdash; the &sect;14.5 case where a link into a page that doesn&rsquo;t mention the feature is worse than no link.</li>
+          <li>Verified: 12 distinct <code>href</code>s all <strong>200</strong>, and every anchored one confirmed to exist as a real <code>id</code> in the rendered page. Four bodies byte-identical at 25&thinsp;001 chars (predicted +224 and landed on it), 2 subjects, 2 preheaders, no TODOs. Send still a draft.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: Heatmap image replaced from a second Figma file</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
