@@ -258,6 +258,18 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: Heatmap image replaced from a second Figma file</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>The Heatmap block in one-time send <code>74</code> now shows a new screenshot, exported from the <strong>Email-Templates</strong> Figma file (<code>0ZjbYCo8vWtrammHKbyjsF</code>, node <code>4327:73809</code>) rather than the recap file the other seven came from. Node was 600&times;340, so the standard 4&times; export applies.</li>
+          <li><strong>New filename, not an overwrite:</strong> <code>HeatmapCharts-v2.png</code>. &sect;10.2 makes filenames immutable &mdash; the bucket caches for a year and <code>HeatmapCharts.png</code> is already live in this draft, so reusing the name would have served the old bytes from cache for some readers and the new ones for others. The old file stays where it is.</li>
+          <li><strong>Same corner bug, third time.</strong> The export came back <code>corner_a=255</code>, <code>non_opaque=0</code> &mdash; Figma flattened the 8px radius onto white again. Repaired against the July <code>TPOCharts-v2.png</code> mask and now matches the reference exactly at <strong>984</strong> non-opaque pixels. This is not specific to one file or one export session; treat it as the default outcome and check every time.</li>
+          <li><strong>Four writes for one <code>src</code>.</strong> Changing a single image URL meant rewriting the body of all four templates, exactly the cost noted in the previous entry. Verified afterwards: bodies byte-identical at 24&thinsp;777 chars (one occurrence, +3 for <code>-v2</code>, as predicted), 2 distinct subjects, 2 distinct preheaders, zero TODOs, and all 8 image URLs answer <strong>200</strong>.</li>
+          <li>Send still a draft; audience, goal, tag, rate limits and From&thinsp;/&thinsp;Reply-To untouched.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: new intro copy and a rewritten preheader for arm A</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
