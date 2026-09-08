@@ -258,6 +258,20 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: 75/25 split via four variations &mdash; Customer.io cannot weight an A/B test</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>Customer.io splits an A/B test evenly, full stop.</strong> Verified against the schema the UI itself uses: <code>POST /newsletters/{id}/tests</code> takes <strong>no request body</strong>, the template object has no weight field (only <code>test_group_id</code>, an index), and <code>update_type: &quot;test&quot;</code> exposes just <code>platform</code>, <code>tracked</code>, <code>automatic_winner</code>, <code>test_metric</code>, <code>test_duration</code>. The &ldquo;A &mdash; 50%&rdquo; badges are derived (100 / variations), not settings.</li>
+          <li><strong>The workaround: more variations.</strong> <code>send_percentage</code> is the share of the audience entering the test, not the ratio between arms &mdash; changing it costs a second wave via <code>end_test</code>. Duplicating the control instead gets an uneven split in <strong>one</strong> wave: four variations at 25% each, three carrying the same subject, is 75/25. Five would be 80/20; the cap is eight.</li>
+          <li><strong>Applied to send <code>74</code>:</strong> two extra variations, now templates <code>106</code> (group 0), <code>107</code> (group 1), <code>109</code> (group 2), <code>110</code> (group 3). <code>POST .../tests</code> clones the <em>control</em> whole &mdash; subject, preheader and body &mdash; so the two new ones arrived as exact copies of A with no edit needed. Verified server-side: all four bodies byte-identical, exactly 2 distinct subjects and 2 distinct preheaders, so arm A is 3&times;25% and arm B is 25%.</li>
+          <li><strong>Read the result on <code>human_opened</code>, not <code>opened</code>.</strong> July delivered 37&thinsp;004 and logged 7&thinsp;397 opens &mdash; but <strong>3&thinsp;872 of those were prefetch</strong> (Apple MPP and friends) against 4&thinsp;213 human. Roughly half the open events never saw a subject line, so judging on the headline number halves the measured difference. Clicks (317, human 304 &mdash; 0.8%) are too thin to pick a winner on.</li>
+          <li><strong>What the perk costs:</strong> <code>template_metrics</code> reports per template, so the three A rows must be summed by hand, and the built-in &ldquo;Chance to Beat Original&rdquo; becomes noise &mdash; it compares identical copies against each other. Four bodies to keep in sync instead of two. Sensitivity barely moves: minimum detectable difference on human opens goes from <strong>0.93 p.p.</strong> at 50/50 to <strong>1.07 p.p.</strong> at 75/25 (1.16 at 80/20), because the base is large.</li>
+          <li>Send still a draft: <code>sent_at</code> / <code>scheduled_at</code> null, <code>sending</code> false, <code>send_percentage</code> 100, no automatic winner. Audience, goal, <code>updates</code> tag, rate limits and From&thinsp;/&thinsp;Reply-To untouched.</li>
+          <li><strong>Open</strong> &mdash; variant A&rsquo;s preheader still reads &ldquo;Build synthetic search formulas, stream live feeds&rdquo;, naming the same two features its new subject already names. It now lives in three templates, so changing it is three edits.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: TPO copy reworded to match what the docs actually expose</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
