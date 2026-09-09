@@ -54,7 +54,8 @@ Hand-coded, email-client-safe HTML (tables + inline styles + Outlook `mso` hacks
 ## 5. Footer — TWO variants (pick by email type)
 Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.` (left) + social icons (right) → `takeprofit.com` logo (center) → 2-line disclaimer. Spacing: social→logo `24`, logo→disclaimer `12`.
 - **Transactional** (activation, password, one-off): `This is a one-time service notification.` + `See our Privacy Policy.` — **no unsubscribe**.
-- **Notification** (feed, community, alerts, payouts, marketing-ish): `View our Privacy Policy.` + `Click here to unsubscribe.` (unsubscribe link `{unsubscribe_url}`).
+- **Notification** (feed, community, payouts, marketing-ish): `View our Privacy Policy.` + `Click here to unsubscribe.` (unsubscribe link `{unsubscribe_url}`).
+- **Alerts** (`alert-single-criteria`, `alert-multiple-criteria`) — a third variant: `You're getting this because you set this alert. To stop these emails, edit or delete it on your chart.` ("edit or delete it" links to `{chart_url}`) + `View our Privacy Policy.` — **no unsubscribe**. Each alert is created by the user for one chart, and the alert service has no unsubscribe endpoint at all (MB-3591); deleting the alert *is* the unsubscribe, so the footer says where to do it instead of linking a `{unsubscribe_url}` that would 404.
 - Social links: x.com/TakeProfitHQ, discord.gg/WVk8TjwU7p, facebook.com/TakeProfit, instagram.com/takeprofit, reddit.com/r/TakeProfit, linkedin.com/company/takeprofit.
 
 ## 6. Component / block catalog
@@ -112,7 +113,7 @@ Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.`
   - **Recipients:** followers of the creator. A paid subscriber is expected to be a follower too (subscribing auto-follows) — **backend to confirm**; if that ever stops holding, subscribers must be added to the audience explicitly or they'd miss the content they paid for.
   - **Notification settings group:** `FeedUpdates` — "content appeared in the feed of someone you follow". Not `Followers` (that group is "someone followed *you*" → `user-started-following-you`) and not `Subscribers` (that's the money family, `paid-subscriber-*`). No new group is needed; the existing frontend toggle covers all four.
 - **Transactions:** PaidSubscriber — big price + caption + View Dashboard. **Six variants:** new subscription (`-new-subscription` = indicator, `-new-subscription-content`), renewal (`-renewal` = content, `-renewal-indicator`), referral (`-referral-new-subscription`, `-referral-renewal`). "New subscription" means *a new subscription starts* — not *the subscriber's first ever*; see §6 for the renewal boundary and the filename trap.
-- **Alerts:** Alert-SingleCriteria, Alert-MultipleCriteria — ticker chip + criteria + Open Chart.
+- **Alerts:** Alert-SingleCriteria, Alert-MultipleCriteria — ticker chip + criteria + Open Chart. Alerts footer (no unsubscribe) — see §5.
 - **Onboarding/monetization:** First User Subscribed (Discord pill, banner, 4 "how it works" cards, View Dashboard). Copy is **repo-canonical** — the Figma community board (node `91-8663`) shows newer alternate copy (e.g. "Payout after $100", "Set Up Your Cash Machine") that we intentionally did **not** adopt; revisit only if the designer asks.
 
 ## 8. Mandatory conventions (checklist before "done")
@@ -248,6 +249,9 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 |---|---|---|
 | Alert — single criterion | {ticker} Alert Triggered: {condition} {value} | {source} alert just matched your criteria. Check the chart now. |
 | Alert — multiple criteria | {ticker} Alert Triggered: {condition} {value} | {source} matched your custom multi-criteria setup. Check the chart now. |
+
+- **`{source}`** in both preheaders is the same value as `{Source}` in the criteria block — *what the alert watches*: the price series or the indicator/plot the condition is set on (e.g. `RSI`, see `sample-data.json`). Not the sender, not the ticker: `{ticker}` is the symbol chip, `{source}` is the data source inside the condition `{Source} {Criteria} {Target}`.
+- **No unsubscribe link.** Both emails use the alerts footer from §5. The user turns these off by editing or deleting the alert on the chart; there is no unsubscribe endpoint on the alert services and none is being built for these two (MB-3591).
 
 ### Onboarding / monetization
 **From:** `TakeProfit <hi@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`

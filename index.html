@@ -258,6 +258,18 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 9, 2026</span><span class="etitle">Alert emails: unsubscribe link replaced by &ldquo;edit or delete the alert&rdquo;</span><span class="rollout wip">Rolling out</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong><a href="./alert-single-criteria.html">alert-single-criteria</a></strong> and <strong><a href="./alert-multiple-criteria.html">alert-multiple-criteria</a></strong> no longer carry <code>{unsubscribe_url}</code>. The footer now reads <em>&ldquo;You&rsquo;re getting this because you set this alert. To stop these emails, edit or delete it on your chart.&rdquo;</em> &mdash; &ldquo;edit or delete it&rdquo; links to <code>{chart_url}</code>, which the template already had &mdash; followed by the usual <em>View our Privacy Policy.</em></li>
+          <li><strong>Why:</strong> the alert services have no unsubscribe endpoint and the logic does not exist at all (<a href="https://linear.app/takeprofit/issue/MB-3591" target="_blank" rel="noopener">MB-3591</a>). More to the point, an alert is not a subscription: the user created it themselves, for one chart, and the way to stop it is to delete it. So the footer says that instead of pointing at a placeholder URL &mdash; no new backend ticket, one variable less to fill.</li>
+          <li>This is a <strong>third footer variant</strong> alongside transactional (&ldquo;one-time service notification&rdquo;) and notification (&ldquo;click here to unsubscribe&rdquo;) &mdash; documented in <a href="./takeprofit-email-system-guide.md">guide &sect;5</a> and &sect;12. It applies to these two alert emails only; every other notification family keeps its unsubscribe link.</li>
+          <li>Line 1 is set at <code>line-height:140%</code> with a 4px bottom margin because it wraps to two lines in the 400px footer column; the other footers are single-line at 100%.</li>
+          <li>Also written down in &sect;12: <code>{source}</code> in both preheaders is the same value as <code>{Source}</code> in the criteria block &mdash; what the alert watches (price series or indicator, e.g. <code>RSI</code>), not the ticker and not the sender.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 8, 2026</span><span class="etitle">August digest: bulk-alerts image repointed to the management page</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
