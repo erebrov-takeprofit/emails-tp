@@ -55,7 +55,7 @@ Hand-coded, email-client-safe HTML (tables + inline styles + Outlook `mso` hacks
 Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.` (left) + social icons (right) → `takeprofit.com` logo (center) → 2-line disclaimer. Spacing: social→logo `24`, logo→disclaimer `12`.
 - **Transactional** (activation, password, one-off): `This is a one-time service notification.` + `See our Privacy Policy.` — **no unsubscribe**.
 - **Notification** (feed, community, payouts, marketing-ish): `View our Privacy Policy.` + `Click here to unsubscribe.` (unsubscribe link `{unsubscribe_url}`).
-- **Alerts** (`alert-single-criteria`, `alert-multiple-criteria`) — a third variant: `You're getting this because you set this alert. To stop these emails, edit or delete it on your chart.` ("edit or delete it" links to `{chart_url}`) + `View our Privacy Policy.` — **no unsubscribe**. Each alert is created by the user for one chart, and the alert service has no unsubscribe endpoint at all (MB-3591); deleting the alert *is* the unsubscribe, so the footer says where to do it instead of linking a `{unsubscribe_url}` that would 404.
+- **Alerts** (`alert-single-criteria`, `alert-multiple-criteria`) — a third variant: `Edit or delete this alert on your chart.` ("on your chart" links to `https://takeprofit.com/platform`) + `View our Privacy Policy.` — **no unsubscribe**. Each alert is created by the user for one chart, and the alert service has no unsubscribe endpoint at all (MB-3591); deleting the alert *is* the unsubscribe, so the footer says where to do it instead of linking a `{unsubscribe_url}` that would 404. Keep it to **one line** at `line-height:100%` like the other two variants — an earlier two-line wording had to be cut back.
 - Social links: x.com/TakeProfitHQ, discord.gg/WVk8TjwU7p, facebook.com/TakeProfit, instagram.com/takeprofit, reddit.com/r/TakeProfit, linkedin.com/company/takeprofit.
 
 ## 6. Component / block catalog
@@ -251,7 +251,7 @@ Subject = inbox line; Preheader = hidden preview text right after it (also lives
 | Alert — multiple criteria | {ticker} Alert Triggered: {condition} {value} | {source} matched your custom multi-criteria setup. Check the chart now. |
 
 - **`{source}`** in both preheaders is the same value as `{Source}` in the criteria block — *what the alert watches*: the price series or the indicator/plot the condition is set on (e.g. `RSI`, see `sample-data.json`). Not the sender, not the ticker: `{ticker}` is the symbol chip, `{source}` is the data source inside the condition `{Source} {Criteria} {Target}`.
-- **No unsubscribe link.** Both emails use the alerts footer from §5. The user turns these off by editing or deleting the alert on the chart; there is no unsubscribe endpoint on the alert services and none is being built for these two (MB-3591).
+- **No unsubscribe link.** Both emails use the alerts footer from §5 — `Edit or delete this alert on your chart.` linking to `takeprofit.com/platform`. The user turns these off by editing or deleting the alert; there is no unsubscribe endpoint on the alert services and none is being built for these two (MB-3591).
 
 ### Onboarding / monetization
 **From:** `TakeProfit <hi@acc.takeprofit.com>` · **Reply-To:** `support@takeprofit.com`
