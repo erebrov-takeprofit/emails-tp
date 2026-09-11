@@ -407,6 +407,10 @@ it can keep:
 | Footer | notification (§5) | **personal** (§5, fourth variant) |
 | Sender | `hi@m.takeprofit.com` | `hi@takeprofit.com` |
 
+The `{...}` tokens still have to be filled by hand — `{username}` and `{sender_name}` in the invite.
+**Give `{username}` a fallback wherever the stack allows one:** 8 of the 2 500 people on the Bybit
+lists have no username, and an empty token renders "Hi ,".
+
 Keep it shorter than anything else in the repo. A letter that asks for someone's time should not also
 ask for their attention: four sentences, one button, one reply invitation.
 
