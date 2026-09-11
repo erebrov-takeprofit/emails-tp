@@ -1,6 +1,7 @@
 {
   "_comment": "Build-time snapshot of Subject + Preheader from the Notion 'TakeProfit-Emails' table (source of truth). Refresh this whenever Notion subjects/preheaders change (part of the sync + changelog flow). Keyed by template filename.",
   "_campaign_comment": "Below: one-time campaign drafts, NOT backed by a Notion row. They ship as a Customer.io one-time send (guide §14); the subject and preheader here are the working copy so the index Test button renders them. Everything above this line is the Notion snapshot.",
+  "bybit-interview-invite.html": { "subject": "You tried connecting an exchange — what stopped you?", "preheader": "15 minutes with me, or just hit reply." },
   "bybit-rebates-letter1-tried.html": { "subject": "You started connecting Bybit — here’s what you get for finishing", "preheader": "Up to 50% of your trading fees, back automatically." },
   "bybit-rebates-letter2-no-attempt.html": { "subject": "Trading on Bybit? Get up to 50% of your fees back", "preheader": "Same trades, lower cost. One connection, then it runs by itself." },
   "activate-email.html": { "subject": "Activate your TakeProfit account", "preheader": "Verify your email address to complete your registration. Click to activate." },

@@ -55,6 +55,7 @@ Hand-coded, email-client-safe HTML (tables + inline styles + Outlook `mso` hacks
 Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.` (left) + social icons (right) → `takeprofit.com` logo (center) → 2-line disclaimer. Spacing: social→logo `24`, logo→disclaimer `12`.
 - **Transactional** (activation, password, one-off): `This is a one-time service notification.` + `See our Privacy Policy.` — **no unsubscribe**.
 - **Notification** (feed, community, payouts, marketing-ish): `View our Privacy Policy.` + `Click here to unsubscribe.` (unsubscribe link `{unsubscribe_url}`).
+- **Personal outreach** (`bybit-interview-invite`) — a fourth variant: `A one-off note from a person, not a mailing list — reply and I won't write again.` + `View our Privacy Policy.` — **no unsubscribe**. The letter is sent by hand to one address at a time, so there is no list to leave and `{unsubscribe_url}` would render a dead link. The opt-out still has to be real, and here the working one is the reply. One line at `line-height:100%` like the other three.
 - **Alerts** (`alert-single-criteria`, `alert-multiple-criteria`) — a third variant: `Edit or delete this alert on your chart.` ("on your chart" links to `https://takeprofit.com/platform`) + `View our Privacy Policy.` — **no unsubscribe**. Each alert is created by the user for one chart, and the alert service has no unsubscribe endpoint at all (MB-3591); deleting the alert *is* the unsubscribe, so the footer says where to do it instead of linking a `{unsubscribe_url}` that would 404. Keep it to **one line** at `line-height:100%` like the other two variants — an earlier two-line wording had to be cut back.
 - Social links: x.com/TakeProfitHQ, discord.gg/WVk8TjwU7p, facebook.com/TakeProfit, instagram.com/takeprofit, reddit.com/r/TakeProfit, linkedin.com/company/takeprofit.
 
@@ -391,6 +392,21 @@ The draft is finished when: `sent_at`, `scheduled_at`, `draft_scheduled_at` are 
 A **campaign** is a one-time send with several copy variants of one design — currently the Bybit rebates
 pair: `bybit-rebates-letter1-tried` and `bybit-rebates-letter2-no-attempt`.
 It sits between the two flows above and follows neither exactly.
+
+A **hand-sent letter** is a third thing again — `bybit-interview-invite` is the first one. It lives here
+for the same reason (we send it again and want to diff it), but it is not sent by any system: someone
+pastes it into a mail client, one address at a time. That removes two things a campaign needs and one
+it can keep:
+
+| | Campaign | Hand-sent |
+|---|---|---|
+| UTM on links | required | **none** — there is no campaign to attribute to |
+| `{unsubscribe_url}` | required | **none** — no list to leave; the token would 404 |
+| Footer | notification (§5) | **personal** (§5, fourth variant) |
+| Sender | `hi@m.takeprofit.com` | `hi@takeprofit.com` |
+
+Keep it shorter than anything else in the repo. A letter that asks for someone's time should not also
+ask for their attention: four sentences, one button, one reply invitation.
 
 | | Transactional (§1–12) | **Campaign** | Monthly digest (§14) |
 |---|---|---|---|

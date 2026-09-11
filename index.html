@@ -161,7 +161,7 @@
     </ol>
   </div>
 
-  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 31 emails &mdash; 29 system, 2 campaign drafts</span></h2>
+  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 32 emails &mdash; 29 system, 2 campaign drafts, 1 outreach</span></h2>
   <p class="senders-note">The <strong>From</strong> address on the right of each group is the sender for that whole family. <strong>Reply-To</strong> is <code>support@takeprofit.com</code> on every email (where the send stack allows it). From / Reply-To are send-side settings — see the <a href="./takeprofit-email-system-guide.md">guide §12</a>.</p>
   <div class="grid">
 
@@ -251,6 +251,14 @@
       </div>
     </details>
 
+    <details class="fam">
+      <summary class="fam-h">Interview outreach <span class="cnt">&middot; 1</span><span class="from">hi@takeprofit.com</span><span class="chev">&#9656;</span></summary>
+      <div class="fam-body">
+        <p class="senders-note" style="margin:0 0 8px 0">Sent <strong>by hand, one address at a time</strong> &mdash; not a campaign, not a backend template. No UTM (there is no campaign to attribute to) and no <code>{unsubscribe_url}</code> (there is no list to leave, so the token would 404). Two placeholders to fill before sending: <code>{calendar_url}</code> and <code>{sender_name}</code>. Audience: the interview candidates on <a href="https://app.notion.com/p/3d651e45e128819db6bbc302f6458139" target="_blank" rel="noopener">the campaign page</a>.</p>
+        <div class="item"><a class="ilink" href="./bybit-interview-invite.html"><div class="name">Interview invite &mdash; tried to connect</div><div class="subj">You tried connecting an exchange &mdash; what stopped you?</div></a><button type="button" class="itest" data-file="bybit-interview-invite.html" data-name="Interview invite — tried to connect">Test</button></div>
+      </div>
+    </details>
+
   </div>
 
   <h2>Changelog</h2>
@@ -266,6 +274,17 @@
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list.
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
+    <details class="entry">
+      <summary><span class="date">September 11, 2026</span><span class="etitle">Interview invite &mdash; a hand-sent letter, and a fourth footer variant</span><span class="rollout hold">Repo only</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><a href="./bybit-interview-invite.html">bybit-interview-invite</a> &mdash; four sentences: we saw you started connecting and it didn&rsquo;t go through, tell us what happened, here is a calendar, or just reply. One black CTA to <code>{calendar_url}</code>, nothing else above the footer. Deliberately the shortest email in the repo: it asks for someone&rsquo;s time, so it should not also ask for their attention.</li>
+          <li><strong>New group &mdash; Interview outreach</strong>, sender <code>hi@takeprofit.com</code>. It is neither transactional nor a campaign: it goes out by hand, one address at a time. So there is <strong>no UTM</strong> (nothing to attribute it to) and <strong>no <code>{unsubscribe_url}</code></strong> &mdash; there is no list to leave and the token would render a dead link.</li>
+          <li><strong>Fourth footer variant</strong> (guide &sect;5): <em>&ldquo;A one-off note from a person, not a mailing list &mdash; reply and I won&rsquo;t write again.&rdquo;</em> plus <em>View our Privacy Policy.</em> Same one-line shape as the other three. The opt-out has to be real, and for a hand-sent letter the working opt-out is the reply, not a link.</li>
+          <li><strong>Two placeholders block sending:</strong> <code>{calendar_url}</code> (no booking link exists yet anywhere in the analytics repo) and <code>{sender_name}</code>. The letter claims <strong>15 minutes</strong> while the interview guide is written for 30 &mdash; one of the two numbers has to move before this goes out.</li>
+        </ul>
+      </div>
+    </details>
     <details class="entry">
       <summary><span class="date">September 11, 2026</span><span class="etitle">Bybit rebates: two letters split by intent, not by country</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
