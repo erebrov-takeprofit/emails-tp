@@ -254,7 +254,7 @@
     <details class="fam">
       <summary class="fam-h">Interview outreach <span class="cnt">&middot; 1</span><span class="from">hi@takeprofit.com</span><span class="chev">&#9656;</span></summary>
       <div class="fam-body">
-        <p class="senders-note" style="margin:0 0 8px 0">Sent <strong>by hand, one address at a time</strong> &mdash; not a campaign, not a backend template. No UTM (there is no campaign to attribute to) and no <code>{unsubscribe_url}</code> (there is no list to leave, so the token would 404). Two placeholders to fill before sending: <code>{calendar_url}</code> and <code>{sender_name}</code>. Audience: the interview candidates on <a href="https://app.notion.com/p/3d651e45e128819db6bbc302f6458139" target="_blank" rel="noopener">the campaign page</a>.</p>
+        <p class="senders-note" style="margin:0 0 8px 0">Sent <strong>by hand, one address at a time</strong> &mdash; not a campaign, not a backend template. No UTM (there is no campaign to attribute to) and no <code>{unsubscribe_url}</code> (there is no list to leave, so the token would 404). One placeholder left: <code>{sender_name}</code>. The calendar button points at <code>calendly.com</code> as a stand-in &mdash; it needs a real link with a slot that takes 2&ndash;3 people at once. Audience: the interview candidates on <a href="https://app.notion.com/p/3d651e45e128819db6bbc302f6458139" target="_blank" rel="noopener">the campaign page</a>.</p>
         <div class="item"><a class="ilink" href="./bybit-interview-invite.html"><div class="name">Interview invite &mdash; tried to connect</div><div class="subj">You tried connecting an exchange &mdash; what stopped you?</div></a><button type="button" class="itest" data-file="bybit-interview-invite.html" data-name="Interview invite — tried to connect">Test</button></div>
       </div>
     </details>
@@ -274,6 +274,17 @@
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list.
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
+    <details class="entry">
+      <summary><span class="date">September 11, 2026</span><span class="etitle">Interview invite: footer cut to one line, calendar button wired to a stand-in</span><span class="rollout hold">Repo only</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>The footer wrapped.</strong> The personal variant shipped at 80 characters &mdash; <em>&ldquo;A one-off note from a person, not a mailing list &mdash; reply and I won&rsquo;t write again.&rdquo;</em> &mdash; which is twice what fits in the 400px footer. It broke onto two lines, and at <code>line-height:100%</code> the lines collided. Now <em>&ldquo;A one-off note &mdash; reply to opt out.&rdquo;</em>: 34 characters, one line, same shape as the other three variants.</li>
+          <li><strong>Budget written into <a href="./takeprofit-email-system-guide.md">guide &sect;5</a>:</strong> keep every footer line under ~45 characters. The three working lines are 24, 39 and 40. This is the second time a footer variant shipped too long &mdash; the alerts one had to be cut back the same way.</li>
+          <li><strong>Calendar button now points at <code>https://calendly.com/</code></strong> instead of <code>{calendar_url}</code>. A hand-sent letter has no backend to fill tokens in, so its links have to be real URLs &mdash; noted in &sect;15. This one is a stand-in: the real link needs a slot that takes 2&ndash;3 people at once (Calendly calls it a Group event type), and an HTML comment above the button says so.</li>
+          <li>15 minutes in the copy is confirmed. <code>{sender_name}</code> is the only placeholder left.</li>
+        </ul>
+      </div>
+    </details>
     <details class="entry">
       <summary><span class="date">September 11, 2026</span><span class="etitle">Interview invite &mdash; a hand-sent letter, and a fourth footer variant</span><span class="rollout hold">Repo only</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">

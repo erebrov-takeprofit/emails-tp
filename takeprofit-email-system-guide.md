@@ -55,7 +55,8 @@ Hand-coded, email-client-safe HTML (tables + inline styles + Outlook `mso` hacks
 Both: divider 12/12 (`border-bottom:1px solid #BAC1CC`) → `© TakeProfit Inc.` (left) + social icons (right) → `takeprofit.com` logo (center) → 2-line disclaimer. Spacing: social→logo `24`, logo→disclaimer `12`.
 - **Transactional** (activation, password, one-off): `This is a one-time service notification.` + `See our Privacy Policy.` — **no unsubscribe**.
 - **Notification** (feed, community, payouts, marketing-ish): `View our Privacy Policy.` + `Click here to unsubscribe.` (unsubscribe link `{unsubscribe_url}`).
-- **Personal outreach** (`bybit-interview-invite`) — a fourth variant: `A one-off note from a person, not a mailing list — reply and I won't write again.` + `View our Privacy Policy.` — **no unsubscribe**. The letter is sent by hand to one address at a time, so there is no list to leave and `{unsubscribe_url}` would render a dead link. The opt-out still has to be real, and here the working one is the reply. One line at `line-height:100%` like the other three.
+- **Personal outreach** (`bybit-interview-invite`) — a fourth variant: `A one-off note — reply to opt out.` + `View our Privacy Policy.` — **no unsubscribe**. The letter is sent by hand to one address at a time, so there is no list to leave and `{unsubscribe_url}` would render a dead link. The opt-out still has to be real, and here the working one is the reply.
+  **Keep every footer line under ~45 characters.** The first draft here ran to 80 ("A one-off note from a person, not a mailing list — reply and I won't write again."), wrapped to two lines inside the 400px footer, and at `line-height:100%` the two lines collided. Same mistake the alerts variant made. The three working lines are 24, 39 and 40 characters — that is the budget.
 - **Alerts** (`alert-single-criteria`, `alert-multiple-criteria`) — a third variant: `Edit or delete this alert on your chart.` ("on your chart" links to `https://takeprofit.com/platform`) + `View our Privacy Policy.` — **no unsubscribe**. Each alert is created by the user for one chart, and the alert service has no unsubscribe endpoint at all (MB-3591); deleting the alert *is* the unsubscribe, so the footer says where to do it instead of linking a `{unsubscribe_url}` that would 404. Keep it to **one line** at `line-height:100%` like the other two variants — an earlier two-line wording had to be cut back.
 - Social links: x.com/TakeProfitHQ, discord.gg/WVk8TjwU7p, facebook.com/TakeProfit, instagram.com/takeprofit, reddit.com/r/TakeProfit, linkedin.com/company/takeprofit.
 
@@ -402,6 +403,7 @@ it can keep:
 |---|---|---|
 | UTM on links | required | **none** — there is no campaign to attribute to |
 | `{unsubscribe_url}` | required | **none** — no list to leave; the token would 404 |
+| Links | `{...}` tokens, backend-filled | **real URLs** — nothing fills them in, the sender copies the HTML as it is |
 | Footer | notification (§5) | **personal** (§5, fourth variant) |
 | Sender | `hi@m.takeprofit.com` | `hi@takeprofit.com` |
 
