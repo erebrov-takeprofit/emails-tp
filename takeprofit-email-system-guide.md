@@ -407,9 +407,22 @@ it can keep:
 | Footer | notification (§5) | **personal** (§5, fourth variant) |
 | Sender | `hi@m.takeprofit.com` | `hi@takeprofit.com` |
 
-The `{...}` tokens still have to be filled by hand — `{username}` and `{sender_name}` in the invite.
-**Give `{username}` a fallback wherever the stack allows one:** 8 of the 2 500 people on the Bybit
-lists have no username, and an empty token renders "Hi ,".
+**A campaign template carries real Liquid, not `{...}` tokens.** Nothing downstream fills placeholders in —
+Customer.io renders the template as written. The greeting on all three Bybit letters is
+`Hi {{ customer.first_name | default: customer.username }},`.
+
+Two things to know before copying that pattern:
+
+- **Check which attributes the workspace actually has.** There is no `name` attribute on workspace
+  129567 — profiles carry `first_name` and `username`. Writing Liquid against an attribute that does
+  not exist renders empty and everyone gets "Hi ,".
+- **Pick the attribute with coverage, then chain a fallback.** On the Bybit lists `first_name` is filled
+  for 1 652 of 2 500 and `username` for 2 492 — but 77% of those usernames contain digits, dots or
+  underscores. They are handles. A fallback chain greets two thirds of the list by name and the rest
+  by whatever they chose to call themselves; no chain greets almost everyone by a handle.
+
+A hand-sent letter has nothing to render Liquid, so the sender substitutes by hand — mark every such
+spot with an HTML comment (`{sender_name}` and the greeting in the interview invite).
 
 Keep it shorter than anything else in the repo. A letter that asks for someone's time should not also
 ask for their attention: four sentences, one button, one reply invitation.

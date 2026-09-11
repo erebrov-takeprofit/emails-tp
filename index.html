@@ -275,12 +275,24 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 11, 2026</span><span class="etitle">Bybit letters greet by first name, falling back to the username</span><span class="rollout hold">Repo only</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>All three Bybit letters now open with <code>Hi {{ customer.first_name | default: customer.username }},</code> &mdash; real Liquid, not a <code>{...}</code> token, because these are sent from Customer.io and nothing else is going to fill them in.</li>
+          <li><strong>Not <code>name</code>, and not by preference.</strong> The ask was &ldquo;name if available, username if not&rdquo;, but this workspace has no <code>name</code> attribute at all &mdash; the profile carries <code>first_name</code> and <code>username</code> and that is it. In PostHog, where <code>name</code> does exist, it is filled for <strong>67 of 2&thinsp;500</strong> people on these lists against <strong>1&thinsp;652</strong> for <code>first_name</code>. So <code>first_name</code> is both the only option here and the one that actually carries data.</li>
+          <li><strong>Why it was worth changing at all:</strong> <code>username</code> is filled for almost everyone, but <strong>77% of those usernames contain digits, dots or underscores</strong> &mdash; handles, not names. Greeting two thirds of the list by an actual first name instead of <code>crypto_trader_99</code> is the whole point of the fallback.</li>
+          <li>The <a href="./bybit-interview-invite.html">interview invite</a> carries the same expression for consistency, with an HTML comment above it: that one goes out by hand, so nothing renders the Liquid and the sender types the name.</li>
+          <li><strong>Check before sending:</strong> the coverage above is measured in PostHog. Confirm <code>first_name</code> is as populated on the Customer.io side &mdash; if it is emptier there, more people fall through to the handle.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 11, 2026</span><span class="etitle">Bybit letters: the greeting is a block of its own again</span><span class="rollout hold">Repo only</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
           <li>All three Bybit letters &mdash; <a href="./bybit-rebates-letter1-tried.html">letter&nbsp;1</a>, <a href="./bybit-rebates-letter2-no-attempt.html">letter&nbsp;2</a> and the <a href="./bybit-interview-invite.html">interview invite</a> &mdash; open with <code>Hi {username},</code> on its own line, followed by a <strong>12px spacer</strong> and then the first paragraph. They were shipped with a bare <code>Hi,</code> glued to the body by a <code>&lt;br&gt;</code>, which is not the greeting block from <a href="./takeprofit-email-system-guide.md">guide &sect;6</a>.</li>
           <li>The recipient&rsquo;s own name stays <strong>unlinked and unstyled</strong>, per &sect;6 &mdash; we don&rsquo;t link someone to their own profile, and a coloured name right above a black CTA competes with it.</li>
-          <li><strong>Set a fallback on the token before sending.</strong> 2&thinsp;492 of the 2&thinsp;500 people behind these lists have <code>username</code> filled; the other 8 would read <em>&ldquo;Hi ,&rdquo;</em>. In Customer.io that is a <code>default</code> filter on the Liquid tag; in the hand-sent invite it is whatever the sender types.</li>
+          <li><strong>Set a fallback on the token before sending.</strong> 2&thinsp;492 of the 2&thinsp;500 people behind these lists have <code>username</code> filled; the other 8 would read <em>&ldquo;Hi ,&rdquo;</em>. <em>Done the next day &mdash; the greeting is now a <code>default</code> chain, see the entry above.</em></li>
         </ul>
       </div>
     </details>
