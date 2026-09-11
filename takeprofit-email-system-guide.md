@@ -383,3 +383,44 @@ Deleting variations: `DELETE .../newsletters/{id}/tests` (all), `.../tests/{test
 ### 14.7 Handover
 
 The draft is finished when: `sent_at`, `scheduled_at`, `draft_scheduled_at` are all null and `sending` is false; every image URL answers 200; every `href` answers 200; From/Reply-To are `1`/`5`; audience, goal and tag are restored; and the remaining TODOs are listed explicitly. Scheduling and sending are the user's call — and both also require *Settings → AI & MCP → "Allow agent to edit live data"* in the workspace.
+
+---
+
+## 15. Campaign drafts (in this repo, sent from Customer.io)
+
+A **campaign** is a one-time send with several copy variants of one design — currently the Bybit rebates
+pair: `bybit-rebates-letter1-tried` and `bybit-rebates-letter2-no-attempt`.
+It sits between the two flows above and follows neither exactly.
+
+| | Transactional (§1–12) | **Campaign** | Monthly digest (§14) |
+|---|---|---|---|
+| HTML lives | this repo | **this repo** | Customer.io only |
+| Subject / preheader owned by | Notion | **this repo**, `emails.json` under `_campaign_comment` | the month's Google Doc |
+| Sent by | backend | **Customer.io one-time send** | Customer.io one-time send |
+| Reused | every time the trigger fires | **re-sent and re-measured** | never — next month is a new copy |
+
+Why it is here and the digest is not: the digest is disposable content, a campaign is a design we send
+again. Diffing the HTML is worth something; diffing last month's recap is not.
+
+Rules on top of §1–12:
+
+- **No Notion row.** Notion covers transactional emails. Campaign subjects live in `emails.json` below
+  the `_campaign_comment` marker so the index Test button still renders them — that block is *not* a
+  Notion snapshot and must not be synced back.
+- **Every link carries UTM**, all variants sharing one `utm_campaign` and differing by `utm_content`:
+  `?utm_source=customerio&utm_medium=email&utm_campaign=<campaign>&utm_content=<variant>`. Without it
+  the send cannot be separated from ordinary traffic.
+- **UTM does not attribute conversions.** A click from an email lands on a fresh anonymous PostHog person
+  (96 of 252 linkable on the September 2026 digest), so `utm_content` measures the click, not what the
+  person did next. Linking the two needs a person identifier in the link —
+  [ANL-46](https://linear.app/takeprofit/issue/ANL-46).
+- **Notification footer with `{unsubscribe_url}`** — a campaign is marketing, never transactional.
+- **One action per email:** drop the Discord pill from the header so the CTA is the only link above
+  the footer.
+- **Claims have to be checkable.** Say what the landing page says. No comparative superlatives, no
+  promised amounts, none of the spam vocabulary (`verify your account`, `action required`, `suspended`).
+- **Split by behaviour, not by country.** Geo comes from the last visit's IP and cannot tell a resident
+  from a traveller or a VPN, so it never removes an address from a send — it stays a column for reading
+  the results. Where part of the audience cannot use what the email offers, give them a reply path
+  instead of dropping them: "tell me which exchange you use" turns a dead segment into product input.
+- Group on the index page: **Campaign drafts**, with the wording status stated in the group note.

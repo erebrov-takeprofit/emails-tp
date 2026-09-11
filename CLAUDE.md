@@ -15,6 +15,7 @@ HTML.
 |---|---|
 | Edit or add a transactional / notification email (HTML lives in this repo) | §1–12, plus §11.1 for the Figma → S3 → Customer.io pipeline |
 | Build the monthly **"What's New" digest** | **§14** — it does *not* live in this repo; it is built in Customer.io by copying last month's one-time send |
+| Edit or add a **campaign draft** (one-time send with copy variants, e.g. Bybit rebates) | **§15** — HTML here, sent from Customer.io, no Notion row, UTM on every link |
 | Send yourself a test | §13 |
 | Upload images | §10.2, and `tools/upload-assets.py` |
 

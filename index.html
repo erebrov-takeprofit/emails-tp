@@ -161,7 +161,7 @@
     </ol>
   </div>
 
-  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 29 emails</span></h2>
+  <h2>Templates <span style="text-transform:none;letter-spacing:0;font-weight:400">— 31 emails &mdash; 29 system, 2 campaign drafts</span></h2>
   <p class="senders-note">The <strong>From</strong> address on the right of each group is the sender for that whole family. <strong>Reply-To</strong> is <code>support@takeprofit.com</code> on every email (where the send stack allows it). From / Reply-To are send-side settings — see the <a href="./takeprofit-email-system-guide.md">guide §12</a>.</p>
   <div class="grid">
 
@@ -242,6 +242,15 @@
       </div>
     </details>
 
+    <details class="fam">
+      <summary class="fam-h">Campaign drafts &mdash; Bybit rebates <span class="cnt">&middot; 2</span><span class="from">hi@m.takeprofit.com</span><span class="chev">&#9656;</span></summary>
+      <div class="fam-body">
+        <p class="senders-note" style="margin:0 0 8px 0">One-time send, built in <strong>Customer.io</strong> like the monthly digest &mdash; these files are the <strong>source of the HTML</strong> and the preview, not a backend template. No Notion row, no <code>{...}</code> tokens from the backend except <code>{unsubscribe_url}</code> and the sender name. The split is by <strong>intent, not by country</strong>: geo comes from the last visit&rsquo;s IP, which cannot tell a resident from a VPN. Audience and reasoning on <a href="https://app.notion.com/p/3d651e45e128819db6bbc302f6458139" target="_blank" rel="noopener">the campaign page</a>; <strong>wording still to be agreed</strong>.</p>
+        <div class="item"><a class="ilink" href="./bybit-rebates-letter1-tried.html"><div class="name">Letter 1 &mdash; tried to connect</div><div class="subj">You started connecting Bybit &mdash; here&rsquo;s what you get for finishing</div></a><button type="button" class="itest" data-file="bybit-rebates-letter1-tried.html" data-name="Letter 1 — tried to connect">Test</button></div>
+        <div class="item"><a class="ilink" href="./bybit-rebates-letter2-no-attempt.html"><div class="name">Letter 2 &mdash; no attempt yet</div><div class="subj">Trading on Bybit? Get up to 50% of your fees back</div></a><button type="button" class="itest" data-file="bybit-rebates-letter2-no-attempt.html" data-name="Letter 2 — no attempt yet">Test</button></div>
+      </div>
+    </details>
+
   </div>
 
   <h2>Changelog</h2>
@@ -257,6 +266,31 @@
     <!-- Newest first. For every update: add a new <details class="entry"> at the TOP of this list.
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
+    <details class="entry">
+      <summary><span class="date">September 11, 2026</span><span class="etitle">Bybit rebates: two letters split by intent, not by country</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>Three drafts became two.</strong> <a href="./bybit-rebates-letter1-tried.html">Letter&nbsp;1 &mdash; tried to connect</a> (1&thinsp;059 addresses: opened the connect panel, picked an exchange or started a connection) and <a href="./bybit-rebates-letter2-no-attempt.html">Letter&nbsp;2 &mdash; no attempt yet</a> (1&thinsp;383: has an account, never took a step towards connecting). The &ldquo;already connected&rdquo; draft is gone &mdash; that segment is excluded from the send, not written to.</li>
+          <li><strong>Geo is no longer a filter.</strong> The earlier split held back the EEA and dropped the US, Canada and Iran. Country comes from the last visit&rsquo;s IP and cannot separate a resident from a traveller or a VPN &mdash; and for crypto traders VPN use is not marginal. Excluding someone who could in fact connect costs a connection for good; mailing someone who cannot costs an unsubscribe. So the send now covers <strong>2&thinsp;442 of 2&thinsp;499 addresses</strong>, minus only unsubscribes (5), staff and test addresses (15) and people who already connected (37).</li>
+          <li><strong>Both letters give the blocked part of the audience somewhere to go.</strong> Letter&nbsp;1 asks what went wrong and says plainly that replies about a country Bybit will not serve are the ones we need. Letter&nbsp;2 asks which exchange the reader actually trades on and which one we should support next. That turns roughly a fifth of the base &mdash; 437 addresses where Bybit is closed &mdash; from a dead segment into product input.</li>
+          <li><code>utm_content</code> renamed with the segments: <code>letter1_tried</code> and <code>letter2_no_attempt</code>. <code>utm_campaign=bybit_rebates_2026_09</code> is unchanged.</li>
+          <li><strong>Deliverability, not geo, is the reason to stage the send:</strong> 60 addresses sit on rare domains and 172 have no product event in 400 days. Send those first and watch the bounce rate before the rest goes out.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
+      <summary><span class="date">September 10, 2026</span><span class="etitle">Bybit rebates campaign &mdash; three HTML drafts added</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li>Three new files for the one-time Bybit rebates send: <strong><a href="./bybit-rebates-wave1-started.html">wave 1 &mdash; started connecting</a></strong> (606 addresses), <strong><a href="./bybit-rebates-wave2-general.html">wave 2 &mdash; general</a></strong> (778) and <strong><a href="./bybit-rebates-connected-howto.html">already connected</a></strong> (37). Built from the blocks in <a href="./takeprofit-email-system-guide.md">&sect;6</a>: logo header without the Discord pill, 24px headline, body paragraphs, one <code>#F3F6FA</code> card, black CTA, notification footer with <code>{unsubscribe_url}</code>.</li>
+          <li><strong>Why they live here and the digest does not.</strong> The digest is disposable content copied month to month. These three are one design in three variants that we will re-send and re-measure, so the HTML is worth diffing. They still ship as a Customer.io one-time send, so there is <strong>no Notion row</strong> and no backend template &mdash; only the campaign group on the index and a marked block in <code>emails.json</code> so the Test button works.</li>
+          <li><strong>Every link carries UTM.</strong> All three CTAs point at <code>takeprofit.com/takeback</code> with <code>utm_source=customerio</code>, <code>utm_medium=email</code>, <code>utm_campaign=bybit_rebates_2026_09</code> and <code>utm_content</code> per variant (<code>wave1_started</code> / <code>wave2_general</code> / <code>connected_howto</code>). Without the campaign tag the effect of the send cannot be separated from ordinary traffic &mdash; the September&nbsp;8 digest showed that clearly.</li>
+          <li><strong>UTM alone will not close the loop.</strong> A click from an email lands on a fresh anonymous PostHog person: for the September&nbsp;8 digest, history could be linked for only 96 of 252 clickers. Attribution needs a person identifier in the link, tracked in <a href="https://linear.app/takeprofit/issue/ANL-46" target="_blank" rel="noopener">ANL-46</a>.</li>
+          <li><strong>Open before sending:</strong> the sender name (<code>{sender_name}</code> in the sign-off) and the final wording, which is still being agreed. No claim about &ldquo;the highest rebates on the market&rdquo; and no promised amounts &mdash; the copy says only what the <code>/takeback</code> page says: up to 50% of trading fees back.</li>
+          <li>All URLs verified 200 before shipping: <code>/takeback</code> with and without UTM, the privacy policy and all eight S3 assets.</li>
+        </ul>
+      </div>
+    </details>
     <details class="entry">
       <summary><span class="date">September 9, 2026</span><span class="etitle">Alert emails: unsubscribe link replaced by &ldquo;edit or delete the alert&rdquo;</span><span class="rollout wip">Rolling out</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
