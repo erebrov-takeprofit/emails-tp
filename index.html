@@ -275,6 +275,19 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 17, 2026</span><span class="etitle">&ldquo;TakeBack&rdquo; retired &mdash; Bybit letters move to /cashback, Welcome splits Cashback from Cash Rewards</span><span class="rollout wip">Rolling out</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>The name is gone from the repo.</strong> &ldquo;TakeBack&rdquo; was visible in exactly one place &mdash; the <a href="./welcome.html">Welcome</a> card <em>&ldquo;Trade &amp; TakeBack&rdquo;</em>, now <strong>&ldquo;Cashback&rdquo;</strong>. In the two Bybit letters it only ever lived inside the URL. No template says TakeBack any more; the Changelog entries below keep it as history.</li>
+          <li><strong>One old page became two new ones.</strong> <code>/takeback</code> now <strong>301s to <code>/cashback</code></strong> (&ldquo;The Cashback Program &mdash; Get Up to 50% Your Bybit Trading Fees Back&rdquo;), and <code>/monetization</code> <strong>301s to <code>/rewards</code></strong> (&ldquo;Cash Rewards for Traders&rdquo;). <strong>Cash Rewards is the umbrella</strong> &mdash; cashback, referrals, premium posts, indicators and widgets &mdash; so it is not what <code>/takeback</code> turned into; <code>/cashback</code> is. The letters follow the page, not the word.</li>
+          <li><strong>Both campaign letters point at <code>/cashback</code>.</strong> <a href="./bybit-rebates-letter1-tried.html">Letter&nbsp;1</a> and <a href="./bybit-rebates-letter2-no-attempt.html">letter&nbsp;2</a>: button, plain-text fallback line and its visible label (<em>open takeprofit.com/cashback</em>). UTM untouched &mdash; same <code>utm_campaign=bybit_rebates_2026_09</code>, same per-variant <code>utm_content</code>. Letter&nbsp;1&rsquo;s <em>Complete Bybit Connection</em> still has a page that offers one: <code>/cashback</code> carries the Connect action, checked again here.</li>
+          <li><strong>Welcome now has two cards that do not collide.</strong> <strong>Cashback</strong> &rarr; <code>/cashback</code> (it used to point at the docs page <code>/docs/guide/monetization-tools/rebates</code>, which itself 308s to <code>/docs/guide/rewards-tools/rebates</code>) and <strong>Cash Rewards</strong> &rarr; <code>/rewards</code> (was <code>/monetization</code>). Renaming the first card to &ldquo;Cash Rewards&rdquo; would have put <em>two identically named cards</em> in one email, both landing on the same page.</li>
+          <li><strong>Checked 200 before shipping:</strong> <code>/cashback</code> bare and with each letter&rsquo;s full UTM string, and <code>/rewards</code>.</li>
+          <li><strong>Left alone, and why:</strong> <a href="./first-user-subscribed-to-you.html">First User Subscribed</a> still links to <code>/monetization</code> three times plus <code>/monetization/invite-friends</code>. Those 301 to <code>/rewards</code> and <code>/rewards/invite-friends</code> and work today &mdash; worth a pass of their own, not a silent edit inside a rename. <strong>Customer.io:</strong> if the two letters were already copied into a one-time send, the link has to be replaced there too &mdash; this repo is the source, not the sender.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 11, 2026</span><span class="etitle">Bybit letters: copy review &mdash; the program named, the sender named, the asks sharper</span><span class="rollout hold">Repo only</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
