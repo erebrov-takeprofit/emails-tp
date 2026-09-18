@@ -275,6 +275,19 @@
          Give the summary a rollout badge: <span class="rollout live|wip|hold">…</span> before .chev.
          Flip wip → live only once someone has actually seen the email arrive from prod. -->
     <details class="entry">
+      <summary><span class="date">September 17, 2026</span><span class="etitle">Welcome: the card rows stop drifting on phones &mdash; percentage columns, fixed table layout</span><span class="rollout hold">Customer.io</span><span class="chev">&#9656;</span></summary>
+      <div class="entry-body">
+        <ul>
+          <li><strong>The symptom:</strong> on a phone the three card rows in <a href="./welcome.html">Welcome</a> no longer line up with each other &mdash; the first row looks shifted left of the ones below it.</li>
+          <li><strong>The cause is a grid that cannot shrink.</strong> Each row was a table of <code>296px + 8px + 296px = 600px</code> of hard widths. A phone offers ~350&ndash;390px, so the client stops honouring those widths and falls back to <strong>auto layout, which splits columns by content</strong>. Every row holds different text, so every row got a different split &mdash; and since each row table sits in <code>&lt;td align="center"&gt;</code>, each one is centred independently. Different widths, centred separately, means rows that no longer share a left edge.</li>
+          <li><strong>The fix, kept deliberately small:</strong> the two cards are <code>width="49%"</code> and the gutter cell <code>width="2%"</code>, so the columns sum to exactly 100% and resolve identically in every row; the row table carries <code>table-layout:fixed</code> so the declared widths are used instead of the content. It works even where <code>table-layout</code> is ignored (Outlook's Word engine), because percentages that add up to 100% are already unambiguous.</li>
+          <li><strong>What it costs:</strong> the gutter grows from 8px to 12px at full width (2% of 600), and the cards stay <strong>two to a row on a phone</strong> at roughly 170px each, so their text wraps more. This buys alignment, not readability &mdash; the cards still do not stack. Stacking needs either a media query (dead in the Gmail app when a non-Gmail account is added: it strips <code>&lt;style&gt;</code> entirely) or the fluid-hybrid pattern, <code>display:inline-block</code> with <code>max-width</code> and Outlook ghost tables, which needs no CSS support at all. That is the next step if this one reads badly on a real phone.</li>
+          <li><strong>Where it has to be pasted:</strong> Welcome is sent by <strong>Customer.io</strong>, not by the backend &mdash; automation 9 &ldquo;Welcome&rdquo; (<code>welcome_serie</code>), triggered by <code>signed_up</code>, action&nbsp;56, template&nbsp;36 (raw-HTML editor, inside layout&nbsp;13). Merging here changes the preview only; template&nbsp;36 still holds the pre-fix markup until someone pastes this in. <strong>The guide says otherwise</strong> &mdash; &sect;15&rsquo;s table lists transactional email as &ldquo;sent by backend&rdquo; &mdash; and that line is wrong for Welcome; correcting it is its own change.</li>
+          <li><strong>Not touched:</strong> the same 296px pattern lives in <a href="./first-user-subscribed-to-you.html">First User Subscribed</a> and <a href="./your-indicator-has-been-rejected.html">Indicator Rejected</a>. Left alone on purpose until this approach is judged on a real device &mdash; one letter is the experiment, three would be the rollout.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="entry">
       <summary><span class="date">September 17, 2026</span><span class="etitle">&ldquo;TakeBack&rdquo; retired &mdash; Bybit letters move to /cashback, Welcome splits Cashback from Cash Rewards</span><span class="rollout wip">Rolling out</span><span class="chev">&#9656;</span></summary>
       <div class="entry-body">
         <ul>
